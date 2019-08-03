@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/layout">
+    <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="999"
+            android:id="@+id/date"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/shape"
+            android:layout_margin="4dp"
+    />
+    <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/date"
+            android:text="99333333灌灌"
+            android:textSize="18sp"
+            android:id="@+id/name"
+
+            android:layout_marginStart="14dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="0dp"
+            android:layout_alignBottom="@+id/date"
+            android:layout_alignTop="@+id/date"
+            android:layout_marginTop="0dp"
+            android:gravity="center"/>
+</RelativeLayout>
