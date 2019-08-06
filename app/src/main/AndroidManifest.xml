@@ -20,6 +20,7 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
+        <!--活动列表-->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -29,7 +30,7 @@
         </activity>
         <activity android:name=".NewAct">
         </activity>
-
+        <!--广播接收器-->
         <receiver android:name=".widget.NewAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -40,7 +41,7 @@
                     android:name="android.appwidget.provider"
                     android:resource="@xml/new_app_widget_info"/>
         </receiver>
-
+        <!--服务(发射广播..?)-->
         <service android:name=".widget.Service"
                  android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>

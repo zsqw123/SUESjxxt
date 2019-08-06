@@ -43,10 +43,10 @@ class Factory(private val mContext: Context, intent: Intent) : RemoteViewsServic
         // 获取 item 对应的RemoteViews
         val rvItem = RemoteViews(mContext.packageName, R.layout.widget_list_item)
         // 设置 第position位的“视图”的数据
-        val date=SimpleDateFormat("MM/dd\nHH:mm", Locale.CHINA).format(data[p0].date)
-        val name=data[p0].name
+        val date = SimpleDateFormat("MM/dd\nHH:mm", Locale.CHINA).format(data[p0].date)
+        val name = data[p0].name
         rvItem.setTextViewText(R.id.widget_date, date)
-        rvItem.setTextViewText(R.id.widget_name,name )
+        rvItem.setTextViewText(R.id.widget_name, name)
         return rvItem
     }
 
