@@ -3,23 +3,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/layout">
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/day"
+            android:text="sgggggg"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            />
+
     <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="999"
-            android:id="@+id/date"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:layout_below="@+id/day"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
             android:background="@drawable/shape"
             android:elevation="3dp"
-            android:layout_margin="4dp"
-    />
+            android:minHeight="45dp"
+            android:text="999"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:textStyle="bold" />
     <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/date"
-            android:text="99333333灌灌"
+            android:text="99333333酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷灌灌"
             android:textSize="18sp"
             android:id="@+id/name"
 

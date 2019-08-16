@@ -22,15 +22,17 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
             val primeColor: Int = colorString.readText().toInt()
             val tView = findViewById<TextView>(R.id.date).background as GradientDrawable
             tView.setColor(primeColor)
-            when(primeColor){
+            when (primeColor) {
                 -723724 -> date.setTextColor(Color.parseColor("#000000"))
-                -13816531 ->{
+                -13816531 -> {
                     name.setTextColor(Color.parseColor("#FFFFFF"))
+                    day.setTextColor(Color.parseColor("#FFFFFF"))
                     name.setBackgroundColor(-13816531)
                     layout.setBackgroundColor(-13816531)
                 }
-                else ->{
+                else -> {
                     name.setTextColor(Color.parseColor("#000000"))
+                    day.setTextColor(Color.parseColor("#000000"))
                     name.setBackgroundColor(-723724)
                     layout.setBackgroundColor(-723724)
                 }
@@ -38,8 +40,19 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
         }
     }
 
-    fun setData(dataList: Item) {
-        date.text = SimpleDateFormat("MM/dd\nHH:mm", Locale.CHINA).format(dataList.date)
-        name.text = dataList.name
+    fun setData(pos: Int, list: List<Item>) {
+        date.text = SimpleDateFormat("MM/dd\nHH:mm", Locale.CHINA).format(list[pos].date)
+        name.text = list[pos].name
+        if (pos != 0) {
+            val after = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos].date)
+            val before = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos - 1].date)
+            if (before == after) {
+                day.height = 0
+            } else {
+                day.text = after
+            }
+        } else {
+            day.text = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos].date)
+        }
     }
 }
