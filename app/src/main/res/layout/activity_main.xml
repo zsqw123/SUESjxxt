@@ -1,77 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:id="@+id/bar"
-            android:background="@color/colorPrimary"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-        <Button
-                android:text="导入"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button"
-                android:minWidth="10dp"
-        />
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="10dp"
-                android:text="当前周"
-                android:id="@+id/thisWeek"
-        />
-        <Button
-                android:text="导出"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/calendarView"
-                android:minWidth="10dp"
-        />
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="关于"
-                android:minWidth="10dp"
-                android:id="@+id/about"
-        />
-        <TextView
-            android:text="Pick\nColor"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:id="@+id/textView"/>
-    </androidx.appcompat.widget.Toolbar>
-
     <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mainView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="0dp"
-            android:id="@+id/mainView"
-            app:layout_constraintTop_toBottomOf="@+id/bar"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
+            android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    <!--fab 1-->
+    <TextView
+            android:id="@+id/fab1_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/fab_text_shape"
+
+            android:elevation="3dp"
+            android:text=" 导入课程表 "
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="@+id/fab1"
+
+            app:layout_constraintEnd_toStartOf="@+id/fab1"
+            app:layout_constraintTop_toTopOf="@+id/fab1" />
+    <!--fab color-->
+    <TextView
+            android:id="@+id/text_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/fab_text_shape"
+
+            android:elevation="3dp"
+            android:text=" 主题色 "
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="@+id/fab_color"
+
+            app:layout_constraintEnd_toStartOf="@+id/fab_color"
+            app:layout_constraintTop_toTopOf="@+id/fab_color" />
+    <!--fab now_week-->
+    <TextView
+            android:id="@+id/text_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/fab_text_shape"
+
+            android:elevation="3dp"
+            android:text=" 当前周 "
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="@+id/fab_now_week"
+
+            app:layout_constraintEnd_toStartOf="@+id/fab_now_week"
+            app:layout_constraintTop_toTopOf="@+id/fab_now_week" />
+    <!--fab about-->
+    <TextView
+            android:id="@+id/text_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/fab_text_shape"
+
+            android:elevation="3dp"
+            android:text=" 关于 "
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="@+id/fab_about"
+
+            app:layout_constraintEnd_toStartOf="@+id/fab_about"
+            app:layout_constraintTop_toTopOf="@+id/fab_about" />
+
+    <!--fab 1-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:backgroundTint="#9B11DC"
+
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/import_button"
+            app:layout_constraintBottom_toTopOf="@+id/fab0"
+            app:layout_constraintEnd_toEndOf="parent" />
+    <!--fab color-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:backgroundTint="@color/colorPrimary"
+            app:borderWidth="0dp"
+
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/fab_color"
+            app:layout_constraintBottom_toTopOf="@+id/fab1"
+            app:layout_constraintEnd_toEndOf="parent" />
+    <!--fab now_week-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_now_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:backgroundTint="#1DD8C4"
+
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/fab_now_week"
+            app:layout_constraintBottom_toTopOf="@+id/fab_color"
+            app:layout_constraintEnd_toEndOf="parent" />
+    <!--fab about-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:backgroundTint="#0083F6"
+
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/fab_about"
+            app:layout_constraintBottom_toTopOf="@+id/fab_now_week"
+            app:layout_constraintEnd_toEndOf="parent" />
+    <!--fab0-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/menu"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

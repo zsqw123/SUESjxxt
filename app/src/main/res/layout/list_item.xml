@@ -12,6 +12,7 @@
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:background="@drawable/shape"
+            android:elevation="3dp"
             android:layout_margin="4dp"
     />
     <androidx.appcompat.widget.AppCompatTextView
