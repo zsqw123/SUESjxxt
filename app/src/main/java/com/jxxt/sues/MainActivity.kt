@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity() {
                         setHasFixedSize(true)
                         layoutManager = LinearLayoutManager(context)
                         adapter = MainAdapter(context, content)
+                        addOnScrollListener(RecListener(fab0))
                     }
                     //找到今日日程
                     val now = Date()
@@ -285,7 +286,7 @@ class MainActivity : AppCompatActivity() {
                 viewIn(fab_color,text_color,fabColorDy,textColorDx)
                 viewIn(fab_now_week,text_now,fabNowDy,textNowDx)
                 viewIn(fab_about,text_about,fabAboutDy,textAboutDx)
-                val rot=ObjectAnimator.ofFloat(fab0,"rotation",-15f,135f)
+                val rot=ObjectAnimator.ofFloat(fab0,"rotation",0f)
                 rot.duration=200
                 rot.start()
             }
