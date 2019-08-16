@@ -102,7 +102,8 @@ class MainActivity : AppCompatActivity() {
                         setHasFixedSize(true)
                         layoutManager = LinearLayoutManager(context)
                         adapter = MainAdapter(context, content)
-                        addOnScrollListener(RecListener(fab0))
+                        val viewList= listOf(fab1,fab_color,fab_about,fab_now_week,text_color,text_now,text_about,fab1_text)
+                        addOnScrollListener(RecListener(fab0,viewList))
                     }
                     //找到今日日程
                     val now = Date()

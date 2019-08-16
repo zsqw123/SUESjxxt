@@ -21,7 +21,7 @@ class MainAdapter(private val context: Context, private val dataList: List<Item>
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
 
-class RecListener(private val fab: FloatingActionButton) : RecyclerView.OnScrollListener() {
+class RecListener(private val fab: FloatingActionButton, private val viewList: List<View>) : RecyclerView.OnScrollListener() {
     private var distance = 0
     private var visiable = true
 
@@ -30,10 +30,16 @@ class RecListener(private val fab: FloatingActionButton) : RecyclerView.OnScroll
         if (distance > 10 && visiable) {
             visiable = false
             fab.hide()
+            for (i in viewList) {
+                i.visibility=View.INVISIBLE
+            }
             distance = 0
         } else if (distance < -20 && !visiable) {
             visiable = true
             fab.show()
+            for (i in viewList) {
+                i.visibility=View.VISIBLE
+            }
             distance = 0
         }
         if ((visiable && dy > 0) || (!visiable && dy < 0)) {
