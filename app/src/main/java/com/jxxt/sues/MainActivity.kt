@@ -1,8 +1,10 @@
 package com.jxxt.sues
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -13,7 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.io.File
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -205,6 +209,16 @@ class MainActivity : AppCompatActivity() {
                             title = "关于作者"
                         }
                         val text = textView(R.string.about)
+                        val web = webView()
+                        button("捐赠!! 打赏!! 点我!!!\n打开浏览器以后选择使用支付宝打开!!") {
+                            onClick {
+                                doAsync {
+                                    val uri = Uri.parse("https://qr.alipay.com/fkx05866rmc3tvpisucbsef")
+                                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                                    startActivity(intent)
+                                }
+                            }
+                        }
                     }
                 }
             }.show()
