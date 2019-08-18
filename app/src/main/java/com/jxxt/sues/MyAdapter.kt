@@ -5,6 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainAdapter(private val context: Context, private val dataList: List<Item>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -14,7 +17,27 @@ class MainAdapter(private val context: Context, private val dataList: List<Item>
     override fun getItemCount(): Int = dataList.size
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val view = holder.itemView as ListItem
-        view.setData(position, dataList)
+
+        val weekFile = File(context.filesDir, "weekNow")
+        val week0 = Calendar.getInstance()
+        //获得第0周周一日期
+        if (weekFile.exists()) {
+            val file = weekFile.readText()
+            val date = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(file)
+            week0.time = date!!
+            week0.set(Calendar.HOUR_OF_DAY, 1)
+        } else {
+            week0.firstDayOfWeek = Calendar.MONDAY
+            week0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+            week0.set(Calendar.HOUR_OF_DAY, 1)
+        }
+        val posDate = Calendar.getInstance()
+        posDate.time = dataList[position].date
+
+        println(week0.time)
+        val a = posDate.timeInMillis - week0.timeInMillis
+        val week = (a / (24 * 3600000)).toInt() / 7
+        view.setData(position, dataList, week)
         /*
         怎么解决复用导致的数据错乱呢？ 这里只是简单粗暴禁止了复用...
          */

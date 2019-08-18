@@ -95,6 +95,14 @@ class MainActivity : AppCompatActivity() {
                 var weeknow = ""
                 if (weekNow.exists()) {
                     weeknow = weekNow.readText()
+                    val week0 = Calendar.getInstance()
+                    val date = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(weeknow)
+                    week0.time = date!!
+                    week0.set(Calendar.HOUR_OF_DAY, 1)
+                    val now = Calendar.getInstance()
+                    val a = now.timeInMillis - week0.timeInMillis
+                    val week = if (a > 0) (a / (24 * 3600000)).toInt() / 7 else (a / (24 * 3600000)).toInt() / 7 - 1
+                    text_now.text = " 当前第${week}周 "
                 }
                 val content = Show().textShow(text, weeknow)
                 uiThread {
@@ -102,8 +110,8 @@ class MainActivity : AppCompatActivity() {
                         setHasFixedSize(true)
                         layoutManager = LinearLayoutManager(context)
                         adapter = MainAdapter(context, content)
-                        val viewList= listOf(fab1,fab_color,fab_about,fab_now_week,text_color,text_now,text_about,fab1_text)
-                        addOnScrollListener(RecListener(fab0,viewList))
+                        val viewList = listOf(fab1, fab_color, fab_about, fab_now_week, text_color, text_now, text_about, fab1_text)
+                        addOnScrollListener(RecListener(fab0, viewList))
                     }
                     //找到今日日程
                     val now = Date()
@@ -121,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                 val primeColor: Int = colorString.readText().toInt()
                 for (i in colorList.indices) {
                     if (Color.parseColor(colorList[i]) == primeColor) {
-                        text_color.text=" ${colorNameList[i]} "
+                        text_color.text = " ${colorNameList[i]} "
                         window.statusBarColor = Color.parseColor(stausColorList[i])
                     }
                 }
@@ -161,6 +169,7 @@ class MainActivity : AppCompatActivity() {
                             } else {
                                 val weeknow = task.text.toString().toInt()
                                 val week0 = Calendar.getInstance(Locale.CHINA)
+                                week0.firstDayOfWeek = Calendar.MONDAY
                                 week0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
                                 week0.add(Calendar.DATE, -7 * weeknow)
                                 weekNow.writeText(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(week0.time))
@@ -174,6 +183,7 @@ class MainActivity : AppCompatActivity() {
                                 val a = "-" + task.text.toString()
                                 val weeknow = a.toInt()
                                 val week0 = Calendar.getInstance(Locale.CHINA)
+                                week0.firstDayOfWeek = Calendar.MONDAY
                                 week0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
                                 week0.add(Calendar.DATE, -7 * weeknow)
                                 weekNow.writeText(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(week0.time))
@@ -247,30 +257,31 @@ class MainActivity : AppCompatActivity() {
             alphaIn.duration = 200
             textMoveIn.duration = 200
             transIn.duration = 200
-            viewAlphaIn.duration=200
+            viewAlphaIn.duration = 200
             viewAlphaIn.start()
             alphaIn.start()
             transIn.start()
             textMoveIn.start()
         }
+
         //弹出
         fun viewOut(view: FloatingActionButton, textView: TextView) {
             val transOut = ObjectAnimator.ofFloat(view, "translationY", 0f)
-            val textMoveOut = ObjectAnimator.ofFloat(textView, "translationX", textView.translationX/3,0f)
-            val alphaOut = ObjectAnimator.ofFloat(textView, "alpha", 0f,0.1f,0.2f, 1f)
-            val viewAlphaOut = ObjectAnimator.ofFloat(view, "alpha", 0f,0.1f,0.2f, 1f)
-            val textSizeOutX=ObjectAnimator.ofFloat(textView,"scaleX",0f,0.2f,1f)
-            val textSizeOutY=ObjectAnimator.ofFloat(textView,"scaleY",0f,0.2f,1f)
-            val viewSizeOutX=ObjectAnimator.ofFloat(view,"scaleX",0f,1f,0.9f)
-            val viewSizeOutY=ObjectAnimator.ofFloat(view,"scaleY",0f,1f,0.9f)
+            val textMoveOut = ObjectAnimator.ofFloat(textView, "translationX", textView.translationX / 3, 0f)
+            val alphaOut = ObjectAnimator.ofFloat(textView, "alpha", 0f, 0.1f, 0.2f, 1f)
+            val viewAlphaOut = ObjectAnimator.ofFloat(view, "alpha", 0f, 0.1f, 0.2f, 1f)
+            val textSizeOutX = ObjectAnimator.ofFloat(textView, "scaleX", 0f, 0.2f, 1f)
+            val textSizeOutY = ObjectAnimator.ofFloat(textView, "scaleY", 0f, 0.2f, 1f)
+            val viewSizeOutX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f, 0.9f)
+            val viewSizeOutY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f, 0.9f)
             transOut.duration = 200
-            viewAlphaOut.duration=200
+            viewAlphaOut.duration = 200
             alphaOut.duration = 200
             textMoveOut.duration = 200
-            textSizeOutX.duration=200
-            textSizeOutY.duration=200
-            viewSizeOutX.duration=200
-            viewSizeOutY.duration=200
+            textSizeOutX.duration = 200
+            textSizeOutY.duration = 200
+            viewSizeOutX.duration = 200
+            viewSizeOutY.duration = 200
             viewSizeOutX.start()
             viewSizeOutY.start()
             textSizeOutX.start()
@@ -284,20 +295,20 @@ class MainActivity : AppCompatActivity() {
         fab0.setOnClickListener {
             if (fab_about.translationY == 0f) {
                 viewIn(fab1, fab1_text, fab1Dy, text1Dx)
-                viewIn(fab_color,text_color,fabColorDy,textColorDx)
-                viewIn(fab_now_week,text_now,fabNowDy,textNowDx)
-                viewIn(fab_about,text_about,fabAboutDy,textAboutDx)
-                val rot=ObjectAnimator.ofFloat(fab0,"rotation",0f)
-                rot.duration=200
+                viewIn(fab_color, text_color, fabColorDy, textColorDx)
+                viewIn(fab_now_week, text_now, fabNowDy, textNowDx)
+                viewIn(fab_about, text_about, fabAboutDy, textAboutDx)
+                val rot = ObjectAnimator.ofFloat(fab0, "rotation", 0f)
+                rot.duration = 200
                 rot.start()
             }
             if (fab1.translationY == fab1Dy) {
                 viewOut(fab1, fab1_text)
-                viewOut(fab_color,text_color)
-                viewOut(fab_now_week,text_now)
-                viewOut(fab_about,text_about)
-                val rot=ObjectAnimator.ofFloat(fab0,"rotation",15f,-135f)
-                rot.duration=200
+                viewOut(fab_color, text_color)
+                viewOut(fab_now_week, text_now)
+                viewOut(fab_about, text_about)
+                val rot = ObjectAnimator.ofFloat(fab0, "rotation", 15f, -135f)
+                rot.duration = 200
                 rot.start()
 
                 if (colorString.exists()) {

@@ -40,7 +40,7 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
         }
     }
 
-    fun setData(pos: Int, list: List<Item>) {
+    fun setData(pos: Int, list: List<Item>, week: Int) {
         date.text = SimpleDateFormat("MM/dd\nHH:mm", Locale.CHINA).format(list[pos].date)
         name.text = list[pos].name
         if (pos != 0) {
@@ -49,10 +49,10 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
             if (before == after) {
                 day.height = 0
             } else {
-                day.text = after
+                day.text = after + " 第${week}周"
             }
         } else {
-            day.text = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos].date)
+            day.text = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos].date) + " 第${week}周"
         }
     }
 }
