@@ -47,7 +47,7 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
             val after = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos].date)
             val before = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos - 1].date)
             if (before == after) {
-                day.height = 0
+                day.visibility = View.GONE
             } else {
                 day.text = after + " 第${week}周"
             }
