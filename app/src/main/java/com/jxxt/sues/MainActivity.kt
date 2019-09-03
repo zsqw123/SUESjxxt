@@ -209,7 +209,6 @@ class MainActivity : AppCompatActivity() {
                             title = "关于作者"
                         }
                         val text = textView(R.string.about)
-                        val web = webView()
                         button("捐赠!! 打赏!! 点我!!!\n打开浏览器以后选择使用支付宝打开!!") {
                             onClick {
                                 doAsync {

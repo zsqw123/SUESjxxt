@@ -12,6 +12,15 @@ course数据类 可转换为Date Calendar <List>
  */
 data class Course(var WeekX: Int, var Which: Int, var Week: List<String>)
 
+/*
+WithRoomName数据类 可转换为Date Calendar <List>
+--------------------------------------
+        room:上课教室
+        name:课程名称
+--------------------------------------
+ */
+data class WithRoomName(var room: String, var name: String)
+
 //True 转化为Course+CourseName形式(All Course by Map<String,Calendar>)
 class SwitchToCourse(private val input: Map<String, String>) {
     private fun getWeek(str: String): List<String> {
@@ -57,8 +66,8 @@ class SwitchToCourse(private val input: Map<String, String>) {
         return "${str0.split(",")[1]} "
     }
 
-    fun switch(): Map<Course, String> {
-        val map = mutableMapOf<Course, String>()
+    fun switch(): Map<Course, WithRoomName> {
+        val map = mutableMapOf<Course, WithRoomName>()
         for (i in input) {
             //Key String字段
             val weekStr = i.key.toInt()
@@ -68,7 +77,7 @@ class SwitchToCourse(private val input: Map<String, String>) {
             val str = i.value.split(";")
             var a = 0//循环常数
             while (a < str.size) {
-                val name = getRoom(str[a + 1]) + str[a]
+                val name = WithRoomName(getRoom(str[a + 1]), str[a])
                 map[Course(weekX, which, getWeek(str[a + 1]))] = name
                 a += 2
             }
@@ -78,8 +87,8 @@ class SwitchToCourse(private val input: Map<String, String>) {
 }
 
 //转化为Calendar+Name(One Course)
-class CourseToDate(private val name: String, private val course: Course) {
-    private fun weekToDateList(weekNow: Calendar, weekX: Int, week: List<String>): List<Date> {
+class CourseToDate(private val name: WithRoomName, private val course: Course) {
+    private fun weekToDateList(weekNow: Calendar, weekX: Int, week: List<String>, room: String): List<Date> {
         //课表第一周 周一
         weekNow.add(Calendar.DATE, weekX)
         weekNow.set(
@@ -92,6 +101,18 @@ class CourseToDate(private val name: String, private val course: Course) {
                 1 -> 15;2 -> 0;3 -> 5;4 -> 50;5 -> 0;6 -> 45;7 -> 50;8 -> 35;9 -> 0;10 -> 45;11 -> 30;12 -> 15;14 -> 15;else -> 0
             }
         )
+        if (room.contains("D") || room.contains("E") || room.contains("F")) {
+            weekNow.set(
+                Calendar.HOUR_OF_DAY, when (course.Which) {
+                    1 -> 8;2 -> 9;3 -> 10;4 -> 10;5 -> 13;6 -> 13;7 -> 14;8 -> 15;9 -> 18;10 -> 18;11 -> 19;12 -> 20;13 -> 16;14 -> 17;else -> 0
+                }
+            )
+            weekNow.set(
+                Calendar.MINUTE, when (course.Which) {
+                    1 -> 15;2 -> 0;3 -> 25;4 -> 50;5 -> 0;6 -> 45;7 -> 50;8 -> 35;9 -> 0;10 -> 45;11 -> 30;12 -> 15;14 -> 15;else -> 0
+                }
+            )
+        }
 
         val list: MutableList<Date> = mutableListOf()
         for (i in week) {
@@ -111,10 +132,10 @@ class CourseToDate(private val name: String, private val course: Course) {
         val week = course.Week
         val weekNow0: Calendar = weekNow
         val map: MutableMap<Date, String> = mutableMapOf()
-        val dateList = weekToDateList(weekNow0, weekX, week)
+        val dateList = weekToDateList(weekNow0, weekX, week, name.room)
 
         for (i in dateList) {
-            map[i] = name
+            map[i] = name.room + name.name
         }
         return map
     }
