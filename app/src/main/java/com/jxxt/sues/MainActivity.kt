@@ -228,6 +228,15 @@ class MainActivity : AppCompatActivity() {
                                 }
                             }
                         }
+                        button("项目已在github开源 点我查看") {
+                            onClick {
+                                doAsync {
+                                    val uri = Uri.parse("https://github.com/zsqw123/SUESjxxt")
+                                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                                    startActivity(intent)
+                                }
+                            }
+                        }
                     }
                 }
             }.show()
