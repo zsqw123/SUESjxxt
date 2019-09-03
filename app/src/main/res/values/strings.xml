@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SUESjxxt</string>
-    <string name="about">可以导入SUES课程表\n并进行分析生成每日课程表\n可自动跳转到下一节要上的课程\n多种主题嗷\n\n作者QQ:3206279058\n求同Android应用开发者\n大一萌新刚开始学kotlin做的第一个作品\n希望获得大佬指点啊啊啊啊啊</string>
+    <string name="about">1.可以导入SUES课程表\n并进行分析生成每日课程表\n\n2.可自动跳转到下一节要上的课程\n\n3.双击+按钮返回当日课程\n\n4.多种主题嗷\n\n作者QQ:3206279058\n求同Android应用开发者\n大一萌新刚开始学kotlin做的第一个作品\n希望获得大佬指点啊啊啊啊啊</string>
     <string name="appwidget_text">EXAMPLE3</string>
     <string name="add_widget">Add widget</string>
 </resources>

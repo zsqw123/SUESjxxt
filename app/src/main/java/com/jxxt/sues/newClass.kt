@@ -9,9 +9,7 @@ import android.webkit.WebViewClient
 import kotlinx.android.synthetic.main.newclass.*
 import android.widget.TextView
 import androidx.core.view.isVisible
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.indeterminateProgressDialog
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 import java.io.File
 import java.lang.Exception
 
@@ -123,8 +121,8 @@ class NewAct : AppCompatActivity() {
                 }
             }
             //dialog loading...
-            val dialog = indeterminateProgressDialog("loading...", "耐心等待3s")
-            dialog.setCanceledOnTouchOutside(false)
+            val dialog0 = indeterminateProgressDialog("loading...", "耐心等待3s")
+            dialog0.setCanceledOnTouchOutside(false)
             //find Classes
             Thread {
                 try {
@@ -136,11 +134,12 @@ class NewAct : AppCompatActivity() {
                     content.forEach { key, value ->
                         text = "$text$key $value\n"
                     }
-                    val file =File(filesDir, "/a")
+                    val file = File(filesDir, "/a")
                     file.writeText(str1)
-                    val tem="数据获取完成!请返回上一级/并结束软件重启应用程序!\n\n$text"
-                    textView2.text =tem
-                    dialog.dismiss()
+                    dialog0.dismiss()
+                    textView2.text = "数据获取完成! 马上进入主界面! \n\n$text"
+                    Thread.sleep(1000)
+                    startActivity(intentFor<MainActivity>().newTask().clearTask())
                 } catch (e: Exception) {
                     textView2.text = "你网络太菜了 or 没连接网康VPN or 没登陆"
                 }

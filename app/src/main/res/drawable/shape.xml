@@ -8,7 +8,7 @@
     <!-- padding：Button里面的文字与Button边界的间隔 -->
     <padding
             android:bottom="2dp"
-            android:left="8dp"
+            android:left="2dp"
             android:right="2dp"
             android:top="2dp" />
 </shape>

@@ -29,7 +29,8 @@
             android:text="999"
             android:textColor="#FFFFFF"
             android:textSize="30sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:gravity="center"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/name"

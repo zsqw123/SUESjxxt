@@ -11,6 +11,7 @@ import android.text.InputType
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,11 +22,25 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class MainActivity : AppCompatActivity() {
     //read and judge
     private lateinit var file: File
     private lateinit var colorString: File
     private lateinit var weekNow: File
+    private lateinit var content: List<Item>
+
+    fun findToday() {
+        //找到今日日程
+        val now = Date()
+        for (i in content.indices) {
+            val date = content[i].date
+            if (now <= date) {
+                mainView.scrollToPosition(i)
+                break
+            }
+        }
+    }
 
     private val colorNameList = listOf("简洁白", "少女粉", "夜间模式", "姨妈红", "咸蛋黄", "早苗绿", "胖次蓝", "基佬紫")
     private val colorList = listOf("#F4F4F4", "#FA7298", "#2D2D2D", "#F44236", "#FEC107", "#8BC24A", "#2196F3", "#9C28B1")
@@ -108,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                     val week = if (a > 0) (a / (24 * 3600000)).toInt() / 7 else (a / (24 * 3600000)).toInt() / 7 - 1
                     text_now.text = " 当前第${week}周 "
                 }
-                val content = Show().textShow(text, weeknow)
+                content = Show().textShow(text, weeknow)
                 uiThread {
                     mainView.apply {
                         setHasFixedSize(true)
@@ -118,14 +133,7 @@ class MainActivity : AppCompatActivity() {
                         addOnScrollListener(RecListener(fab0, viewList))
                     }
                     //找到今日日程
-                    val now = Date()
-                    for (i in content.indices) {
-                        val date = content[i].date
-                        if (now <= date) {
-                            mainView.scrollToPosition(i)
-                            break
-                        }
-                    }
+                    findToday()
                 }
             }
             //ColorSettings
@@ -177,7 +185,8 @@ class MainActivity : AppCompatActivity() {
                                 week0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
                                 week0.add(Calendar.DATE, -7 * weeknow)
                                 weekNow.writeText(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(week0.time))
-                                toast("请结束软件进程并重启即可看到效果")
+                                toast("设置成功 当前第 ${task.text} 周")
+                                startActivity(intentFor<MainActivity>().newTask().clearTask())
                             }
                         }
                         positiveButton("OK(负周数)") {
@@ -191,7 +200,8 @@ class MainActivity : AppCompatActivity() {
                                 week0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
                                 week0.add(Calendar.DATE, -7 * weeknow)
                                 weekNow.writeText(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(week0.time))
-                                toast("请结束软件进程并重启即可看到效果")
+                                toast("设置成功 当前第 -${task.text} 周")
+                                startActivity(intentFor<MainActivity>().newTask().clearTask())
                             }
                         }
                     }
@@ -252,6 +262,8 @@ class MainActivity : AppCompatActivity() {
                             adapter = MainAdapter(context, content)
                         }
                         window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                        //找到今日日程
+                        findToday()
                         progressBar.visibility = View.INVISIBLE
                     }
                 }
@@ -305,6 +317,7 @@ class MainActivity : AppCompatActivity() {
             viewAlphaOut.start()
         }
 
+        var time0 = 0L
         fab0.setOnClickListener {
             if (fab_about.translationY == 0f) {
                 viewIn(fab1, fab1_text, fab1Dy, text1Dx)
@@ -329,7 +342,12 @@ class MainActivity : AppCompatActivity() {
                     fab_color.background.setTint(primeColor)
                 }
             }
+            if (System.currentTimeMillis() - time0 < 250) {
+                findToday()
+                toast("已回到今日课程")
+            } else {
+                time0 = System.currentTimeMillis()
+            }
         }
     }
 }
-
