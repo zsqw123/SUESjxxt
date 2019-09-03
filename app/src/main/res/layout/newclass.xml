@@ -8,7 +8,7 @@
         tools:context=".NewAct">
 
     <TextView
-            android:text="Hello! New World"
+            android:text="使用校园网/宿舍WiFi/网康VPN进行登录\n\n登录完成点击左上角登陆完成"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scrollbars="vertical"

@@ -71,6 +71,7 @@ class NewAct : AppCompatActivity() {
                     } else {
                         loadButton.isVisible = false
                         okButton.isVisible = true
+                        textView2.text = "请继续点击左上角按钮读取数据"
                     }
                 }
                 dialog.dismiss()
