@@ -55,7 +55,7 @@ class NewAct : AppCompatActivity() {
 
         }
         setWeb(webView0)
-        webView0.loadUrl(url0)
+        webView0.loadUrl("http://jxxt.sues.edu.cn")
         //login or logined
         loadButton.setOnClickListener {
             val dialog = indeterminateProgressDialog("loading...", "如果3s以上没反应的话请检查网络连接(网康VPN)")

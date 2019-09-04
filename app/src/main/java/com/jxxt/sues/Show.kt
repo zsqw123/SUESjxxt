@@ -22,7 +22,6 @@ class Show {
         for (i in map) {
             content.add(Item(i.key, i.value))
         }
-        exIcs(content)
         return content
     }
 }

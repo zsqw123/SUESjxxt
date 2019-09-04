@@ -51,11 +51,14 @@ class MainActivity : AppCompatActivity() {
     private var fabColorDy = 0f
     private var fabAboutDy = 0f
     private var fabNowDy = 0f
+    private var fabToicsDy = 0f
 
     private var text1Dx = 0f
     private var textColorDx = 0f
     private var textNowDx = 0f
     private var textAboutDx = 0f
+    private var textToicsDx = 0f
+
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (isOnce) {
@@ -64,30 +67,38 @@ class MainActivity : AppCompatActivity() {
             fabColorDy = fab0.y - fab_color.y
             fabAboutDy = fab0.y - fab_about.y
             fabNowDy = fab0.y - fab_now_week.y
+            fabToicsDy = fab0.y - fab_toics.y
 
             text1Dx = fab1.x - fab1_text.x
             textAboutDx = fab1.x - text_about.x
             textNowDx = fab1.x - text_now.x
             textColorDx = fab1.x - text_color.x
+            textToicsDx = fab1.x - text_toics.x
             //赋初值
             fab1.y = fab0.y
             fab_about.y = fab0.y
             fab_now_week.y = fab0.y
             fab_color.y = fab0.y
+            fab_toics.y = fab0.y
 
             fab1_text.x = fab1.x
             text_color.x = fab_color.x
             text_about.x = fab_about.x
             text_now.x = fab_now_week.x
+            text_toics.x = fab_toics.x
 
             fab1_text.alpha = 0f
             text_color.alpha = 0f
             text_about.alpha = 0f
             text_now.alpha = 0f
+            text_toics.alpha = 0f
+
             fab_color.alpha = 0f
             fab_now_week.alpha = 0f
             fab_about.alpha = 0f
             fab1.alpha = 0f
+            fab_toics.alpha = 0f
+
 
             isOnce = !isOnce
         }
@@ -122,6 +133,11 @@ class MainActivity : AppCompatActivity() {
                     val a = now.timeInMillis - week0.timeInMillis
                     val week = if (a > 0) (a / (24 * 3600000)).toInt() / 7 else (a / (24 * 3600000)).toInt() / 7 - 1
                     text_now.text = " 当前第${week}周 "
+                }else{
+                    val cal=Calendar.getInstance()
+                    cal.firstDayOfWeek=Calendar.MONDAY
+                    cal.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY)
+                    weeknow=SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(cal.time)
                 }
                 content = Show().textShow(text, weeknow)
                 uiThread {
@@ -278,7 +294,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
+        fab_toics.setOnClickListener {
+            startActivity<ToCalendar>()
+        }
         /*
         FloatActionButton Anim
         */
@@ -333,6 +351,7 @@ class MainActivity : AppCompatActivity() {
                 viewIn(fab_color, text_color, fabColorDy, textColorDx)
                 viewIn(fab_now_week, text_now, fabNowDy, textNowDx)
                 viewIn(fab_about, text_about, fabAboutDy, textAboutDx)
+                viewIn(fab_toics, text_toics, fabToicsDy, textToicsDx)
                 val rot = ObjectAnimator.ofFloat(fab0, "rotation", 0f)
                 rot.duration = 200
                 rot.start()
@@ -342,6 +361,7 @@ class MainActivity : AppCompatActivity() {
                 viewOut(fab_color, text_color)
                 viewOut(fab_now_week, text_now)
                 viewOut(fab_about, text_about)
+                viewOut(fab_toics, text_toics)
                 val rot = ObjectAnimator.ofFloat(fab0, "rotation", 15f, -135f)
                 rot.duration = 200
                 rot.start()

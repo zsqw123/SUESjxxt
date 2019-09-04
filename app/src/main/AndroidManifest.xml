@@ -28,8 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".NewAct">
-        </activity>
+        <activity android:name=".NewAct"/>
+        <activity android:name=".ToCalendar"/>
         <!--广播接收器-->
         <receiver android:name=".widget.NewAppWidget">
             <intent-filter>

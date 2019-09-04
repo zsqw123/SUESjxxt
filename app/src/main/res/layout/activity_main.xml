@@ -85,6 +85,21 @@
 
             app:layout_constraintEnd_toStartOf="@+id/fab_about"
             app:layout_constraintTop_toTopOf="@+id/fab_about" />
+    <!--fab toics-->
+    <TextView
+            android:id="@+id/text_toics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/fab_text_shape"
+
+            android:elevation="3dp"
+            android:text=" 导出 "
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="@+id/fab_toics"
+
+            app:layout_constraintEnd_toStartOf="@+id/fab_toics"
+            app:layout_constraintTop_toTopOf="@+id/fab_toics" />
 
     <!--fab 1-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -97,6 +112,18 @@
             android:layout_marginBottom="8dp"
             android:src="@drawable/import_button"
             app:layout_constraintBottom_toTopOf="@+id/fab0"
+            app:layout_constraintEnd_toEndOf="parent" />
+    <!--fab toIcs-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_toics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:backgroundTint="#475478"
+
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/fab_toics"
+            app:layout_constraintBottom_toTopOf="@+id/fab_about"
             app:layout_constraintEnd_toEndOf="parent" />
     <!--fab color-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
