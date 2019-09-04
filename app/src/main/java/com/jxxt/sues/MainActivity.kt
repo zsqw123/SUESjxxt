@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var weekNow: File
     private lateinit var content: List<Item>
 
-    fun findToday() {
+    private fun findToday() {
         //找到今日日程
         val now = Date()
         for (i in content.indices) {

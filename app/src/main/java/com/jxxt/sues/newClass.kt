@@ -28,15 +28,15 @@ class NewAct : AppCompatActivity() {
         view.movementMethod = ScrollingMovementMethod.getInstance()
         //webView初始化
         fun setWeb(a: WebView) {
-            a.settings.setJavaScriptEnabled(true)//JavaScript脚本支持
-            a.settings.setDomStorageEnabled(true)//访问储存
+            a.settings.javaScriptEnabled = true//JavaScript脚本支持
+            a.settings.domStorageEnabled = true//访问储存
             a.requestFocus()
-            a.settings.setUseWideViewPort(true)//这里需要设置为true，才能让Webivew支持<meta>标签的viewport属性
-            a.settings.setLoadWithOverviewMode(true)//是否使用概览模式
+            a.settings.useWideViewPort = true//这里需要设置为true，才能让Webivew支持<meta>标签的viewport属性
+            a.settings.loadWithOverviewMode = true//是否使用概览模式
             a.settings.setSupportZoom(true)//是否可放大画面
-            a.settings.setBuiltInZoomControls(true)//是否可自由放大画面
+            a.settings.builtInZoomControls = true//是否可自由放大画面
             a.addJavascriptInterface(InJavaScriptLocalObj(), "java_obj")//JavaScript接口 需要用这玩意获取html
-            a.setWebViewClient(object : WebViewClient() {
+            a.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                     view.loadUrl(url)
                     return true
@@ -51,7 +51,7 @@ class NewAct : AppCompatActivity() {
                     )
                     super.onPageFinished(view, url)
                 }
-            })
+            }
 
         }
         setWeb(webView0)
@@ -91,15 +91,15 @@ class NewAct : AppCompatActivity() {
                     }
 
                     fun setWeb1(a: WebView) {
-                        a.settings.setJavaScriptEnabled(true)//JavaScript脚本支持
-                        a.settings.setDomStorageEnabled(true)//访问储存
+                        a.settings.javaScriptEnabled = true//JavaScript脚本支持
+                        a.settings.domStorageEnabled = true//访问储存
                         a.requestFocus()
-                        a.settings.setUseWideViewPort(true)//这里需要设置为true，才能让Webivew支持<meta>标签的viewport属性
-                        a.settings.setLoadWithOverviewMode(true)//是否使用概览模式
+                        a.settings.useWideViewPort = true//这里需要设置为true，才能让Webivew支持<meta>标签的viewport属性
+                        a.settings.loadWithOverviewMode = true//是否使用概览模式
                         a.settings.setSupportZoom(true)//是否可放大画面
-                        a.settings.setBuiltInZoomControls(true)//是否可自由放大画面
+                        a.settings.builtInZoomControls = true//是否可自由放大画面
                         a.addJavascriptInterface(InJavaScriptLocalObj1(), "java_obj1")//JavaScript接口 需要用这玩意获取html
-                        a.setWebViewClient(object : WebViewClient() {
+                        a.webViewClient = object : WebViewClient() {
                             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                                 view.loadUrl(url)
                                 return true
@@ -114,7 +114,7 @@ class NewAct : AppCompatActivity() {
                                 )
                                 super.onPageFinished(view, url)
                             }
-                        })
+                        }
 
                     }
                     setWeb1(webView0)
