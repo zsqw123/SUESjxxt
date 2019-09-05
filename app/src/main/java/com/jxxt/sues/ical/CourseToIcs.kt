@@ -18,6 +18,7 @@ import permissions.dispatcher.RuntimePermissions
 
 @RuntimePermissions
 class ExIcs {
+    lateinit var expath: File
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     fun ex(list: List<Item>) {
         // 创建日历
@@ -35,7 +36,7 @@ class ExIcs {
             // 添加事件
             calendar.components.add(event)
         }
-        val expath = File(Utils.getContext().getExternalFilesDir(null), "/suesjxxt/1.ics")
+        expath = File(Utils.getContext().getExternalFilesDir(null), "/suesjxxt/1.ics")
         if (!expath.exists()) expath.parentFile!!.mkdirs()
         expath.createNewFile()
         val fout = FileOutputStream(expath)

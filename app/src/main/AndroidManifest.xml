@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.jxxt.sues">
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.jxxt.sues">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
-    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <application
             android:name=".MyApp"
@@ -23,27 +23,39 @@
         <!--活动列表-->
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewAct"/>
-        <activity android:name=".ToCalendar"/>
+        <activity android:name=".NewAct" />
+        <activity android:name=".ToCalendar" />
         <!--广播接收器-->
         <receiver android:name=".widget.NewAppWidget">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <!-- ListWidgetProvider接收点击tv_refresh的响应事件 -->
-                <action android:name="com.jxxt.sues.REFRESH_WIDGET"/>
+                <action android:name="com.jxxt.sues.REFRESH_WIDGET" />
             </intent-filter>
             <meta-data
                     android:name="android.appwidget.provider"
-                    android:resource="@xml/new_app_widget_info"/>
+                    android:resource="@xml/new_app_widget_info" />
         </receiver>
         <!--服务(发射广播..?)-->
-        <service android:name=".widget.Service"
-                 android:permission="android.permission.BIND_REMOTEVIEWS"/>
+        <service
+                android:name=".widget.Service"
+                android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <provider
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="com.jxxt.sues.provider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/file_paths" />
+        </provider>
+
+
     </application>
 
 </manifest>
