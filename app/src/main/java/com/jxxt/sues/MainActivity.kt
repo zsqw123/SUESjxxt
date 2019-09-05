@@ -1,24 +1,17 @@
 package com.jxxt.sues
 
-import android.animation.ObjectAnimator
-import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.InputType
 import android.view.View
 import android.view.WindowManager
-import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.uiThread
 import java.io.File
-import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,11 +35,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val colorNameList = listOf("简洁白", "少女粉", "夜间模式", "姨妈红", "咸蛋黄", "早苗绿", "胖次蓝", "基佬紫")
     private val colorList = listOf("#F4F4F4", "#FA7298", "#2D2D2D", "#F44236", "#FEC107", "#8BC24A", "#2196F3", "#9C28B1")
     private val stausColorList = listOf("#E6E6E6", "#FB628D", "#1D1D1D", "#F23022", "#EEB507", "#7FB83C", "#148EEE", "#9121A6")
-
-    private var isOnce = true
+    /*
+      不舍得删除 留着吧
+     private var isOnce = true
     private var fab1Dy = 0f
     private var fabColorDy = 0f
     private var fabAboutDy = 0f
@@ -58,8 +51,7 @@ class MainActivity : AppCompatActivity() {
     private var textNowDx = 0f
     private var textAboutDx = 0f
     private var textToicsDx = 0f
-
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (isOnce) {
             //记录坐标
@@ -104,6 +96,8 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+    */
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,14 +119,6 @@ class MainActivity : AppCompatActivity() {
                 var weeknow = ""
                 if (weekNow.exists()) {
                     weeknow = weekNow.readText()
-                    val week0 = Calendar.getInstance()
-                    val date = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(weeknow)
-                    week0.time = date!!
-                    week0.set(Calendar.HOUR_OF_DAY, 1)
-                    val now = Calendar.getInstance()
-                    val a = now.timeInMillis - week0.timeInMillis
-                    val week = if (a > 0) (a / (24 * 3600000)).toInt() / 7 else (a / (24 * 3600000)).toInt() / 7 - 1
-                    text_now.text = " 当前第${week}周 "
                 }else{
                     val cal=Calendar.getInstance()
                     cal.firstDayOfWeek=Calendar.MONDAY
@@ -145,8 +131,7 @@ class MainActivity : AppCompatActivity() {
                         setHasFixedSize(true)
                         layoutManager = LinearLayoutManager(context)
                         adapter = MainAdapter(context, content)
-                        val viewList = listOf(fab1, fab_color, fab_about, fab_now_week, text_color, text_now, text_about, fab1_text)
-                        addOnScrollListener(RecListener(fab0, viewList))
+                        addOnScrollListener(RecListener(fab0))
                     }
                     //找到今日日程
                     findToday()
@@ -157,7 +142,6 @@ class MainActivity : AppCompatActivity() {
                 val primeColor: Int = colorString.readText().toInt()
                 for (i in colorList.indices) {
                     if (Color.parseColor(colorList[i]) == primeColor) {
-                        text_color.text = " ${colorNameList[i]} "
                         window.statusBarColor = Color.parseColor(stausColorList[i])
                     }
                 }
@@ -169,134 +153,16 @@ class MainActivity : AppCompatActivity() {
             progressBar.visibility = View.INVISIBLE
             window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
-        //导入课程
-        fab1.setOnClickListener {
-            startActivity<NewAct>()
+        fab0.setOnClickListener{
+            startActivity<Settings>()
         }
+        fab0.setOnLongClickListener {
+            findToday()
+            return@setOnLongClickListener true
+        }
+        /*
+        不舍得删除 留着吧
 
-        //当前周
-        fab_now_week.setOnClickListener {
-            alert {
-                customView {
-                    verticalLayout {
-                        //标题
-                        toolbar {
-                            lparams(width = matchParent, height = wrapContent)
-                            title = "设置当前周数(整数 可选正负)"
-                        }
-                        //输入框
-                        val task = editText {
-                            hint = "当前周"
-                            inputType = InputType.TYPE_CLASS_NUMBER
-                            padding = dip(20)
-                        }
-                        //button
-                        negativeButton("OK(正周数)") {
-                            if (task.text.toString().isEmpty()) {
-                                toast("没当前周你玩个鸡儿??及你太美")
-                            } else {
-                                val weeknow = task.text.toString().toInt()
-                                val week0 = Calendar.getInstance(Locale.CHINA)
-                                week0.firstDayOfWeek = Calendar.MONDAY
-                                week0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-                                week0.add(Calendar.DATE, -7 * weeknow)
-                                weekNow.writeText(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(week0.time))
-                                toast("设置成功 当前第 ${task.text} 周")
-                                startActivity(intentFor<MainActivity>().newTask().clearTask())
-                            }
-                        }
-                        positiveButton("OK(负周数)") {
-                            if (task.text.toString().isEmpty()) {
-                                toast("没当前周你玩个鸡儿??及你太美")
-                            } else {
-                                val a = "-" + task.text.toString()
-                                val weeknow = a.toInt()
-                                val week0 = Calendar.getInstance(Locale.CHINA)
-                                week0.firstDayOfWeek = Calendar.MONDAY
-                                week0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-                                week0.add(Calendar.DATE, -7 * weeknow)
-                                weekNow.writeText(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(week0.time))
-                                toast("设置成功 当前第 -${task.text} 周")
-                                startActivity(intentFor<MainActivity>().newTask().clearTask())
-                            }
-                        }
-                    }
-                }
-            }.show()
-        }
-        //关于
-        fab_about.setOnClickListener {
-            alert {
-                customView {
-                    verticalLayout {
-                        //标题
-                        toolbar {
-                            lparams(width = matchParent, height = wrapContent)
-                            title = "关于作者"
-                        }
-                        val text = textView(R.string.about)
-                        button("捐赠!! 打赏!! 点我!!!\n打开浏览器以后选择使用支付宝打开!!") {
-                            onClick {
-                                doAsync {
-                                    val uri = Uri.parse("https://qr.alipay.com/fkx05866rmc3tvpisucbsef")
-                                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                                    startActivity(intent)
-                                }
-                            }
-                        }
-                        button("项目已在github开源 点我查看") {
-                            onClick {
-                                doAsync {
-                                    val uri = Uri.parse("https://github.com/zsqw123/SUESjxxt")
-                                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                                    startActivity(intent)
-                                }
-                            }
-                        }
-                    }
-                }
-            }.show()
-        }
-        //颜色选择
-        fab_color.setOnClickListener {
-            selector("请选择主题色", colorNameList) { _, i ->
-                text_color.text = " ${colorNameList[i]} "
-                val primeColor: Int = Color.parseColor(colorList[i])
-                progressBar.visibility = View.VISIBLE
-                fab_color.background.setTint(primeColor)
-                window.statusBarColor = Color.parseColor(stausColorList[i])
-
-                window.setFlags(
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                )
-                doAsync {
-                    val text = file.readText()
-                    colorString = File(filesDir, "/color")
-                    colorString.writeText(primeColor.toString())
-
-                    var weeknow = ""
-                    if (weekNow.exists()) {
-                        weeknow = weekNow.readText()
-                    }
-                    val content = Show().textShow(text, weeknow)
-                    uiThread {
-                        mainView.apply {
-                            setHasFixedSize(true)
-                            layoutManager = LinearLayoutManager(context)
-                            adapter = MainAdapter(context, content)
-                        }
-                        window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                        //找到今日日程
-                        findToday()
-                        progressBar.visibility = View.INVISIBLE
-                    }
-                }
-            }
-        }
-        fab_toics.setOnClickListener {
-            startActivity<ToCalendar>()
-        }
         /*
         FloatActionButton Anim
         */
@@ -377,6 +243,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 time0 = System.currentTimeMillis()
             }
-        }
+        }currentTimeMillis
+         */
     }
 }
