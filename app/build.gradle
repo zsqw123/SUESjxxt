@@ -4,9 +4,11 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+    buildToolsVersion "29.0.1"
     defaultConfig {
         applicationId "com.jxxt.sues"
         minSdkVersion 24
@@ -43,6 +45,8 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.0-alpha0'//icalendar依赖
     implementation 'org.slf4j:slf4j-log4j12:2.0.0-alpha0'//icalendar依赖
     implementation 'org.apache.commons:commons-lang3:3.9'//icalendar依赖
+    implementation "org.permissionsdispatcher:permissionsdispatcher:4.5.0"
+//    kapt "org.permissionsdispatcher:permissionsdispatcher-processor:4.5.0"
 
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

@@ -7,7 +7,7 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="导出目录为内置储存/suesjxxt/1.ics"
+            android:text="导出目录为内置储存\n/Android/data/com.suesjxxt/suesjxxt/1.ics"
             android:gravity="center"/>
 
     <Button
