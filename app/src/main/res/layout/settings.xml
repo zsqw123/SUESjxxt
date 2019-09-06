@@ -8,7 +8,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -18,8 +17,7 @@
                     android:id="@+id/impo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_margin="20dp"
                     android:src="@drawable/import_button"
                     app:backgroundTint="#9B11DC"
                     app:fabSize="mini" />
@@ -31,15 +29,8 @@
                     android:text="导入课程表"
                     android:id="@+id/text_import"
                     android:textColor="#000000"
-                    android:textSize="30sp" />
+                    android:textSize="22sp" />
         </LinearLayout>
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:id="@+id/bar1"
-                android:background="@color/colorPrimary" />
-
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,8 +40,7 @@
                     android:id="@+id/fab_theme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_margin="20dp"
 
                     android:src="@drawable/fab_color"
                     app:backgroundTint="@color/colorPrimary"
@@ -64,15 +54,8 @@
                     android:text="主题色"
                     android:id="@+id/text_theme"
                     android:textColor="#000000"
-                    android:textSize="30sp" />
+                    android:textSize="22sp" />
         </LinearLayout>
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:id="@+id/bar2"
-                android:background="@color/colorPrimary" />
-
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,8 +65,7 @@
                     android:id="@+id/now_week"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_margin="20dp"
 
                     android:src="@drawable/fab_now_week"
                     app:backgroundTint="#1DD8C4"
@@ -96,16 +78,8 @@
                     android:id="@+id/text_week"
                     android:text="当前周"
                     android:textColor="#000000"
-                    android:textSize="30sp" />
+                    android:textSize="22sp" />
         </LinearLayout>
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:id="@+id/bar3"
-                android:background="@color/colorPrimary" />
-
-
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,7 +89,7 @@
                     android:id="@+id/ics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="20dp"
                     android:src="@drawable/fab_toics"
 
                     app:backgroundTint="#475478"
@@ -126,18 +100,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="导出(ICS/Icalendar)"
+                    android:text="导出(ICS/iCalendar)"
                     android:id="@+id/text_ex"
                     android:textColor="#000000"
-                    android:textSize="30sp" />
+                    android:textSize="22sp" />
         </LinearLayout>
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:id="@+id/bar4"
-                android:background="@color/colorPrimary" />
-
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -147,7 +114,7 @@
                     android:id="@+id/about"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="20dp"
 
                     android:src="@drawable/fab_about"
                     app:backgroundTint="#0083F6"
@@ -160,9 +127,7 @@
                     android:text="关于/帮助"
                     android:id="@+id/text_about"
                     android:textColor="#000000"
-                    android:textSize="30sp" />
+                    android:textSize="22sp" />
         </LinearLayout>
-
-
     </LinearLayout>
 </ScrollView>

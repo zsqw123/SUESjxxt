@@ -30,9 +30,6 @@ class Settings : Activity() {
         //ColorSettings
         if (colorString.exists()) {
             val primeColor: Int = colorString.readText().toInt()
-            for (i in arrayOf(bar1,bar2,bar3,bar4)){
-                i.backgroundColor = primeColor
-            }
             fab_theme.background.setTint(primeColor)
             for (i in colorList.indices) {
                 if (Color.parseColor(colorList[i]) == primeColor) {
@@ -127,7 +124,7 @@ class Settings : Activity() {
                             lparams(width = matchParent, height = wrapContent)
                             title = "关于作者"
                         }
-                        val text = textView(R.string.about)
+                        textView(R.string.about)
                         button("捐赠!! 打赏!! 点我!!!\n打开浏览器以后选择使用支付宝打开!!") {
                             onClick {
                                 doAsync {
