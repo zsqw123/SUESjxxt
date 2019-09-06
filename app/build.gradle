@@ -13,8 +13,8 @@ android {
         applicationId "com.jxxt.sues"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 2
-        versionName "1.2"
+        versionCode 3
+        versionName "release-1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
@@ -22,10 +22,20 @@ android {
         }
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
     }
 }
 
@@ -45,8 +55,6 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.0-alpha0'//icalendar依赖
     implementation 'org.slf4j:slf4j-log4j12:2.0.0-alpha0'//icalendar依赖
     implementation 'org.apache.commons:commons-lang3:3.9'//icalendar依赖
-    implementation "org.permissionsdispatcher:permissionsdispatcher:4.5.0"
-//    kapt "org.permissionsdispatcher:permissionsdispatcher-processor:4.5.0"
 
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

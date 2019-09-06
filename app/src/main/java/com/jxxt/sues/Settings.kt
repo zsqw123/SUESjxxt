@@ -22,7 +22,6 @@ class Settings : Activity() {
 
     private val colorNameList = listOf("简洁白", "少女粉", "夜间模式", "姨妈红", "咸蛋黄", "早苗绿", "胖次蓝", "基佬紫")
     private val colorList = listOf("#F4F4F4", "#FA7298", "#2D2D2D", "#F44236", "#FEC107", "#8BC24A", "#2196F3", "#9C28B1")
-    private val stausColorList = listOf("#E6E6E6", "#FB628D", "#1D1D1D", "#F23022", "#EEB507", "#7FB83C", "#148EEE", "#9121A6")
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
@@ -31,11 +30,9 @@ class Settings : Activity() {
         if (colorString.exists()) {
             val primeColor: Int = colorString.readText().toInt()
             fab_theme.background.setTint(primeColor)
+            window.statusBarColor = Color.TRANSPARENT
             for (i in colorList.indices) {
-                if (Color.parseColor(colorList[i]) == primeColor) {
-                    window.statusBarColor = Color.parseColor(stausColorList[i])
-                    text_theme.text = colorNameList[i]
-                }
+                text_theme.text = colorNameList[i]
             }
         }
     }
@@ -153,7 +150,7 @@ class Settings : Activity() {
                 text_theme.text = " ${colorNameList[i]} "
                 val primeColor: Int = Color.parseColor(colorList[i])
                 now_week.background.setTint(primeColor)
-                window.statusBarColor = Color.parseColor(stausColorList[i])
+                window.statusBarColor = Color.TRANSPARENT
 
                 doAsync {
                     colorString = File(filesDir, "/color")

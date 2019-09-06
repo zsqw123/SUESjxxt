@@ -34,7 +34,6 @@ class MainAdapter(private val context: Context, private val dataList: List<Item>
         val posDate = Calendar.getInstance()
         posDate.time = dataList[position].date
 
-        println(week0.time)
         val a = posDate.timeInMillis - week0.timeInMillis
         val week = (a / (24 * 3600000)).toInt() / 7
         view.setData(position, dataList, week)

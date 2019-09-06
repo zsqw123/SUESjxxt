@@ -14,6 +14,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="导出ICS文件"
-            android:id="@+id/toics"/>
+            android:id="@+id/toics"
+            android:textAllCaps="false"/>
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="导出ICS文件 并分享到其他设备 or APP"
+            android:id="@+id/toics_share"
+            android:textAllCaps="false"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
