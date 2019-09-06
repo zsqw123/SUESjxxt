@@ -16,7 +16,7 @@
     不可自定义颜色 且最多只显示接下来的15个课程
 
 ## 支持导出ics（icalendar格式）
-    功能正在测试 文件储存在/data/data/com.jxxt.sues/files/1.ics
+    功能正在测试 文件储存在/Android/data/com.suesjxxt/suesjxxt/1.ics
 
 
 
