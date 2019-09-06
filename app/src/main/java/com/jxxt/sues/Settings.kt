@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
+import android.view.View
 import kotlinx.android.synthetic.main.settings.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -32,7 +33,10 @@ class Settings : Activity() {
             fab_theme.background.setTint(primeColor)
             window.statusBarColor = Color.TRANSPARENT
             for (i in colorList.indices) {
-                text_theme.text = colorNameList[i]
+                if (Color.parseColor(colorList[i]) == primeColor) {
+                    text_theme.text = colorNameList[i]
+                    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                }
             }
         }
     }

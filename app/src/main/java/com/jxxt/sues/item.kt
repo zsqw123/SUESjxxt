@@ -2,12 +2,14 @@ package com.jxxt.sues
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.list_item.view.*
+import org.jetbrains.anko.textColor
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -51,8 +53,16 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
             } else {
                 day.text = after + " 第${week}周"
             }
+            //找到今日日程
+            val now = Date()
+            if (now <= list[pos].date && now >= list[pos - 1].date) {
+                name.textColor = Color.parseColor("#CF6F06")
+                name.typeface = Typeface.defaultFromStyle(Typeface.BOLD_ITALIC)
+            }
         } else {
             day.text = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos].date) + " 第${week}周"
+            name.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
         }
+
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
@@ -45,8 +46,11 @@ class MainActivity : AppCompatActivity() {
                 val primeColor: Int = colorString.readText().toInt()
                 for (i in colorList.indices) {
                     if (Color.parseColor(colorList[i]) == primeColor) {
+                        val dark = ColorUtils.calculateLuminance(Color.parseColor(stausColorList[i])) <= 0.5
                         uiThread {
                             window.statusBarColor = Color.parseColor(stausColorList[i])
+                            window.decorView.systemUiVisibility=if (dark) View.SYSTEM_UI_FLAG_VISIBLE
+                                else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                         }
                     }
                 }

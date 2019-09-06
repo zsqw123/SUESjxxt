@@ -77,7 +77,6 @@ class NewAppWidget : AppWidgetProvider() {
             val tvIntent = Intent().setAction(REFRESH_WIDGET)
             val tvPendingIntent = PendingIntent.getBroadcast(context, 0, tvIntent, PendingIntent.FLAG_UPDATE_CURRENT)
             views.setOnClickPendingIntent(R.id.tv_refresh, tvPendingIntent)
-
             //adapter
             val serviceIntent = Intent(context, Service::class.java)
             views.setRemoteAdapter(R.id.lv_widget, serviceIntent)

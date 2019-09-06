@@ -2,9 +2,12 @@ package com.jxxt.sues.widget
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import com.jxxt.sues.*
+import com.jxxt.sues.Item
+import com.jxxt.sues.R
+import com.jxxt.sues.Show
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,6 +50,11 @@ class Factory(private val mContext: Context, intent: Intent) : RemoteViewsServic
         val name = data[p0].name
         rvItem.setTextViewText(R.id.widget_date, date)
         rvItem.setTextViewText(R.id.widget_name, name)
+        if (p0 == 0) {
+            rvItem.setTextColor(R.id.widget_name, Color.parseColor("#BA9063"))
+        } else {
+            rvItem.setTextColor(R.id.widget_name, Color.parseColor("#FFFFFF"))
+        }
         return rvItem
     }
 
