@@ -17,31 +17,33 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
-        <!--活动列表-->
-        <activity android:name=".MainActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- 活动列表 -->
+        <activity android:name=".MainActivity"/>
         <activity android:name=".NewAct" />
         <activity android:name=".ToCalendar" />
-        <activity android:name=".Settings"/>
-        <!--广播接收器-->
+        <activity android:name=".Settings" /> <!-- 广播接收器 -->
         <receiver android:name=".widget.NewAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <!-- ListWidgetProvider接收点击tv_refresh的响应事件 -->
                 <action android:name="com.jxxt.sues.REFRESH_WIDGET" />
             </intent-filter>
+
             <meta-data
                     android:name="android.appwidget.provider"
                     android:resource="@xml/new_app_widget_info" />
-        </receiver>
-        <!--服务(发射广播..?)-->
+        </receiver> <!-- 服务(发射广播..?) -->
         <service
                 android:name=".widget.Service"
                 android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <provider
                 android:name="androidx.core.content.FileProvider"
                 android:authorities="com.jxxt.sues.provider"
@@ -51,8 +53,6 @@
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/file_paths" />
         </provider>
-
-
     </application>
 
 </manifest>

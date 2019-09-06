@@ -22,3 +22,4 @@
 -keep class org.apache.log4j.Category
 -keep class org.apache.log4j.Logger
 -keep class org.apache.log4j.CategoryKey
+-dontskipnonpubliclibraryclasses

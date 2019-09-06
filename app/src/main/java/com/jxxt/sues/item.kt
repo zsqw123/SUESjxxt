@@ -61,7 +61,10 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
             }
         } else {
             day.text = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos].date) + " 第${week}周"
-            name.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+            val now = Date()
+            if (now <= list[pos].date) {
+                name.typeface = Typeface.defaultFromStyle(Typeface.BOLD_ITALIC)
+            }
         }
 
     }
