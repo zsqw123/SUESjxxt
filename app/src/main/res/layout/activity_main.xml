@@ -43,6 +43,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
+            app:cardCornerRadius="21dp"
             app:layout_constraintBottom_toTopOf="@+id/progressBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,10 +51,10 @@
             app:layout_constraintVertical_bias="0.0">
 
         <RelativeLayout
+                android:id="@+id/nowbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/shape"
-                android:id="@+id/nowbar">
+                android:background="@drawable/shape">
 
             <TextView
                     android:id="@+id/nowbar_time"
@@ -62,29 +63,38 @@
                     android:layout_marginStart="10dp"
                     android:gravity="center"
 
-                    android:text="name"
-                    android:textSize="30sp"
-                    android:textStyle="bold"
+                    android:text="11:27"
                     android:textColor="#FFFFFF"
-                    />
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
             <TextView
                     android:id="@+id/nowbar_class"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/nowbar_time"
-                    android:layout_marginStart="16dp"
                     android:layout_alignTop="@+id/nowbar_time"
                     android:layout_alignBottom="@+id/nowbar_time"
-                    android:gravity="center"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_toEndOf="@+id/nowbar_time"
 
-                    android:text="time"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    />
+                    android:gravity="center"
+                    android:text="class"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nowbar_class"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="hhh"/>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

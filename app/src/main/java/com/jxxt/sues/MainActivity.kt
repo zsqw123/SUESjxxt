@@ -6,6 +6,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.ColorUtils
+import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             if (now <= date) {
                 mainView.scrollToPosition(i)
                 val lm = mainView.layoutManager as LinearLayoutManager
-                lm.scrollToPositionWithOffset(i, 0)
+                lm.scrollToPositionWithOffset(i, nowbar.height + 20)
                 break
             }
         }
@@ -37,10 +38,6 @@ class MainActivity : AppCompatActivity() {
 
     private val colorList = listOf("#F4F4F4", "#FA7298", "#2D2D2D", "#F44236", "#FEC107", "#8BC24A", "#2196F3", "#9C28B1")
     private val stausColorList = listOf("#E6E6E6", "#FB628D", "#1D1D1D", "#F23022", "#EEB507", "#7FB83C", "#148EEE", "#9121A6")
-
-    fun ankoMainUI(){
-
-    }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
@@ -60,7 +57,21 @@ class MainActivity : AppCompatActivity() {
                 }
                 uiThread {
                     when (primeColor) {
-                        -13816531 -> mainView.backgroundColor = Color.parseColor("#FFFFFF")
+                        //黑色
+                        -13816531 -> {
+                            mainView.backgroundColor = Color.parseColor("#FFFFFF")
+                            nowbar.backgroundColor = Color.parseColor("#242222")
+                            nowbar_class.setTextColor(Color.parseColor("#FFFFFF"))
+                            nowbar_time.setTextColor(Color.parseColor("#FFFFFF"))
+                        }
+                        //白色 or Other
+                        -723724 -> nowbar_time.setTextColor(Color.parseColor("#000000"))
+                        else -> {
+                            nowbar_class.setTextColor(Color.parseColor("#000000"))
+                            nowbar_time.setTextColor(Color.parseColor("#000000"))
+                            nowbar.setBackgroundColor(-723724)
+                            nowbar_class.setBackgroundColor(-723724)
+                        }
                     }
                 }
             }
@@ -103,6 +114,7 @@ class MainActivity : AppCompatActivity() {
                 cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
                 SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(cal.time)
             }
+            //主列表视图显示
             content = Show().textShow(text, weeknow)
             mainView.apply {
                 setHasFixedSize(true)

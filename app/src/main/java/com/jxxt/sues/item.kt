@@ -25,13 +25,15 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
             val tView = findViewById<TextView>(R.id.date).background as GradientDrawable
             tView.setColor(primeColor)
             when (primeColor) {
-                -723724 -> date.setTextColor(Color.parseColor("#000000"))
+                //黑色
                 -13816531 -> {
                     name.setTextColor(Color.parseColor("#FFFFFF"))
                     day.setTextColor(Color.parseColor("#FFFFFF"))
                     name.setBackgroundColor(-13816531)
                     layout.setBackgroundColor(-13816531)
                 }
+                //白色 or Other
+                -723724 -> date.setTextColor(Color.parseColor("#000000"))
                 else -> {
                     name.setTextColor(Color.parseColor("#000000"))
                     day.setTextColor(Color.parseColor("#000000"))
