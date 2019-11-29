@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
             val date = content[i].date
             if (now <= date) {
                 mainView.scrollToPosition(i)
-                val lm=mainView.layoutManager as LinearLayoutManager
-                lm.scrollToPositionWithOffset(i,0)
+                val lm = mainView.layoutManager as LinearLayoutManager
+                lm.scrollToPositionWithOffset(i, 0)
                 break
             }
         }
@@ -37,6 +37,10 @@ class MainActivity : AppCompatActivity() {
 
     private val colorList = listOf("#F4F4F4", "#FA7298", "#2D2D2D", "#F44236", "#FEC107", "#8BC24A", "#2196F3", "#9C28B1")
     private val stausColorList = listOf("#E6E6E6", "#FB628D", "#1D1D1D", "#F23022", "#EEB507", "#7FB83C", "#148EEE", "#9121A6")
+
+    fun ankoMainUI(){
+
+    }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
@@ -49,8 +53,8 @@ class MainActivity : AppCompatActivity() {
                         val dark = ColorUtils.calculateLuminance(Color.parseColor(stausColorList[i])) <= 0.5
                         uiThread {
                             window.statusBarColor = Color.parseColor(stausColorList[i])
-                            window.decorView.systemUiVisibility=if (dark) View.SYSTEM_UI_FLAG_VISIBLE
-                                else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                            window.decorView.systemUiVisibility = if (dark) View.SYSTEM_UI_FLAG_VISIBLE
+                            else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                         }
                     }
                 }
@@ -93,14 +97,11 @@ class MainActivity : AppCompatActivity() {
         )
         if (!file.exists()) startActivity<NewAct>() else {
             val text = file.readText()
-            var weeknow = ""
-            if (weekNow.exists()) {
-                weeknow = weekNow.readText()
-            } else {
+            val weeknow = if (weekNow.exists()) weekNow.readText() else {
                 val cal = Calendar.getInstance()
                 cal.firstDayOfWeek = Calendar.MONDAY
                 cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-                weeknow = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(cal.time)
+                SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(cal.time)
             }
             content = Show().textShow(text, weeknow)
             mainView.apply {

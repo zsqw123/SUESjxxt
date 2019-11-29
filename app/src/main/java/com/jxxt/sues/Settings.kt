@@ -40,6 +40,7 @@ class Settings : Activity() {
             }
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings)
@@ -128,20 +129,20 @@ class Settings : Activity() {
                         textView(R.string.about)
                         button("捐赠!! 打赏!! 点我!!!\n打开浏览器以后选择使用支付宝打开!!") {
                             onClick {
-                                doAsync {
-                                    val uri = Uri.parse("https://qr.alipay.com/fkx05866rmc3tvpisucbsef")
-                                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                                    startActivity(intent)
-                                }
+                                val alipay = "https://qr.alipay.com/fkx05866rmc3tvpisucbsef"
+                                browse(alipay)
                             }
                         }
                         button("项目已在github开源 点我查看") {
                             onClick {
-                                doAsync {
-                                    val uri = Uri.parse("https://github.com/zsqw123/SUESjxxt")
-                                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                                    startActivity(intent)
-                                }
+                                val github = "https://github.com/zsqw123/SUESjxxt"
+                                browse(github)
+                            }
+                        }
+                        button("加作者QQ..."){
+                            onClick {
+                                val qq="https://qm.qq.com/cgi-bin/qm/qr?k=LBReU2xt52bv8E1mSr1BPBcoA61egKal"
+                                browse(qq)
                             }
                         }
                     }

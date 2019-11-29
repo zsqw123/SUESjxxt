@@ -37,5 +37,54 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/progressBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/mainView"
+            app:layout_constraintVertical_bias="0.0">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape"
+                android:id="@+id/nowbar">
+
+            <TextView
+                    android:id="@+id/nowbar_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+
+                    android:text="name"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    />
+
+            <TextView
+                    android:id="@+id/nowbar_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/nowbar_time"
+                    android:layout_marginStart="16dp"
+                    android:layout_alignTop="@+id/nowbar_time"
+                    android:layout_alignBottom="@+id/nowbar_time"
+                    android:gravity="center"
+
+                    android:text="time"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
