@@ -28,7 +28,7 @@
 ![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/2.png)
     
 ## 个性化设置
-    最新版本可以自定义图片
+    最新版本可以自定义主题颜色
 ![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/3.png)
 
 
