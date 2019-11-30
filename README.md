@@ -4,6 +4,9 @@
 代码位于/app
 成品位于/released
 
+--------
+目前处于测试阶段 部分机型可能闪退 建议使用bugly版本帮助测试 感谢!
+
 ![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/1.png)
 
 # 支持功能
