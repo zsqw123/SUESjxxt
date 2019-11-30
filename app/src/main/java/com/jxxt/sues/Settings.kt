@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.settings.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick

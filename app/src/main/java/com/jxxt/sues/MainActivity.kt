@@ -7,6 +7,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 import java.io.File
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                             val remain = (content[a + 1].date.time - Date().time) / 1000
                             if (remain < 0) {
                                 nowbar_remain.text = "距离上课还剩我也不知道多长时间"
-                                nowbar_class.text ="暂无更多课程\n请调整当前周或下学期见"
+                                nowbar_class.text = "暂无更多课程\n请调整当前周或下学期见"
                             } else {
                                 val remainH = remain / 3600
                                 val remainM = (remain % 3600) / 60
@@ -87,50 +88,52 @@ class MainActivity : AppCompatActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        doAsync {
-            //ColorSettings
-            if (colorString.exists()) {
-                val primeColor: Int = colorString.readText().toInt()
-                for (i in colorList.indices) {
-                    if (Color.parseColor(colorList[i]) == primeColor) {
-                        //判断是否dark色系对任务栏图标显示颜色作出更改
-                        val dark = ColorUtils.calculateLuminance(Color.parseColor(stausColorList[i])) <= 0.3
-                        uiThread {
-                            window.statusBarColor = Color.parseColor(stausColorList[i])
-                            window.decorView.systemUiVisibility = if (dark) View.SYSTEM_UI_FLAG_VISIBLE
-                            else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        if (file.exists()) {
+            doAsync {
+                //ColorSettings
+                if (colorString.exists()) {
+                    val primeColor: Int = colorString.readText().toInt()
+                    for (i in colorList.indices) {
+                        if (Color.parseColor(colorList[i]) == primeColor) {
+                            //判断是否dark色系对任务栏图标显示颜色作出更改
+                            val dark = ColorUtils.calculateLuminance(Color.parseColor(stausColorList[i])) <= 0.3
+                            uiThread {
+                                window.statusBarColor = Color.parseColor(stausColorList[i])
+                                window.decorView.systemUiVisibility = if (dark) View.SYSTEM_UI_FLAG_VISIBLE
+                                else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                            }
+                        }
+                    }
+                    uiThread {
+                        val dark = ColorUtils.calculateLuminance(primeColor) <= 0.3
+                        val ultraDark = ColorUtils.calculateLuminance(primeColor) <= 0.1
+                        nowbar.backgroundColor = Color.parseColor("#EDE1E1")
+                        mainView.backgroundColor = if (dark) Color.parseColor("#000000") else Color.parseColor("#FFFFFF")
+                        nowbar_class.setTextColor(Color.parseColor("#000000"))
+                        nowbar_time.setTextColor(Color.parseColor("#000000"))
+                        nowbar_remain.setTextColor(Color.parseColor("#000000"))
+                        if (ultraDark) {//很黑的情况下...
+                            nowbar.backgroundColor = Color.parseColor("#4D4D4D")
+                            nowbar_class.setTextColor(Color.parseColor("#FFFFFF"))
+                            nowbar_time.setTextColor(Color.parseColor("#FFFFFF"))
+                            nowbar_remain.setTextColor(Color.parseColor("#FFFFFF"))
                         }
                     }
                 }
                 uiThread {
-                    val dark = ColorUtils.calculateLuminance(primeColor) <= 0.3
-                    val ultraDark = ColorUtils.calculateLuminance(primeColor) <= 0.1
-                    nowbar.backgroundColor = Color.parseColor("#EDE1E1")
-                    mainView.backgroundColor = if (dark) Color.parseColor("#000000") else Color.parseColor("#FFFFFF")
-                    nowbar_class.setTextColor(Color.parseColor("#000000"))
-                    nowbar_time.setTextColor(Color.parseColor("#000000"))
-                    nowbar_remain.setTextColor(Color.parseColor("#000000"))
-                    if (ultraDark) {//很黑的情况下...
-                        nowbar.backgroundColor = Color.parseColor("#4D4D4D")
-                        nowbar_class.setTextColor(Color.parseColor("#FFFFFF"))
-                        nowbar_time.setTextColor(Color.parseColor("#FFFFFF"))
-                        nowbar_remain.setTextColor(Color.parseColor("#FFFFFF"))
-                    }
-                }
-            }
-            uiThread {
-                //找到今日日程
-                findToday()
-                //loaded
-                progressBar.visibility = View.INVISIBLE
-                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                fab0.setOnClickListener {
-                    startActivity<Settings>()
-                }
-                fab0.setOnLongClickListener {
+                    //找到今日日程
                     findToday()
-                    toast("已回到今日日程")
-                    true
+                    //loaded
+                    progressBar.visibility = View.INVISIBLE
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    fab0.setOnClickListener {
+                        startActivity<Settings>()
+                    }
+                    fab0.setOnLongClickListener {
+                        findToday()
+                        toast("已回到今日日程")
+                        true
+                    }
                 }
             }
         }
@@ -139,6 +142,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        CrashReport.initCrashReport(applicationContext, "85638bad59", false)
+
         //定义Flies目录
         file = File(filesDir, "/a")
         colorString = File(filesDir, "/color")
