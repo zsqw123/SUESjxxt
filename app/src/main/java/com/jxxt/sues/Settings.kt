@@ -3,10 +3,12 @@ package com.jxxt.sues
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.SweepGradient
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.settings.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -35,8 +37,8 @@ class Settings : Activity() {
             for (i in colorList.indices) {
                 if (Color.parseColor(colorList[i]) == primeColor) {
                     text_theme.text = colorNameList[i]
-                    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                 }
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }
     }
@@ -139,9 +141,9 @@ class Settings : Activity() {
                                 browse(github)
                             }
                         }
-                        button("加作者QQ..."){
+                        button("加作者QQ...") {
                             onClick {
-                                val qq="https://qm.qq.com/cgi-bin/qm/qr?k=LBReU2xt52bv8E1mSr1BPBcoA61egKal"
+                                val qq = "https://qm.qq.com/cgi-bin/qm/qr?k=LBReU2xt52bv8E1mSr1BPBcoA61egKal"
                                 browse(qq)
                             }
                         }
@@ -151,10 +153,11 @@ class Settings : Activity() {
         }
         //颜色选择
         text_theme.setOnClickListener {
+            toast("长按颜色设置入口可自定义颜色哦")
             selector("请选择主题色", colorNameList) { _, i ->
                 text_theme.text = " ${colorNameList[i]} "
                 val primeColor: Int = Color.parseColor(colorList[i])
-                now_week.background.setTint(primeColor)
+                fab_theme.background.setTint(primeColor)
                 window.statusBarColor = Color.TRANSPARENT
 
                 doAsync {
@@ -163,6 +166,42 @@ class Settings : Activity() {
                     startActivity(intentFor<MainActivity>().newTask().clearTask())
                 }
             }
+        }
+        text_theme.setOnLongClickListener {
+            alert {
+                customView {
+                    verticalLayout {
+                        //标题
+                        toolbar {
+                            lparams(width = matchParent, height = wrapContent)
+                            title = "自定义颜色(HTML格式)\n如#000000为黑色"
+                        }
+                        //输入框
+                        val task = editText {
+                            hint = "#000000"
+                            padding = dip(20)
+                        }
+                        //button
+                        negativeButton("OK") {
+                            if (task.text.toString().isEmpty()) {
+                                toast("宁未输入正确颜色值 检查#是否为英文#(半角)")
+                            } else {
+                                text_theme.text = task.text.toString()
+                                val primeColor: Int = Color.parseColor(task.text.toString())
+                                fab_theme.background.setTint(primeColor)
+                                window.statusBarColor = Color.TRANSPARENT
+
+                                doAsync {
+                                    colorString = File(filesDir, "/color")
+                                    colorString.writeText(primeColor.toString())
+                                    startActivity(intentFor<MainActivity>().newTask().clearTask())
+                                }
+                            }
+                        }
+                    }
+                }
+            }.show()
+            true
         }
         text_ex.setOnClickListener {
             startActivity<ToCalendar>()

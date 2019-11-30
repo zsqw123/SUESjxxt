@@ -24,7 +24,7 @@
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
             android:background="@drawable/shape"
-            android:elevation="3dp"
+            android:elevation="1.41dp"
             android:minHeight="45dp"
             android:text="999"
             android:textColor="#FFFFFF"

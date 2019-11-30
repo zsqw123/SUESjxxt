@@ -4,7 +4,7 @@
     <!-- 填充的颜色 -->
     <solid android:color="@color/colorPrimary"/>
     <!-- android:radius 弧形的半径 -->
-    <corners android:radius="21dip" />
+    <corners android:radius="7dip" />
     <!-- padding：Button里面的文字与Button边界的间隔 -->
     <padding
             android:bottom="2dp"

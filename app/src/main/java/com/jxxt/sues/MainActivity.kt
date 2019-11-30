@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
                 val primeColor: Int = colorString.readText().toInt()
                 for (i in colorList.indices) {
                     if (Color.parseColor(colorList[i]) == primeColor) {
+                        //判断是否dark色系对任务栏图标显示颜色作出更改
                         val dark = ColorUtils.calculateLuminance(Color.parseColor(stausColorList[i])) <= 0.5
                         uiThread {
                             window.statusBarColor = Color.parseColor(stausColorList[i])
@@ -56,22 +57,17 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 uiThread {
-                    when (primeColor) {
-                        //黑色
-                        -13816531 -> {
-                            mainView.backgroundColor = Color.parseColor("#FFFFFF")
-                            nowbar.backgroundColor = Color.parseColor("#242222")
-                            nowbar_class.setTextColor(Color.parseColor("#FFFFFF"))
-                            nowbar_time.setTextColor(Color.parseColor("#FFFFFF"))
-                        }
-                        //白色 or Other
-                        -723724 -> nowbar_time.setTextColor(Color.parseColor("#000000"))
-                        else -> {
-                            nowbar_class.setTextColor(Color.parseColor("#000000"))
-                            nowbar_time.setTextColor(Color.parseColor("#000000"))
-                            nowbar.setBackgroundColor(-723724)
-                            nowbar_class.setBackgroundColor(-723724)
-                        }
+                    val dark = ColorUtils.calculateLuminance(primeColor) <= 0.5
+                    if (dark) {
+                        mainView.backgroundColor = Color.parseColor("#000000")
+                        nowbar.backgroundColor = Color.parseColor("#634141")
+                        nowbar_class.setTextColor(Color.parseColor("#FFFFFF"))
+                        nowbar_time.setTextColor(Color.parseColor("#FFFFFF"))
+                    } else {
+                        mainView.backgroundColor = Color.parseColor("#FFFFFF")
+                        nowbar.backgroundColor = Color.parseColor("#EDE1E1")
+                        nowbar_class.setTextColor(Color.parseColor("#000000"))
+                        nowbar_time.setTextColor(Color.parseColor("#000000"))
                     }
                 }
             }
