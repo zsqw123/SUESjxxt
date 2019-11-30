@@ -1,14 +1,10 @@
 package com.jxxt.sues
 
 import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
-import android.graphics.SweepGradient
-import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
-import android.widget.Toast
 import kotlinx.android.synthetic.main.settings.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -174,12 +170,18 @@ class Settings : Activity() {
                         //标题
                         toolbar {
                             lparams(width = matchParent, height = wrapContent)
-                            title = "自定义颜色(HTML格式)\n如#000000为黑色"
+                            title = "自定义颜色(HTML格式)"
                         }
                         //输入框
                         val task = editText {
-                            hint = "#000000"
+                            hint = "#000000:黑色"
                             padding = dip(20)
+                        }
+                        button("在线取色器(颜色要用‘代码’框内的颜色代码)\n第三方接口 有可能失效 如失效则自行获取") {
+                            onClick {
+                                val pickColorPage = "http://xiaohudie.net/RGB.html"
+                                browse(pickColorPage)
+                            }
                         }
                         //button
                         negativeButton("OK") {

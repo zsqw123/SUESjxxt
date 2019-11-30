@@ -45,7 +45,7 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
     }
 
     fun setData(pos: Int, list: List<Item>, week: Int) {
-        date.text = SimpleDateFormat("MM/dd\nHH:mm", Locale.CHINA).format(list[pos].date)
+        date.text = SimpleDateFormat("HH:mm", Locale.CHINA).format(list[pos].date)
         name.text = list[pos].name
         if (pos != 0) {
             val after = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos].date)
