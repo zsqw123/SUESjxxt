@@ -1,11 +1,11 @@
 package com.jxxt.sues
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
-import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.settings.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -87,7 +87,8 @@ class Settings : Activity() {
                                 val w0wFile = File(filesDir, "/weekNow")
                                 w0wFile.writeText(w0w)
                                 toast("设置成功 当前第 ${task.text} 周")
-                                startActivity(intentFor<MainActivity>().newTask().clearTask())
+//                                startActivity(intentFor<MainActivity>().newTask().clearTask())
+                                restartApp()
                             }
                         }
                         positiveButton("OK(负周数)") {
@@ -110,7 +111,8 @@ class Settings : Activity() {
                                 val w0wFile = File(filesDir, "/weekNow")
                                 w0wFile.writeText(w0w)
                                 toast("设置成功 当前第 -${task.text} 周")
-                                startActivity(intentFor<MainActivity>().newTask().clearTask())
+//                                startActivity(intentFor<MainActivity>().newTask().clearTask())
+                                restartApp()
                             }
                         }
                     }
@@ -158,12 +160,10 @@ class Settings : Activity() {
                 val primeColor: Int = Color.parseColor(colorList[i])
                 fab_theme.background.setTint(primeColor)
                 window.statusBarColor = Color.TRANSPARENT
-
-                doAsync {
-                    colorString = File(filesDir, "/color")
-                    colorString.writeText(primeColor.toString())
-                    startActivity(intentFor<MainActivity>().newTask().clearTask())
-                }
+                colorString = File(filesDir, "/color")
+                colorString.writeText(primeColor.toString())
+//                startActivity(intentFor<MainActivity>().newTask().clearTask())
+                restartApp()
             }
         }
         text_theme.setOnLongClickListener {
@@ -195,12 +195,10 @@ class Settings : Activity() {
                                 val primeColor: Int = Color.parseColor(task.text.toString())
                                 fab_theme.background.setTint(primeColor)
                                 window.statusBarColor = Color.TRANSPARENT
-
-                                doAsync {
-                                    colorString = File(filesDir, "/color")
-                                    colorString.writeText(primeColor.toString())
-                                    startActivity(intentFor<MainActivity>().newTask().clearTask())
-                                }
+                                colorString = File(filesDir, "/color")
+                                colorString.writeText(primeColor.toString())
+//                                startActivity(intentFor<MainActivity>().newTask().clearTask())
+                                restartApp()
                             }
                         }
                     }
@@ -211,5 +209,9 @@ class Settings : Activity() {
         text_ex.setOnClickListener {
             startActivity<ToCalendar>()
         }
+    }
+
+    private fun restartApp() {
+        startActivity(packageManager.getLaunchIntentForPackage(packageName)?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
     }
 }

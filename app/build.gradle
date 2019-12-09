@@ -13,8 +13,8 @@ android {
         applicationId "com.jxxt.sues"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 5
-        versionName "stable-9.9.7"
+        versionCode 8
+        versionName "stable-9.12.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8

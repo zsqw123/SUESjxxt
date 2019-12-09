@@ -122,17 +122,6 @@ class MainActivity : AppCompatActivity() {
                 uiThread {
                     //找到今日日程
                     findToday()
-                    //loaded
-                    progressBar.visibility = View.INVISIBLE
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                    fab0.setOnClickListener {
-                        startActivity<Settings>()
-                    }
-                    fab0.setOnLongClickListener {
-                        findToday()
-                        toast("已回到今日日程")
-                        true
-                    }
                 }
             }
         }
@@ -163,6 +152,17 @@ class MainActivity : AppCompatActivity() {
                 adapter = MainAdapter(context, content, FindContext().getToyear(text))
                 addOnScrollListener(RecListener(fab0))
             }
+            //loaded
+            progressBar.visibility = View.INVISIBLE
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+        fab0.setOnClickListener {
+            startActivity<Settings>()
+        }
+        fab0.setOnLongClickListener {
+            findToday()
+            toast("已回到今日日程")
+            true
         }
     }
 }
