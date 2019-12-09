@@ -20,15 +20,10 @@ class Factory(private val mContext: Context, intent: Intent) : RemoteViewsServic
         //定义Flies目录
         val filesDir = mContext.filesDir
         val file = File(filesDir, "/a")
-        val weekNow = File(filesDir, "weekNow")
         //loading...
         if (file.exists()) {
             val text = file.readText()
-            var weeknow = ""
-            if (weekNow.exists()) {
-                weeknow = weekNow.readText()
-            }
-            data = Show().textShow(text, weeknow).toMutableList()//Item类型list
+            data = Show().textShow(text).toMutableList()//Item类型list
             //找到今日日程
             val now = Date()
             var a = 0

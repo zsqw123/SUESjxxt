@@ -58,23 +58,21 @@ class NewAct : AppCompatActivity() {
         webView0.loadUrl("http://jxxt.sues.edu.cn")
         //login or logined
         loadButton.setOnClickListener {
-            val dialog = indeterminateProgressDialog("loading...", "如果3s以上没反应的话请检查网络连接(网康VPN)")
-            dialog.setCanceledOnTouchOutside(false)
             setWeb(webView0)
             webView0.loadUrl(url0)
+            textView2.text = "加载网页中 延迟5秒"
             //判断是否登录
             doAsync {
-                Thread.sleep(3000)//超时3s
+                Thread.sleep(5000)//超时3s
                 uiThread {
                     if (FindContext().findText(str) == "no") {
-                        textView2.text = "你网络太菜了 or 没连接网康VPN or 没登陆"
+                        textView2.text = "你网络太菜了(延迟大于5秒)\nor 没连接网康VPN\nor 没登陆"
                     } else {
                         loadButton.isVisible = false
                         okButton.isVisible = true
-                        textView2.text = "请继续点击左上角按钮读取数据"
+                        textView2.text = "\n\n请继续点击左上角按钮读取数据"
                     }
                 }
-                dialog.dismiss()
             }
         }
         //get data
@@ -87,6 +85,7 @@ class NewAct : AppCompatActivity() {
                         @JavascriptInterface
                         fun showSource(html: String) {
                             str1 = html
+                            println(str1)
                         }
                     }
 
@@ -121,28 +120,28 @@ class NewAct : AppCompatActivity() {
                     webView0.loadUrl(url1)
                 }
             }
-            //dialog loading...
-            val dialog0 = indeterminateProgressDialog("loading...", "耐心等待3s")
-            dialog0.setCanceledOnTouchOutside(false)
             //find Classes
             Thread {
                 try {
-                    Thread.sleep(3000)
+                    Thread.sleep(5000)
                     textView2.text = str1
                     val content = FindContext().resolveClasses(str1)
-//                    textView2.text=content
                     var text = ""
-                    content.forEach { key, value ->
-                        text = "$text$key $value\n"
+                    if (content == null) {
+                        text = "未获取到数据(或延迟大于5s) 请检查所选学期是否有课程"
+                    } else {
+                        content.forEach {
+                            text = it
+                        }
                     }
+
                     val file = File(filesDir, "/a")
                     file.writeText(str1)
-                    dialog0.dismiss()
-                    textView2.text = "数据获取完成! 马上进入主界面! \n\n$text"
+                    textView2.text = text
                     Thread.sleep(1000)
                     startActivity(intentFor<MainActivity>().newTask().clearTask())
                 } catch (e: Exception) {
-                    textView2.text = "你网络太菜了 or 没连接网康VPN or 没登陆"
+                    textView2.text = "你网络太菜了(或延迟大于5s) \nor 没连接网康VPN \nor 没登陆"
                 }
             }.start()
 

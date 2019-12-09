@@ -1,7 +1,17 @@
 package com.jxxt.sues
 
+import com.jxxt.sues.widget.Utils
+import org.jetbrains.anko.toast
 import java.util.*
 
+
+data class Course(
+    var WeekX: Int,
+    var Which: Int,
+    var Week: List<String>,
+    var Room: String,
+    var Teacher: String
+)
 /*
 course数据类 可转换为Date Calendar <List>
 --------------------------------------
@@ -10,84 +20,61 @@ course数据类 可转换为Date Calendar <List>
         Week<List>:上课周数列表
 --------------------------------------
  */
-data class Course(var WeekX: Int, var Which: Int, var Week: List<String>)
 
-/*
-WithRoomName数据类 可转换为Date Calendar <List>
---------------------------------------
-        room:上课教室
-        name:课程名称
---------------------------------------
- */
-data class WithRoomName(var room: String, var name: String)
 
-//True 转化为Course+CourseName形式(All Course by Map<String,Calendar>)
-class SwitchToCourse(private val input: Map<String, String>) {
-    private fun getWeek(str: String): List<String> {
-        val result = mutableListOf("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0")
-        val str0 = str.replace("(", "").replace(")", "")
-        val week = str0.split(",")[0]
-        val weekList = week.split(" ")
-        for (i in weekList) {
-            when {
-                i.contains("单") -> {
-                    val i0 = i.replace("单", "")
-                    val wklist = i0.split("-")
-                    val start = wklist[0].toInt()
-                    val end = wklist[1].toInt()
-                    for (a in start..end step 2) {
-                        result[a - 1] = "1"
+//True 转化为Course形式(All Course by Map<String,Calendar>)
+class SwitchToCourse(private val input: MutableList<String>?) {
+
+    //返回 课程类+课程名字的Map
+    fun switch(): Map<Course, String>? {
+        if (input == null) {
+            Utils.getContext().toast("课表为空! 请导入")
+            return null
+        } else {
+            val map = mutableMapOf<Course, String>()
+            input.forEach {
+                val aClass = it//一个课程
+                println(it)
+                //课程时间相关信息
+                val whichAndWeekxRegexPattern = Regex("""index =.*?;""")
+                val whichAndWeekxPattern = Regex("""\d""")//which weekX
+                val wklistRegexPattern = Regex("""\d""")//wklist
+                val whichAndWeekxRegex = whichAndWeekxRegexPattern.find(aClass)?.value//获取含which和weekX的index字符串
+                val whichAndWeekx = mutableListOf<String>()
+                if (whichAndWeekxRegex != null) {
+                    whichAndWeekxPattern.findAll(whichAndWeekxRegex).forEach { s ->
+                        whichAndWeekx += s.value
+                        println(s.value)
                     }
                 }
-                i.contains("双") -> {
-                    val i0 = i.replace("双", "")
-                    val wklist = i0.split("-")
-                    val start = wklist[0].toInt()
-                    val end = wklist[1].toInt()
-                    for (a in start..end step 2) {
-                        result[a - 1] = "1"
-                    }
+                val which = whichAndWeekx[1].toInt() + 1 // Which:第几节课 0
+                val weekX = whichAndWeekx[0].toInt() // WeekX:周几上课 0
+
+                //课程相关信息
+                val classRegexPattern = Regex("""".*?"""")
+                val classRegex = mutableListOf<String>()
+                classRegexPattern.findAll(aClass).forEach { s ->
+                    classRegex += s.value
                 }
-                else -> {
-                    val wklist = i.split("-")
-                    val start = wklist[0].toInt()
-                    val end = if (wklist.size == 1) start else wklist[1].toInt()
-                    for (a in start..end step 1) {
-                        result[a - 1] = "1"
-                    }
+                val teacher = classRegex[1]
+                val courseName = classRegex[3]
+                val room = classRegex[5]
+                val wk = mutableListOf<String>()
+                wklistRegexPattern.findAll(classRegex[6]).forEach { s ->
+                    wk += s.value
                 }
+
+                println("$weekX $which $room $courseName")
+                map[Course(weekX, which, wk, room, teacher)] = courseName
             }
+            return map
         }
-        return result
-    }
-
-    private fun getRoom(str: String): String {
-        val str0 = str.replace("(", "").replace(")", "")
-        return "${str0.split(",")[1]} "
-    }
-
-    fun switch(): Map<Course, WithRoomName> {
-        val map = mutableMapOf<Course, WithRoomName>()
-        for (i in input) {
-            //Key String字段
-            val weekStr = i.key.toInt()
-            val weekX = weekStr / 14
-            val which = weekStr % 14 + 1
-            //Value String字段
-            val str = i.value.split(";")
-            var a = 0//循环常数
-            while (a < str.size) {
-                val name = WithRoomName(getRoom(str[a + 1]), str[a])
-                map[Course(weekX, which, getWeek(str[a + 1]))] = name
-                a += 2
-            }
-        }
-        return map
     }
 }
 
+
 //转化为Calendar+Name(One Course)
-class CourseToDate(private val name: WithRoomName, private val course: Course) {
+class CourseToDate(private val name: String, private val course: Course) {
     private fun weekToDateList(weekNow: Calendar, weekX: Int, week: List<String>, room: String): List<Date> {
         //课表第一周 周一
         weekNow.add(Calendar.DATE, weekX)
@@ -121,21 +108,21 @@ class CourseToDate(private val name: WithRoomName, private val course: Course) {
                 list.add(weekNow.time)
             }
         }
-//        for (i in list){
-//            println(SimpleDateFormat("MM/dd HH:mm", Locale.CHINA).format(i.time))
-//        }
         return list
     }
 
     fun a(weekNow: Calendar): Map<Date, String> {
         val weekX = course.WeekX
         val week = course.Week
-        val weekNow0: Calendar = weekNow
+        val room = course.Room
+        val which = course.Which
         val map: MutableMap<Date, String> = mutableMapOf()
-        val dateList = weekToDateList(weekNow0, weekX, week, name.room)
+        val dateList = weekToDateList(weekNow, weekX, week, room)
 
         for (i in dateList) {
-            map[i] = name.room + name.name
+            //i时间应该上名为name的课
+            map[i] = "$room $name"
+//            println("$i $room $name")
         }
         return map
     }

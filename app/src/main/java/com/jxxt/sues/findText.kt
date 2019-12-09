@@ -3,10 +3,8 @@ package com.jxxt.sues
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-import java.lang.StringBuilder
-
 class FindContext {
-    //html获取id URL              by 正则
+    //html获取个人id URL              by Regex
     fun findText(a: String): String {
         val regex = Regex("""<iframe src="(.*)ignoreHead=1""")
         val result = regex.find(a) ?: return "no"
@@ -14,21 +12,38 @@ class FindContext {
     }
 
     //HTML to Map                by Jsoup
-    fun resolveClasses(html: String): MutableMap<String, String> {
+    fun resolveClasses(html: String): MutableList<String>? {
         val doc: Document = Jsoup.parse(html)
-        val map: MutableMap<String, String> = mutableMapOf("99" to "test")
-        val doc1 = doc.select("td")
-        for (i in doc1) {
-            val id = i.attr("id").replace("TD", "").replace("_0", "")
-            if (i.attr("title") == ""){
-                continue
-            }
-            val contains = i.attr("title")
-            map[id]=contains
-        }
-        map.remove("99")
-        map.remove("")
-        return map
-    }
 
+        //获取script Elements
+        val docEles = doc.getElementsByTag("script")
+        for (i in docEles) {
+            if (i.toString().contains("new TaskActivity")) {
+                val lines = i.toString().replace("\n", "")
+                val lineRegexPattern = Regex("""new TaskActivity.*?table""")
+                val linesRegex = lineRegexPattern.findAll(lines)
+                val list= mutableListOf<String>()
+                linesRegex.forEach {
+//                    println(it.value)
+                    list+=it.value
+                }
+                return list
+            }
+        }
+        return null
+    }
+    fun getToyear(html: String): Int {
+        val doc: Document = Jsoup.parse(html)
+
+        //获取script Elements
+        val docEles = doc.getElementsByTag("script")
+        for (i in docEles) {
+            if (i.toString().contains("new TaskActivity")) {
+                val lines = i.toString().replace("\n", "")
+                val lineRegexPattern = Regex("""[0-9]{4}""")
+                return lineRegexPattern.find(lines)?.value?.toInt() ?: 0
+            }
+        }
+        return 0
+    }
 }

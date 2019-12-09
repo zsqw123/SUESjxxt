@@ -1,11 +1,10 @@
 package com.jxxt.sues.widget
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 
-import java.lang.reflect.Field
-import java.lang.reflect.Method
-
+@SuppressLint("Registered")
 class Utils private constructor() :Application(){
 
     companion object {

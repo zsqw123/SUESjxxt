@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
     //read and judge
     private lateinit var file: File
     private lateinit var colorString: File
-    private lateinit var weekNow: File
     private lateinit var content: List<Item>
 
     private var hadCycled = false
@@ -148,7 +147,6 @@ class MainActivity : AppCompatActivity() {
         //定义Flies目录
         file = File(filesDir, "/a")
         colorString = File(filesDir, "/color")
-        weekNow = File(filesDir, "weekNow")
         //loading...
         progressBar.visibility = View.VISIBLE
         window.setFlags(
@@ -157,18 +155,12 @@ class MainActivity : AppCompatActivity() {
         )
         if (!file.exists()) startActivity<NewAct>() else {
             val text = file.readText()
-            val weeknow = if (weekNow.exists()) weekNow.readText() else {
-                val cal = Calendar.getInstance()
-                cal.firstDayOfWeek = Calendar.MONDAY
-                cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-                SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(cal.time)
-            }
             //主列表视图显示
-            content = Show().textShow(text, weeknow)
+            content = Show().textShow(text)
             mainView.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
-                adapter = MainAdapter(context, content)
+                adapter = MainAdapter(context, content, FindContext().getToyear(text))
                 addOnScrollListener(RecListener(fab0))
             }
         }

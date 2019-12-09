@@ -17,7 +17,6 @@ class Settings : Activity() {
     //read and judge
     private lateinit var file: File
     private lateinit var colorString: File
-    private lateinit var weekNow: File
 
 
     private val colorNameList = listOf("简洁白", "少女粉", "夜间模式", "姨妈红", "咸蛋黄", "早苗绿", "胖次蓝", "基佬紫")
@@ -45,20 +44,6 @@ class Settings : Activity() {
         setContentView(R.layout.settings)
         //定义Flies目录
         file = File(filesDir, "/a")
-        weekNow = File(filesDir, "weekNow")
-        doAsync {
-            if (weekNow.exists()) {
-                val weeknow = weekNow.readText()
-                val week0 = Calendar.getInstance()
-                val date = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(weeknow)
-                week0.time = date!!
-                week0.set(Calendar.HOUR_OF_DAY, 1)
-                val now = Calendar.getInstance()
-                val a = now.timeInMillis - week0.timeInMillis
-                val week = if (a > 0) (a / (24 * 3600000)).toInt() / 7 else (a / (24 * 3600000)).toInt() / 7 - 1
-                text_week.text = "当前第${week}周"
-            }
-        }
 
         //导入课程
         text_import.setOnClickListener {
@@ -86,12 +71,21 @@ class Settings : Activity() {
                             if (task.text.toString().isEmpty()) {
                                 toast("没当前周你玩个鸡儿??及你太美")
                             } else {
-                                val weeknow = task.text.toString().toInt()
-                                val week0 = Calendar.getInstance(Locale.CHINA)
-                                week0.firstDayOfWeek = Calendar.MONDAY
-                                week0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-                                week0.add(Calendar.DATE, -7 * weeknow)
-                                weekNow.writeText(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(week0.time))
+                                val weeknowWeek = task.text.toString().toInt()
+                                val weeknowDate = Calendar.getInstance(Locale.CHINA)
+                                //获得当前年周一日期
+                                val cal = Calendar.getInstance()
+                                cal.set(cal.get(Calendar.YEAR), 0, 1, 0, 0, 0)
+                                cal.firstDayOfWeek = Calendar.MONDAY
+                                cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+                                //Week0's Week
+                                val w0: Calendar = weeknowDate
+                                w0.firstDayOfWeek = Calendar.MONDAY
+                                w0.add(Calendar.DATE, -7 * weeknowWeek)
+                                w0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+                                val w0w = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(w0.time)
+                                val w0wFile = File(filesDir, "/weekNow")
+                                w0wFile.writeText(w0w)
                                 toast("设置成功 当前第 ${task.text} 周")
                                 startActivity(intentFor<MainActivity>().newTask().clearTask())
                             }
@@ -100,13 +94,21 @@ class Settings : Activity() {
                             if (task.text.toString().isEmpty()) {
                                 toast("没当前周你玩个鸡儿??及你太美")
                             } else {
-                                val a = "-" + task.text.toString()
-                                val weeknow = a.toInt()
-                                val week0 = Calendar.getInstance(Locale.CHINA)
-                                week0.firstDayOfWeek = Calendar.MONDAY
-                                week0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-                                week0.add(Calendar.DATE, -7 * weeknow)
-                                weekNow.writeText(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(week0.time))
+                                val weeknowWeek = -task.text.toString().toInt()
+                                val weeknowDate = Calendar.getInstance(Locale.CHINA)
+                                //获得当前年周一日期
+                                val cal = Calendar.getInstance()
+                                cal.set(cal.get(Calendar.YEAR), 0, 1, 0, 0, 0)
+                                cal.firstDayOfWeek = Calendar.MONDAY
+                                cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+                                //Week0's Week
+                                val w0: Calendar = weeknowDate
+                                w0.firstDayOfWeek = Calendar.MONDAY
+                                w0.add(Calendar.DATE, -7 * weeknowWeek)
+                                w0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+                                val w0w = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(w0.time)
+                                val w0wFile = File(filesDir, "/weekNow")
+                                w0wFile.writeText(w0w)
                                 toast("设置成功 当前第 -${task.text} 周")
                                 startActivity(intentFor<MainActivity>().newTask().clearTask())
                             }

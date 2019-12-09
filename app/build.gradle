@@ -56,6 +56,7 @@ dependencies {
 
     implementation "org.jetbrains.anko:anko:0.10.8"
     implementation 'org.jsoup:jsoup:1.12.1'
+
     implementation 'org.mnode.ical4j:ical4j:3.0.9'//icalendar
     implementation 'org.slf4j:slf4j-api:2.0.0-alpha0'//icalendar依赖
     implementation 'org.slf4j:slf4j-log4j12:2.0.0-alpha0'//icalendar依赖
@@ -64,10 +65,14 @@ dependencies {
 //    implementation 'androidx.ui:ui-tooling:0.1.0-dev02'
 //    implementation 'androidx.ui:ui-layout:0.1.0-dev02'
 //    implementation 'androidx.ui:ui-material:0.1.0-dev02'
-
+    //test
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation 'com.tencent.bugly:crashreport:latest.release'
-    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+    //bugly
+    implementation 'com.tencent.bugly:crashreport:3.1.0'
+    implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
+
+    //requests
+    implementation "net.dongliu:requests:5.0.7"
 }

@@ -21,13 +21,8 @@ class ToCalendar : AppCompatActivity() {
         setContentView(R.layout.to_calendar)
         //定义Flies目录
         val file = File(filesDir, "/a")
-        val weekNow = File(filesDir, "weekNow")
         val text = file.readText()
-        val cal = Calendar.getInstance()
-        cal.firstDayOfWeek = Calendar.MONDAY
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-        val weeknow = if (weekNow.exists()) weekNow.readText() else SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(cal.time)
-        val content = Show().textShow(text, weeknow)
+        val content = Show().textShow(text)
 
         toics_share.setOnClickListener {
             if (!file.exists()) startActivity<NewAct>() else {
