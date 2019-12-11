@@ -6,6 +6,7 @@
 
 --------
 目前处于测试阶段 部分机型可能闪退 建议使用bugly版本帮助测试 感谢!
+感谢GammaPi大佬的[S2C工具](https://github.com/GammaPi/SUES-S2C-Tool)帮助，我将其python代码重构为了kotlin代码并做了移动端界面优化
 
 ![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/1.png)
 
