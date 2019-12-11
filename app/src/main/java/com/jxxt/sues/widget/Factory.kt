@@ -19,7 +19,7 @@ class Factory(private val mContext: Context, intent: Intent) : RemoteViewsServic
     override fun onCreate() {
         //定义Flies目录
         val filesDir = mContext.filesDir
-        val file = File(filesDir, "/a")
+        val file = File(filesDir, "/classJs")
         //loading...
         if (file.exists()) {
             val text = file.readText()

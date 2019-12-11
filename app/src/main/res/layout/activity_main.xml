@@ -90,11 +90,23 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/nowbar_class"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:text="hhh"
                     android:textSize="15sp" />
+
+<!--            <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:id="@+id/card_balance_text"-->
+<!--                    android:layout_marginStart="20dp"-->
+<!--                    android:layout_marginEnd="20dp"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:text="yueeeeeeee"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:layout_below="@id/nowbar_remain"/>-->
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

@@ -7,6 +7,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jxxt.sues.getpage.GetPage
 import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
@@ -134,7 +135,7 @@ class MainActivity : AppCompatActivity() {
         CrashReport.initCrashReport(applicationContext, "85638bad59", false)
 
         //定义Flies目录
-        file = File(filesDir, "/a")
+        file = File(filesDir, "/classJs")
         colorString = File(filesDir, "/color")
         //loading...
         progressBar.visibility = View.VISIBLE
@@ -142,7 +143,7 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         )
-        if (!file.exists()) startActivity<NewAct>() else {
+        if (!file.exists()) startActivity<GetPage>() else {
             val text = file.readText()
             //主列表视图显示
             content = Show().textShow(text)

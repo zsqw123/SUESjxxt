@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import com.jxxt.sues.getpage.GetPage
 import kotlinx.android.synthetic.main.settings.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -47,9 +48,8 @@ class Settings : Activity() {
 
         //导入课程
         text_import.setOnClickListener {
-            startActivity<NewAct>()
+            startActivity<GetPage>()
         }
-
         //当前周
         text_week.setOnClickListener {
             alert {
@@ -148,6 +148,11 @@ class Settings : Activity() {
                                 browse(qq)
                             }
                         }
+                        button("debug"){
+                            onClick {
+                                startActivity<GetPage>()
+                            }
+                        }
                     }
                 }
             }.show()
@@ -162,6 +167,7 @@ class Settings : Activity() {
                 window.statusBarColor = Color.TRANSPARENT
                 colorString = File(filesDir, "/color")
                 colorString.writeText(primeColor.toString())
+                toast("建议在颜色设置更改之后重启APP")
 //                startActivity(intentFor<MainActivity>().newTask().clearTask())
                 restartApp()
             }
@@ -197,6 +203,7 @@ class Settings : Activity() {
                                 window.statusBarColor = Color.TRANSPARENT
                                 colorString = File(filesDir, "/color")
                                 colorString.writeText(primeColor.toString())
+                                toast("建议在颜色设置更改之后重启APP")
 //                                startActivity(intentFor<MainActivity>().newTask().clearTask())
                                 restartApp()
                             }
@@ -206,9 +213,11 @@ class Settings : Activity() {
             }.show()
             true
         }
+        //导出ICS
         text_ex.setOnClickListener {
             startActivity<ToCalendar>()
         }
+
     }
 
     private fun restartApp() {

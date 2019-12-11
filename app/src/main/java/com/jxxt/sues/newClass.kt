@@ -125,19 +125,7 @@ class NewAct : AppCompatActivity() {
                 try {
                     Thread.sleep(5000)
                     textView2.text = str1
-                    val content = FindContext().resolveClasses(str1)
-                    var text = ""
-                    if (content == null) {
-                        text = "未获取到数据(或延迟大于5s) 请检查所选学期是否有课程"
-                    } else {
-                        content.forEach {
-                            text = it
-                        }
-                    }
-
-                    val file = File(filesDir, "/a")
-                    file.writeText(str1)
-                    textView2.text = text
+                    FindContext().resolveClasses(str1)
                     Thread.sleep(1000)
                     startActivity(intentFor<MainActivity>().newTask().clearTask())
                 } catch (e: Exception) {

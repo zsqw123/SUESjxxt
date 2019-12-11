@@ -34,7 +34,6 @@ class SwitchToCourse(private val input: MutableList<String>?) {
             val map = mutableMapOf<Course, String>()
             input.forEach {
                 val aClass = it//一个课程
-                println(it)
                 //课程时间相关信息
                 val whichAndWeekxRegexPattern = Regex("""index =.*?;""")
                 val whichAndWeekxPattern = Regex("""\d""")//which weekX
@@ -44,7 +43,6 @@ class SwitchToCourse(private val input: MutableList<String>?) {
                 if (whichAndWeekxRegex != null) {
                     whichAndWeekxPattern.findAll(whichAndWeekxRegex).forEach { s ->
                         whichAndWeekx += s.value
-                        println(s.value)
                     }
                 }
                 val which = whichAndWeekx[1].toInt() + 1 // Which:第几节课 0
@@ -64,7 +62,6 @@ class SwitchToCourse(private val input: MutableList<String>?) {
                     wk += s.value
                 }
 
-                println("$weekX $which $room $courseName")
                 map[Course(weekX, which, wk, room, teacher)] = courseName
             }
             return map
@@ -122,7 +119,6 @@ class CourseToDate(private val name: String, private val course: Course) {
         for (i in dateList) {
             //i时间应该上名为name的课
             map[i] = "$room $name"
-//            println("$i $room $name")
         }
         return map
     }

@@ -29,7 +29,9 @@
         </activity>
         <activity android:name=".NewAct" />
         <activity android:name=".ToCalendar" />
-        <activity android:name=".Settings" /> <!-- 广播接收器 -->
+        <activity android:name=".Settings" />
+        <activity android:name=".getpage.GetPage" />
+        <!-- 广播接收器 -->
         <receiver android:name=".widget.NewAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
