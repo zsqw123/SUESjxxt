@@ -44,8 +44,7 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         uiThread {
                             nowbar_time.text = SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(Date())
-//                            val haveNext = content[a + 1].name.isEmpty()
-                            val remain = (content[a + 1].date.time - Date().time) / 1000
+                            val remain = (content[a].date.time - Date().time) / 1000
                             if (remain < 0) {
                                 nowbar_remain.text = "距离上课还剩我也不知道多长时间"
                                 nowbar_class.text = "暂无更多课程\n请调整当前周或下学期见"
