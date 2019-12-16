@@ -28,12 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- 活动列表 -->
-        <!--        <activity android:name=".MainActivity">-->
-        <!--        </activity>-->
         <activity android:name=".NewAct" />
         <activity android:name=".ToCalendar" />
-        <!--        <activity android:name=".Settings" />-->
         <activity android:name=".getpage.GetPage" />
         <receiver android:name=".widget.NewAppWidget"> <!-- 广播接收器 -->
             <intent-filter>

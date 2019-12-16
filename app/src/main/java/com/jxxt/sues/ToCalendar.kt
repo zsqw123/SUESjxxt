@@ -12,8 +12,6 @@ import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ToCalendar : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

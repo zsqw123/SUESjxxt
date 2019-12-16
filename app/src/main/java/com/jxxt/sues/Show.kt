@@ -2,7 +2,6 @@ package com.jxxt.sues
 
 import com.jxxt.sues.widget.Utils
 import org.jetbrains.anko.toast
-import java.time.DayOfWeek
 import java.util.*
 
 class Show {
