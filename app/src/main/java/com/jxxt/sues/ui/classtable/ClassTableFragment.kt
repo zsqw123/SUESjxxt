@@ -1,34 +1,35 @@
-package com.jxxt.sues
+package com.jxxt.sues.ui.classtable
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
 import androidx.core.graphics.ColorUtils
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jxxt.sues.*
 import com.jxxt.sues.getpage.GetPage
-import com.tencent.bugly.crashreport.CrashReport
+import com.jxxt.sues.widget.Utils
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.uiThread
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-//nonUsed
-class MainActivity : AppCompatActivity() {
-    //read and judge
-    private lateinit var file: File
-    private lateinit var colorString: File
+class ClassTableFragment : Fragment() {
     private lateinit var content: List<Item>
-
     private var hadCycled = false
     private var a = 0
 
     private fun timeCycle() {
         if (!hadCycled) {
             doAsync {
-                while (true) {
+                while (nowbar_time != null) {
                     val nowClassDate = content[a].date.time
                     val nowClassDateEnd = content[a].date.time + 5400000
                     if (Date().time in nowClassDate until nowClassDateEnd) {
@@ -42,6 +43,10 @@ class MainActivity : AppCompatActivity() {
                             nowbar_remain.text = "离下课仅剩 ${remainH.toInt()}小时${remainM.toInt()}分${remainS.toInt()}秒"
                         }
                     } else {
+                        if (nowbar_time == null) {
+                            Thread.sleep(1000)
+                            continue
+                        }
                         uiThread {
                             nowbar_time.text = SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(Date())
                             val remain = (content[a].date.time - Date().time) / 1000
@@ -85,9 +90,34 @@ class MainActivity : AppCompatActivity() {
     private val colorList = listOf("#F4F4F4", "#FA7298", "#2D2D2D", "#F44236", "#FEC107", "#8BC24A", "#2196F3", "#9C28B1")
     private val stausColorList = listOf("#E6E6E6", "#FB628D", "#1D1D1D", "#F23022", "#EEB507", "#7FB83C", "#148EEE", "#9121A6")
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (file.exists()) {
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.activity_main, container, false)
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val myContext = Utils.getContext()
+        val file = File(myContext.filesDir, "/classJs")
+        val colorString = File(myContext.filesDir, "/color")
+
+        if (!file.exists()) {
+            //loaded
+            progressBar.visibility = View.INVISIBLE
+            startActivity<GetPage>()
+        } else {
+            val text = file.readText()
+            //主列表视图显示
+            content = Show().textShow(text)
+            mainView.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(context)
+                adapter = MainAdapter(context, content, FindContext().getToyear(text))
+            }
             doAsync {
                 //ColorSettings
                 if (colorString.exists()) {
@@ -96,11 +126,6 @@ class MainActivity : AppCompatActivity() {
                         if (Color.parseColor(colorList[i]) == primeColor) {
                             //判断是否dark色系对任务栏图标显示颜色作出更改
                             val dark = ColorUtils.calculateLuminance(Color.parseColor(stausColorList[i])) <= 0.3
-                            uiThread {
-                                window.statusBarColor = Color.parseColor(stausColorList[i])
-                                window.decorView.systemUiVisibility = if (dark) View.SYSTEM_UI_FLAG_VISIBLE
-                                else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                            }
                         }
                     }
                     uiThread {
@@ -124,50 +149,12 @@ class MainActivity : AppCompatActivity() {
                     findToday()
                 }
             }
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        CrashReport.initCrashReport(applicationContext, "85638bad59", false)
-
-        //定义Flies目录
-        file = File(filesDir, "/classJs")
-        colorString = File(filesDir, "/color")
-        //loading...
-        progressBar.visibility = View.VISIBLE
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-        )
-        if (!file.exists()) {
             //loaded
             progressBar.visibility = View.INVISIBLE
-            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-            startActivity<GetPage>()
-        } else {
-            val text = file.readText()
-            //主列表视图显示
-            content = Show().textShow(text)
-            mainView.apply {
-                setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(context)
-                adapter = MainAdapter(context, content, FindContext().getToyear(text))
-//                addOnScrollListener(RecListener(fab0))
-            }
-            //loaded
-            progressBar.visibility = View.INVISIBLE
-            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
-//        fab0.setOnClickListener {
-//            startActivity<Settings>()
-//        }
-//        fab0.setOnLongClickListener {
-//            findToday()
-//            toast("已回到今日日程")
-//            true
-//        }
+        nowbar_class.setOnClickListener {
+            findToday()
+            toast("已回到今日日程")
+        }
     }
 }

@@ -1,51 +1,47 @@
-package com.jxxt.sues
+package com.jxxt.sues.ui.settings
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.jxxt.sues.R
+import com.jxxt.sues.ToCalendar
 import com.jxxt.sues.getpage.GetPage
+import com.jxxt.sues.widget.Utils
 import kotlinx.android.synthetic.main.settings.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.support.v4.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-////nonUsed
-class Settings : Activity() {
+class SettingsFragment : Fragment() {
+
     //read and judge
     private lateinit var file: File
     private lateinit var colorString: File
 
-
     private val colorNameList = listOf("简洁白", "少女粉", "夜间模式", "姨妈红", "咸蛋黄", "早苗绿", "胖次蓝", "基佬紫")
     private val colorList = listOf("#F4F4F4", "#FA7298", "#2D2D2D", "#F44236", "#FEC107", "#8BC24A", "#2196F3", "#9C28B1")
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        colorString = File(filesDir, "/color")
-        //ColorSettings
-        if (colorString.exists()) {
-            val primeColor: Int = colorString.readText().toInt()
-            fab_theme.background.setTint(primeColor)
-            window.statusBarColor = Color.TRANSPARENT
-            for (i in colorList.indices) {
-                if (Color.parseColor(colorList[i]) == primeColor) {
-                    text_theme.text = colorNameList[i]
-                }
-                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            }
-        }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.settings, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.settings)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val myContext = Utils.getContext()
         //定义Flies目录
-        file = File(filesDir, "/a")
+        file = File(myContext.filesDir, "/a")
 
         //导入课程
         text_import.setOnClickListener {
@@ -85,10 +81,10 @@ class Settings : Activity() {
                                 w0.add(Calendar.DATE, -7 * weeknowWeek)
                                 w0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
                                 val w0w = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(w0.time)
-                                val w0wFile = File(filesDir, "/weekNow")
+                                val w0wFile = File(myContext.filesDir, "/weekNow")
                                 w0wFile.writeText(w0w)
                                 toast("设置成功 当前第 ${task.text} 周")
-//                                startActivity(intentFor<MainActivity>().newTask().clearTask())
+                                //startActivity(intentFor<MainActivity>().newTask().clearTask())
                                 restartApp()
                             }
                         }
@@ -109,10 +105,10 @@ class Settings : Activity() {
                                 w0.add(Calendar.DATE, -7 * weeknowWeek)
                                 w0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
                                 val w0w = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(w0.time)
-                                val w0wFile = File(filesDir, "/weekNow")
+                                val w0wFile = File(myContext.filesDir, "/weekNow")
                                 w0wFile.writeText(w0w)
                                 toast("设置成功 当前第 -${task.text} 周")
-//                                startActivity(intentFor<MainActivity>().newTask().clearTask())
+                                //startActivity(intentFor<MainActivity>().newTask().clearTask())
                                 restartApp()
                             }
                         }
@@ -149,7 +145,7 @@ class Settings : Activity() {
                                 browse(qq)
                             }
                         }
-                        button("debug"){
+                        button("debug") {
                             onClick {
                                 startActivity<GetPage>()
                             }
@@ -165,8 +161,7 @@ class Settings : Activity() {
                 text_theme.text = " ${colorNameList[i]} "
                 val primeColor: Int = Color.parseColor(colorList[i])
                 fab_theme.background.setTint(primeColor)
-                window.statusBarColor = Color.TRANSPARENT
-                colorString = File(filesDir, "/color")
+                colorString = File(myContext.filesDir, "/color")
                 colorString.writeText(primeColor.toString())
                 toast("建议在颜色设置更改之后重启APP")
 //                startActivity(intentFor<MainActivity>().newTask().clearTask())
@@ -201,11 +196,10 @@ class Settings : Activity() {
                                 text_theme.text = task.text.toString()
                                 val primeColor: Int = Color.parseColor(task.text.toString())
                                 fab_theme.background.setTint(primeColor)
-                                window.statusBarColor = Color.TRANSPARENT
-                                colorString = File(filesDir, "/color")
+                                colorString = File(myContext.filesDir, "/color")
                                 colorString.writeText(primeColor.toString())
                                 toast("建议在颜色设置更改之后重启APP")
-//                                startActivity(intentFor<MainActivity>().newTask().clearTask())
+                                //startActivity(intentFor<MainActivity>().newTask().clearTask())
                                 restartApp()
                             }
                         }
@@ -222,6 +216,7 @@ class Settings : Activity() {
     }
 
     private fun restartApp() {
-        startActivity(packageManager.getLaunchIntentForPackage(packageName)?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        val myContext = Utils.getContext()
+        startActivity(myContext.packageManager.getLaunchIntentForPackage(myContext.packageName)?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
     }
 }

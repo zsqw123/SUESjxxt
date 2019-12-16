@@ -5,10 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageView
-import com.jxxt.sues.FindContext
-import com.jxxt.sues.MainActivity
-import com.jxxt.sues.NewAct
-import com.jxxt.sues.R
+import com.jxxt.sues.*
 import com.jxxt.sues.widget.Utils
 import net.dongliu.requests.Requests
 import org.jetbrains.anko.*
@@ -85,7 +82,7 @@ class GetPage : Activity() {
                                                     getCaptha()
                                                     doAsync {
                                                         Thread.sleep(1000)
-                                                        startActivity<MainActivity>()
+                                                        startActivity<HomePage>()
                                                     }
                                                 }
                                             }

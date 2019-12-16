@@ -41,10 +41,15 @@ class Factory(private val mContext: Context, intent: Intent) : RemoteViewsServic
         // 获取 item 对应的RemoteViews
         val rvItem = RemoteViews(mContext.packageName, R.layout.widget_list_item)
         // 设置 第position位的“视图”的数据
-        val date = SimpleDateFormat("MM/dd\nHH:mm", Locale.CHINA).format(data[p0].date)
-        val name = data[p0].name
-        rvItem.setTextViewText(R.id.widget_date, date)
-        rvItem.setTextViewText(R.id.widget_name, name)
+        try {
+            val date = SimpleDateFormat("MM/dd\nHH:mm", Locale.CHINA).format(data[p0].date)
+            val name = data[p0].name
+            rvItem.setTextViewText(R.id.widget_date, date)
+            rvItem.setTextViewText(R.id.widget_name, name)
+        } catch (e: Exception) {
+            rvItem.setTextViewText(R.id.widget_date, "NaN")
+            rvItem.setTextViewText(R.id.widget_name, "暂无课程")
+        }
         if (p0 == 0) {
             rvItem.setTextColor(R.id.widget_name, Color.parseColor("#BA9063"))
         } else {

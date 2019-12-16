@@ -36,23 +36,23 @@ class MainAdapter(private val context: Context, private val dataList: List<Item>
 }
 
 //滚动隐藏FAB
-class RecListener(private val fab: FloatingActionButton) : RecyclerView.OnScrollListener() {
-    private var distance = 0
-    private var visiable = true
-
-    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-        super.onScrolled(recyclerView, dx, dy)
-        if (distance > 10 && visiable) {
-            visiable = false
-            fab.hide()
-            distance = 0
-        } else if (distance < -20 && !visiable) {
-            visiable = true
-            fab.show()
-            distance = 0
-        }
-        if ((visiable && dy > 0) || (!visiable && dy < 0)) {
-            distance += dy
-        }
-    }
-}
+//class RecListener(private val fab: FloatingActionButton) : RecyclerView.OnScrollListener() {
+//    private var distance = 0
+//    private var visiable = true
+//
+//    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//        super.onScrolled(recyclerView, dx, dy)
+//        if (distance > 10 && visiable) {
+//            visiable = false
+//            fab.hide()
+//            distance = 0
+//        } else if (distance < -20 && !visiable) {
+//            visiable = true
+//            fab.show()
+//            distance = 0
+//        }
+//        if ((visiable && dy > 0) || (!visiable && dy < 0)) {
+//            distance += dy
+//        }
+//    }
+//}
