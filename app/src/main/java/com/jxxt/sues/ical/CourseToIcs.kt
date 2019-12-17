@@ -12,7 +12,7 @@ import java.io.FileOutputStream
 
 class ExIcs {
     lateinit var expath: File
-    fun ex(list: List<Item>) {
+    fun ex(list: List<Item>, extraTime: Int = 0) {
         // 创建日历
         val calendar = Calendar()
         calendar.properties.add(ProdId("iCal4j 3.0.9//EN"))
@@ -22,7 +22,7 @@ class ExIcs {
             // 时间主题
             val summary = i.name
             // 新建普通事件
-            val event = VEvent(DateTime(i.date.time), DateTime(i.date.time + 5400000L), summary)
+            val event = VEvent(DateTime(i.date.time - extraTime), DateTime(i.date.time + 5400000L - extraTime), summary)
             // 生成唯一标示
             event.properties.add(Uid("iCal4j"))
             // 添加事件

@@ -7,20 +7,28 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="导出目录为内置储存\n/Android/data/com.suesjxxt/suesjxxt/1.ics"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="导出目录为内置储存\n/Android/data/com.suesjxxt/suesjxxt/1.ics" />
+
+    <EditText
+            android:id="@+id/extra_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="每节课提前提醒时间 单位:分钟 默认0"
+            android:inputType="number"/>
 
     <Button
+            android:id="@+id/toics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="导出ICS文件"
-            android:id="@+id/toics"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false" />
+
     <Button
+            android:id="@+id/toics_share"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="导出ICS文件 并分享到其他设备 or APP"
-            android:id="@+id/toics_share"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
