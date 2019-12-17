@@ -36,8 +36,14 @@ release下载地址[蓝奏网盘](https://www.lanzous.com/b0d6v7eb) 密码:sues
     最新版本可以自定义主题颜色
 ![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/3.png)
 
+## Dependency
 
-
+- anko https://github.com/Kotlin/anko
+- Jsoup https://github.com/jhy/jsoup
+- Tencent bugly
+- ical4j https://github.com/ical4j/ical4j
+- junit
+- requests https://github.com/hsiafan/requests
 
 
 
