@@ -18,6 +18,7 @@ import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.uiThread
 import java.io.File
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,31 +35,33 @@ class ClassTableFragment : Fragment() {
                     val nowClassDateEnd = content[a].date.time + 5400000
                     if (Date().time in nowClassDate until nowClassDateEnd) {
                         uiThread {
-                            nowbar_time.text = SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(Date())
-                            nowbar_class.text = "当前正在上课:\n" + content[a - 1].name
-                            val remain = (nowClassDateEnd - Date().time) / 1000
-                            val remainH = remain / 3600
-                            val remainM = (remain % 3600) / 60
-                            val remainS = (remain % 3600) % 60
-                            nowbar_remain.text = "离下课仅剩 ${remainH.toInt()}小时${remainM.toInt()}分${remainS.toInt()}秒"
-                        }
-                    } else {
-                        if (nowbar_time == null) {
-                            Thread.sleep(1000)
-                            continue
-                        }
-                        uiThread {
-                            nowbar_time.text = SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(Date())
-                            val remain = (content[a].date.time - Date().time) / 1000
-                            if (remain < 0) {
-                                nowbar_remain.text = "距离上课还剩我也不知道多长时间"
-                                nowbar_class.text = "暂无更多课程\n请调整当前周或下学期见"
-                            } else {
+                            try {
+                                nowbar_time.text = SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(Date())
+                                nowbar_class.text = "当前正在上课:\n" + content[a - 1].name
+                                val remain = (nowClassDateEnd - Date().time) / 1000
                                 val remainH = remain / 3600
                                 val remainM = (remain % 3600) / 60
                                 val remainS = (remain % 3600) % 60
-                                nowbar_class.text = "下一节课:\n" + content[a].name
-                                nowbar_remain.text = "距离上课还剩 ${remainH.toInt()}小时${remainM.toInt()}分${remainS.toInt()}秒"
+                                nowbar_remain.text = "离下课仅剩 ${remainH.toInt()}小时${remainM.toInt()}分${remainS.toInt()}秒"
+                            } catch (e: Exception) {
+                            }
+                        }
+                    } else {
+                        uiThread {
+                            try {
+                                nowbar_time.text = SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(Date())
+                                val remain = (content[a].date.time - Date().time) / 1000
+                                if (remain < 0) {
+                                    nowbar_remain.text = "距离上课还剩我也不知道多长时间"
+                                    nowbar_class.text = "暂无更多课程\n请调整当前周或下学期见"
+                                } else {
+                                    val remainH = remain / 3600
+                                    val remainM = (remain % 3600) / 60
+                                    val remainS = (remain % 3600) % 60
+                                    nowbar_class.text = "下一节课:\n" + content[a].name
+                                    nowbar_remain.text = "距离上课还剩 ${remainH.toInt()}小时${remainM.toInt()}分${remainS.toInt()}秒"
+                                }
+                            } catch (e: Exception) {
                             }
                         }
                     }
