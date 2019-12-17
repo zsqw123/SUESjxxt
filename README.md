@@ -2,7 +2,8 @@
 上海工程技术大学教学系统课程表转日程表
 
 代码位于/app
-成品位于/released
+
+release下载地址[蓝奏网盘](https://www.lanzous.com/b0d6v7eb) 密码:sues
 
 --------
 目前处于测试阶段 部分机型可能闪退 建议使用bugly版本帮助测试 感谢!
