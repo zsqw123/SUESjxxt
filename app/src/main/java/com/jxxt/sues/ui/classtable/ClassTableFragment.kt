@@ -26,7 +26,7 @@ class ClassTableFragment : Fragment() {
     private lateinit var content: List<Item>
     private var hadCycled = false
     private var a = 0
-
+    //每秒更新事件
     private fun timeCycle() {
         if (!hadCycled) {
             doAsync {
@@ -72,8 +72,8 @@ class ClassTableFragment : Fragment() {
         }
     }
 
+    //找到今日日程
     private fun findToday() {
-        //找到今日日程
         val now = Date()
         for (i in content.indices) {
             val nowClassDate = content[i].date
@@ -125,12 +125,6 @@ class ClassTableFragment : Fragment() {
                 //ColorSettings
                 if (colorString.exists()) {
                     val primeColor: Int = colorString.readText().toInt()
-                    for (i in colorList.indices) {
-                        if (Color.parseColor(colorList[i]) == primeColor) {
-                            //判断是否dark色系对任务栏图标显示颜色作出更改
-                            val dark = ColorUtils.calculateLuminance(Color.parseColor(stausColorList[i])) <= 0.3
-                        }
-                    }
                     uiThread {
                         val dark = ColorUtils.calculateLuminance(primeColor) <= 0.3
                         val ultraDark = ColorUtils.calculateLuminance(primeColor) <= 0.1

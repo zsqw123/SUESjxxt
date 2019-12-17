@@ -16,7 +16,6 @@ import org.jetbrains.anko.uiThread
 import java.io.File
 import java.util.*
 
-
 class HomePage : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,14 +39,13 @@ class HomePage : AppCompatActivity() {
                 for (i in colorList.indices) {
                     if (Color.parseColor(colorList[i]) == primeColor) {
                         //判断是否dark色系对任务栏图标显示颜色作出更改
-                        val dark = ColorUtils.calculateLuminance(Color.parseColor(stausColorList[i])) <= 0.3
+                        val dark = ColorUtils.calculateLuminance(Color.parseColor(stausColorList[i])) <= 0.4
                         uiThread {
                             window.statusBarColor = Color.parseColor(stausColorList[i])
                             window.decorView.systemUiVisibility = if (dark) View.SYSTEM_UI_FLAG_VISIBLE
                             else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-
                             val states = arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked))
-                            val colorsWhite = intArrayOf(Color.parseColor(reverse(colorList[i])), Color.parseColor(colorList[i]))
+                            val colorsWhite = intArrayOf(Color.parseColor(colorList[i]), Color.parseColor(reverse(colorList[i])))
                             val csl = ColorStateList(states, colorsWhite)
                             nav_view.itemIconTintList = csl
                             nav_view.itemTextColor = csl
@@ -63,6 +61,7 @@ class HomePage : AppCompatActivity() {
         }
     }
 
+    //取反色
     private fun reverse(str: String): String {
         val sb: StringBuilder = StringBuilder().append("#")
         val input = str.replace("#", "")

@@ -1,13 +1,11 @@
 package com.jxxt.sues.widget
 
-import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Handler
-import android.view.View
 import android.widget.RemoteViews
 import android.widget.Toast
 import com.jxxt.sues.R
@@ -21,22 +19,17 @@ class NewAppWidget : AppWidgetProvider() {
     //加载loading
     private fun showLoading(context: Context) {
         val remoteViews = RemoteViews(context.packageName, R.layout.new_app_widget)
-        remoteViews.setViewVisibility(R.id.tv_refresh, View.VISIBLE)
-        remoteViews.setViewVisibility(R.id.progress_bar, View.VISIBLE)
-        remoteViews.setTextViewText(R.id.tv_refresh, "正在刷新...")
-        refreshWidget(context, remoteViews, false)
+        refreshWidget(context, remoteViews)
     }
 
     //隐藏loading
     private fun hideLoading(context: Context) {
         val remoteViews = RemoteViews(context.packageName, R.layout.new_app_widget)
-        remoteViews.setViewVisibility(R.id.progress_bar, View.GONE)
-        remoteViews.setTextViewText(R.id.tv_refresh, "刷新")
-        refreshWidget(context, remoteViews, false)
+        refreshWidget(context, remoteViews)
     }
 
     //刷新Widget
-    private fun refreshWidget(context: Context, remoteViews: RemoteViews, refreshList: Boolean) {
+    private fun refreshWidget(context: Context, remoteViews: RemoteViews, refreshList: Boolean = false) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
         val componentName = ComponentName(context, NewAppWidget::class.java)
         appWidgetManager.updateAppWidget(componentName, remoteViews)
@@ -73,10 +66,6 @@ class NewAppWidget : AppWidgetProvider() {
         internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
             // 获取AppWidget对应的视图
             val views = RemoteViews(context.packageName, R.layout.new_app_widget)
-            // 设置响应 “tv_refresh” 的intent
-            val tvIntent = Intent().setAction(REFRESH_WIDGET)
-            val tvPendingIntent = PendingIntent.getBroadcast(context, 0, tvIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-            views.setOnClickPendingIntent(R.id.tv_refresh, tvPendingIntent)
             //adapter
             val serviceIntent = Intent(context, Service::class.java)
             views.setRemoteAdapter(R.id.lv_widget, serviceIntent)
