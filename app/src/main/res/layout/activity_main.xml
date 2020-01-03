@@ -26,18 +26,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-<!--    &lt;!&ndash;fab0&ndash;&gt;-->
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:id="@+id/fab0"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginEnd="16dp"-->
-
-<!--            android:layout_marginBottom="16dp"-->
-<!--            android:src="@drawable/settings"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent" />-->
-
     <androidx.cardview.widget.CardView
             android:id="@+id/float_card"
             android:layout_width="match_parent"

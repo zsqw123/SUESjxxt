@@ -31,6 +31,8 @@
         <activity android:name=".NewAct" />
         <activity android:name=".ToCalendar" />
         <activity android:name=".getpage.GetPage" />
+        <activity android:name=".ical.IcsInput" />
+
         <receiver android:name=".widget.NewAppWidget"> <!-- 广播接收器 -->
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.jxxt.sues.R
 import com.jxxt.sues.ToCalendar
 import com.jxxt.sues.getpage.GetPage
+import com.jxxt.sues.ical.IcsInput
 import com.jxxt.sues.widget.Utils
 import kotlinx.android.synthetic.main.settings.*
 import org.jetbrains.anko.*
@@ -212,7 +213,9 @@ class SettingsFragment : Fragment() {
         text_ex.setOnClickListener {
             startActivity<ToCalendar>()
         }
-
+        text_ics_in.setOnClickListener {
+            startActivity<IcsInput>()
+        }
     }
 
     private fun restartApp() {
