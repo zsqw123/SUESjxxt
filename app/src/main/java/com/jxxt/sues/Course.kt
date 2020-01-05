@@ -112,7 +112,6 @@ class CourseToDate(private val name: String, private val course: Course) {
         val weekX = course.WeekX
         val week = course.Week
         val room = course.Room
-        val which = course.Which
         val map: MutableMap<Date, String> = mutableMapOf()
         val dateList = weekToDateList(weekNow, weekX, week, room)
 
