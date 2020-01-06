@@ -143,6 +143,9 @@ class IcsInput : AppCompatActivity() {
                 arrayOf(Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR), 0
             )
         }
+        if (CalendarProviderManager.isEventAlreadyExist(context, input.start, input.end, input.theme)) {
+            return
+        }
         CalendarProviderManager.addCalendarEvent(
             context,
             CalendarEvent(input.theme, input.discri, input.location, input.start, input.end, input.remindersMinutes, null)
