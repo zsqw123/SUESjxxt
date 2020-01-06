@@ -1,5 +1,7 @@
 package com.jxxt.sues
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -12,12 +14,12 @@ import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.activity_home_page.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import java.io.File
 import java.util.*
 
 class HomePage : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
@@ -57,6 +59,18 @@ class HomePage : AppCompatActivity() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,       grantResults: IntArray) {
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED
+                && permissions[0] == Manifest.permission.WRITE_CALENDAR) {
+                toast("permission       granted")
+            } else{
+                toast("permission denied")
             }
         }
     }

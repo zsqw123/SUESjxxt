@@ -8,8 +8,12 @@ import android.view.ViewGroup
 import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jxxt.sues.*
+import com.jxxt.sues.Item
+import com.jxxt.sues.MainAdapter
+import com.jxxt.sues.R
+import com.jxxt.sues.Show
 import com.jxxt.sues.getpage.GetPage
+import com.jxxt.sues.ical.IcsToDateMap
 import com.jxxt.sues.widget.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.backgroundColor
@@ -18,7 +22,6 @@ import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.uiThread
 import java.io.File
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -90,37 +93,23 @@ class ClassTableFragment : Fragment() {
         timeCycle()
     }
 
-    private val colorList = listOf("#F4F4F4", "#FA7298", "#2D2D2D", "#F44236", "#FEC107", "#8BC24A", "#2196F3", "#9C28B1")
-    private val stausColorList = listOf("#E6E6E6", "#FB628D", "#1D1D1D", "#F23022", "#EEB507", "#7FB83C", "#148EEE", "#9121A6")
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.activity_main, container, false)
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         val myContext = Utils.getContext()
         val file = File(myContext.filesDir, "/classJs")
         val colorString = File(myContext.filesDir, "/color")
+        val icsStorePath = File(myContext.filesDir, "/icsSelf")
+        val item = mutableListOf<Item>()
 
-        if (!file.exists()) {
-            //loaded
-            progressBar.visibility = View.INVISIBLE
-            startActivity<GetPage>()
-        } else {
-            val text = file.readText()
-            //主列表视图显示
-            content = Show().textShow(text)
-            mainView.apply {
-                setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(context)
-                adapter = MainAdapter(context, content, FindContext().getToyear(text))
-            }
+        fun setColor() {
             doAsync {
                 //ColorSettings
                 if (colorString.exists()) {
@@ -146,6 +135,40 @@ class ClassTableFragment : Fragment() {
                     findToday()
                 }
             }
+        }
+
+        if (!file.exists()) {
+            if (!icsStorePath.exists()) {
+                doAsync {
+                    val myEventList = IcsToDateMap().b()
+                    myEventList.forEach {
+                        val date = Date()
+                        date.time = it.start
+                        item += Item(date, it.discri + it.theme)
+                    }
+                    uiThread {
+                        mainView.apply {
+                            setHasFixedSize(true)
+                            layoutManager = LinearLayoutManager(context)
+                            adapter = MainAdapter(context, item)
+                        }
+                        setColor()
+                    }
+                }
+            }
+            //loaded
+            progressBar.visibility = View.INVISIBLE
+            startActivity<GetPage>()
+        } else {
+            val text = file.readText()
+            //主列表视图显示
+            content = Show().textShow(text)
+            mainView.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(context)
+                adapter = MainAdapter(context, content)
+            }
+            setColor()
             //loaded
             progressBar.visibility = View.INVISIBLE
         }

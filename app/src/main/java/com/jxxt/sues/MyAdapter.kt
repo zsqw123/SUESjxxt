@@ -8,7 +8,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainAdapter(private val context: Context, private val dataList: List<Item>, private val toyearInput: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MainAdapter(private val context: Context, private val dataList: List<Item>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return Holder(ListItem(context))
     }
