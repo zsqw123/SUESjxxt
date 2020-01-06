@@ -735,7 +735,7 @@ object CalendarProviderManager {
                         CalendarContract.Events.LAST_DATE
                     )
                 )
-                calendarEvent.organizer = cursor.getString(
+                calendarEvent.organizer0 = cursor.getString(
                     cursor.getColumnIndex(
                         CalendarContract.Events.ORGANIZER
                     )
@@ -837,7 +837,7 @@ object CalendarProviderManager {
             event.put(
                 CalendarContract.Events.RRULE,
                 getFullRRuleForRRule(
-                    calendarEvent.rRule,
+                    calendarEvent.rRule!!,
                     calendarEvent.start, calendarEvent.end
                 )
             )
