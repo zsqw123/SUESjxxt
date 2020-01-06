@@ -138,7 +138,7 @@ class ClassTableFragment : Fragment() {
         }
 
         if (!file.exists()) {
-            if (!icsStorePath.exists()) {
+            if (icsStorePath.exists()) {
                 doAsync {
                     val myEventList = IcsToDateMap().b()
                     myEventList.forEach {
@@ -146,6 +146,7 @@ class ClassTableFragment : Fragment() {
                         date.time = it.start
                         item += Item(date, it.discri + it.theme)
                     }
+                    content = item
                     uiThread {
                         mainView.apply {
                             setHasFixedSize(true)
@@ -158,7 +159,6 @@ class ClassTableFragment : Fragment() {
             }
             //loaded
             progressBar.visibility = View.INVISIBLE
-            startActivity<GetPage>()
         } else {
             val text = file.readText()
             //主列表视图显示
