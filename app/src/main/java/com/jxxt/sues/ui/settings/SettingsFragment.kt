@@ -1,17 +1,23 @@
 package com.jxxt.sues.ui.settings
 
-import android.content.Intent
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.jxxt.sues.HomePage
 import com.jxxt.sues.R
 import com.jxxt.sues.ToCalendar
 import com.jxxt.sues.getpage.GetPage
+import com.jxxt.sues.ical.CalendarEvent
+import com.jxxt.sues.ical.CalendarProviderManager
 import com.jxxt.sues.ical.IcsInput
+import com.jxxt.sues.ical.IcsToDateMap
 import com.jxxt.sues.widget.Utils
 import kotlinx.android.synthetic.main.settings.*
 import org.jetbrains.anko.*
@@ -46,7 +52,10 @@ class SettingsFragment : Fragment() {
 
         //导入课程
         text_import.setOnClickListener {
-            startActivity<GetPage>()
+            selector("选择导入方式", listOf("从ics文件导入", "从SUES(上海工程技术大学)课程表导入")) { _, i ->
+                if (i == 0) startActivity<IcsInput>()
+                if (i == 1) startActivity<GetPage>()
+            }
         }
         //当前周
         text_week.setOnClickListener {
@@ -85,8 +94,7 @@ class SettingsFragment : Fragment() {
                                 val w0wFile = File(myContext.filesDir, "/weekNow")
                                 w0wFile.writeText(w0w)
                                 toast("设置成功 当前第 ${task.text} 周")
-                                //startActivity(intentFor<MainActivity>().newTask().clearTask())
-                                restartApp()
+                                startActivity(intentFor<HomePage>().newTask().clearTask())
                             }
                         }
                         positiveButton("OK(负周数)") {
@@ -109,8 +117,7 @@ class SettingsFragment : Fragment() {
                                 val w0wFile = File(myContext.filesDir, "/weekNow")
                                 w0wFile.writeText(w0w)
                                 toast("设置成功 当前第 -${task.text} 周")
-                                //startActivity(intentFor<MainActivity>().newTask().clearTask())
-                                restartApp()
+                                startActivity(intentFor<HomePage>().newTask().clearTask())
                             }
                         }
                     }
@@ -165,8 +172,7 @@ class SettingsFragment : Fragment() {
                 colorString = File(myContext.filesDir, "/color")
                 colorString.writeText(primeColor.toString())
                 toast("建议在颜色设置更改之后重启APP")
-//                startActivity(intentFor<MainActivity>().newTask().clearTask())
-                restartApp()
+                startActivity(intentFor<HomePage>().newTask().clearTask())
             }
         }
         text_theme.setOnLongClickListener {
@@ -200,8 +206,7 @@ class SettingsFragment : Fragment() {
                                 colorString = File(myContext.filesDir, "/color")
                                 colorString.writeText(primeColor.toString())
                                 toast("建议在颜色设置更改之后重启APP")
-                                //startActivity(intentFor<MainActivity>().newTask().clearTask())
-                                restartApp()
+                                startActivity(intentFor<HomePage>().newTask().clearTask())
                             }
                         }
                     }
@@ -211,15 +216,51 @@ class SettingsFragment : Fragment() {
         }
         //导出ICS
         text_ex.setOnClickListener {
-            startActivity<ToCalendar>()
+            selector("选择导出的方式", listOf("导出为ics文件", "导出到系统日历")) { _, i ->
+                if (i == 0) startActivity<ToCalendar>()
+                if (i == 1) {
+                    doAsync {
+                        val icsFile = File(myContext.filesDir, "/icsSelf")
+                        if (icsFile.exists()) {
+                            val myEventList = IcsToDateMap().b()
+                            uiThread {
+                                alert {
+                                    customView {
+                                        textView("确定导出到系统日历吗 有可能操作无法撤销")
+                                        positiveButton("导出") {
+                                            toast("正在导出")
+                                            doAsync {
+                                                val checkSelfPermission = ContextCompat.checkSelfPermission(
+                                                    context!!,
+                                                    Manifest.permission.WRITE_CALENDAR
+                                                )
+                                                if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
+                                                    toast("请授予访问日历权限!")
+                                                } else {
+                                                    for (event in myEventList) {
+                                                        if (CalendarProviderManager.isEventAlreadyExist(context!!, event.start, event.end, event.theme)) {
+                                                            continue
+                                                        }
+                                                        CalendarProviderManager.addCalendarEvent(
+                                                            context!!,
+                                                            CalendarEvent(event.theme, event.discri, event.location, event.start, event.end, event.remindersMinutes, null)
+                                                        )
+                                                    }
+                                                }
+                                                uiThread {
+                                                    toast("导出成功")
+                                                }
+                                            }
+                                        }
+                                    }
+                                }.show()
+                            }
+                        } else {
+                            toast("您还未导入课程表!")
+                        }
+                    }
+                }
+            }
         }
-        text_ics_in.setOnClickListener {
-            startActivity<IcsInput>()
-        }
-    }
-
-    private fun restartApp() {
-        val myContext = Utils.getContext()
-        startActivity(myContext.packageManager.getLaunchIntentForPackage(myContext.packageName)?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
     }
 }

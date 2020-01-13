@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">SUESjxxt</string>
-    <string name="about">1.可以导入SUES课程表\n并进行分析生成每日课程表\n\n2.可自动跳转到下一节要上的课程\n\n3.按当前在上或即将要上的课程可以返回当日课程\n\n4.多种主题 支持自定义颜色配置\n\n作者QQ:3206279058\n求同Android应用开发者\n大一萌新刚开始学kotlin做的第一个作品\n希望获得大佬指点啊啊啊啊啊</string>
+    <string name="app_name">SUES课程表</string>
+    <string name="about">1.可以导入SUES(上海工程技术大学)课程表以及第三方ics格式的课程表\n并进行分析生成每日课程表\n\n2.可自动跳转到下一节要上的课程\n\n3.按当前在上或即将要上的课程可以返回当日课程\n\n4.多种主题 支持自定义颜色配置\n\n作者QQ:3206279058\n求同Android应用开发者\n大一萌新刚开始学kotlin做的第一个作品\n希望获得大佬指点啊啊啊啊啊</string>
     <string name="appwidget_text">EXAMPLE3</string>
     <string name="add_widget">Add widget</string>
     <string name="title_activity_settings">Settings</string>

@@ -10,7 +10,8 @@ data class Course(
     var Which: Int,
     var Week: List<String>,
     var Room: String,
-    var Teacher: String
+    var Teacher: String,
+    var courseName: String
 )
 /*
 course数据类 可转换为Date Calendar <List>
@@ -25,13 +26,14 @@ course数据类 可转换为Date Calendar <List>
 //True 转化为Course形式(All Course by Map<String,Calendar>)
 class SwitchToCourse(private val input: MutableList<String>?) {
 
+
     //返回 课程类+课程名字的Map
-    fun switch(): Map<Course, String>? {
+    fun switch(): List<Course>? {
         if (input == null) {
             Utils.getContext().toast("课表为空! 请导入")
             return null
         } else {
-            val map = mutableMapOf<Course, String>()
+            val course = mutableListOf<Course>()
             input.forEach {
                 val aClass = it//一个课程
                 //课程时间相关信息
@@ -55,23 +57,22 @@ class SwitchToCourse(private val input: MutableList<String>?) {
                     classRegex += s.value
                 }
                 val teacher = classRegex[1]
-                val courseName = classRegex[3]
-                val room = classRegex[5]
+                val courseName = classRegex[3].replace("\"","")
+                val room = classRegex[5].replace("\"","")
                 val wk = mutableListOf<String>()
                 wklistRegexPattern.findAll(classRegex[6]).forEach { s ->
                     wk += s.value
                 }
-
-                map[Course(weekX, which, wk, room, teacher)] = courseName
+                course += Course(weekX, which, wk, room, teacher, courseName)
             }
-            return map
+            return course
         }
     }
 }
 
 
 //转化为Calendar+Name(One Course)
-class CourseToDate(private val name: String, private val course: Course) {
+class CourseToDate(private val course: Course) {
     private fun weekToDateList(weekNow: Calendar, weekX: Int, week: List<String>, room: String): List<Date> {
         //课表第一周 周一
         weekNow.add(Calendar.DATE, weekX)
@@ -108,16 +109,16 @@ class CourseToDate(private val name: String, private val course: Course) {
         return list
     }
 
-    fun a(weekNow: Calendar): Map<Date, String> {
+    fun a(weekNow: Calendar): Map<Date, Course> {
         val weekX = course.WeekX
         val week = course.Week
         val room = course.Room
-        val map: MutableMap<Date, String> = mutableMapOf()
+        val map: MutableMap<Date, Course> = mutableMapOf()
         val dateList = weekToDateList(weekNow, weekX, week, room)
 
         for (i in dateList) {
             //i时间应该上名为name的课
-            map[i] = "$room $name"
+            map[i] = course
         }
         return map
     }
@@ -125,10 +126,10 @@ class CourseToDate(private val name: String, private val course: Course) {
 }
 
 //转化为DateStrng+Name(All Course)
-class AllDate(private val input: List<Map<Date, String>>) {
-    private val output: MutableMap<Date, String> = mutableMapOf()
-    private val map: MutableMap<Date, String> = mutableMapOf()
-    fun all(): MutableMap<Date, String> {
+class AllDate(private val input: List<Map<Date, Course>>) {
+    private val output: MutableMap<Date, Course> = mutableMapOf()
+    private val map: MutableMap<Date, Course> = mutableMapOf()
+    fun all(): MutableMap<Date, Course> {
         for (i in input) {
             for (a in i) {
                 map[a.key] = a.value

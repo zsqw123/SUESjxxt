@@ -8,8 +8,8 @@ class Show {
     fun textShow(input: String): List<Item> {
         val mapInput = FindContext().jsToList(input)
         val toyearInput = FindContext().getToyear(input)
-        val courseStrMap: Map<Course, String>? = SwitchToCourse(mapInput).switch()
-        val list: MutableList<Map<Date, String>> = mutableListOf()
+        val courseStrMap: List<Course>? = SwitchToCourse(mapInput).switch()
+        val list: MutableList<Map<Date, Course>> = mutableListOf()
         if (courseStrMap != null) {
             for (i in courseStrMap) {
                 val cal = Calendar.getInstance()
@@ -17,7 +17,7 @@ class Show {
                 cal.firstDayOfWeek = Calendar.MONDAY
                 cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
                 cal.add(Calendar.WEEK_OF_YEAR, -1)
-                val item: Map<Date, String> = CourseToDate(i.value, i.key).a(cal)
+                val item: Map<Date, Course> = CourseToDate(i).a(cal)
                 list.add(item)
             }
         } else {
@@ -25,11 +25,10 @@ class Show {
             return emptyList()
         }
 
-        val map: MutableMap<Date, String> = AllDate(list).all()
-
+        val map: MutableMap<Date, Course> = AllDate(list).all()
         val content: MutableList<Item> = mutableListOf()
         for (i in map) {
-            content.add(Item(i.key, i.value))
+            content.add(Item(i.key, i.value.courseName, i.value.Room))
         }
         return content
     }

@@ -12,13 +12,11 @@ import com.jxxt.sues.Item
 import com.jxxt.sues.MainAdapter
 import com.jxxt.sues.R
 import com.jxxt.sues.Show
-import com.jxxt.sues.getpage.GetPage
 import com.jxxt.sues.ical.IcsToDateMap
 import com.jxxt.sues.widget.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.uiThread
 import java.io.File
@@ -144,7 +142,7 @@ class ClassTableFragment : Fragment() {
                     myEventList.forEach {
                         val date = Date()
                         date.time = it.start
-                        item += Item(date, it.discri + it.theme)
+                        item += Item(date, it.discri + it.theme, it.location)
                     }
                     content = item
                     uiThread {

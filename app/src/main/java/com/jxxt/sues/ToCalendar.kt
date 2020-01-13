@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import com.jxxt.sues.getpage.GetPage
 import com.jxxt.sues.ical.ExIcs
 import com.jxxt.sues.widget.Utils
 import kotlinx.android.synthetic.main.to_calendar.*
@@ -28,7 +29,7 @@ class ToCalendar : AppCompatActivity() {
             } catch (e: Exception) {
                 toast("未输入正确数字格式 不进行提前提醒")
             }
-            if (!file.exists()) startActivity<NewAct>() else {
+            if (!file.exists()) startActivity<GetPage>() else {
                 doAsync {
                     val a = ExIcs()
                     a.ex(content, extraTime)

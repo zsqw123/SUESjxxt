@@ -10,7 +10,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:gravity="center"
-            android:text="sgggggg"
+            android:text="日期"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -26,7 +26,7 @@
             android:background="@drawable/shape"
             android:elevation="1.41dp"
             android:minHeight="45dp"
-            android:text="999"
+            android:text="时间"
             android:textColor="#FFFFFF"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -37,7 +37,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/date"
-            android:layout_alignBottom="@+id/date"
             android:layout_alignParentEnd="true"
 
             android:layout_marginStart="14dp"
@@ -45,7 +44,19 @@
             android:layout_marginEnd="14dp"
             android:layout_marginBottom="0dp"
             android:layout_toEndOf="@+id/date"
-            android:gravity="center"
-            android:text="99333333酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷灌灌"
-            android:textSize="18sp" />
+            android:text="上课课程"
+            android:textSize="18sp"
+            android:maxLines="1"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_alignBottom="@+id/date"
+            android:layout_alignStart="@+id/name"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="14dp"
+            android:text="上课教室"
+            android:textSize="18sp"
+            android:id="@+id/classroom"
+            android:maxLines="1"/>
 </RelativeLayout>

@@ -7,14 +7,13 @@ import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.RelativeLayout
-import android.widget.TextView
 import kotlinx.android.synthetic.main.list_item.view.*
 import org.jetbrains.anko.textColor
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class Item(var date: Date, var name: String)
+data class Item(var date: Date, var name: String, var room: String? = null)
 
 class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(context, attrs) {
     init {
@@ -22,7 +21,7 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
         val colorString = File(context.filesDir, "/color")
         if (colorString.exists()) {
             val primeColor: Int = colorString.readText().toInt()
-            val tView = findViewById<TextView>(R.id.date).background as GradientDrawable
+            val tView = date.background as GradientDrawable
             tView.setColor(primeColor)
             when (primeColor) {
                 //黑色
@@ -47,6 +46,7 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
     fun setData(pos: Int, list: List<Item>, week: Int) {
         date.text = SimpleDateFormat("HH:mm", Locale.CHINA).format(list[pos].date)
         name.text = list[pos].name
+        classroom.text = list[pos].room
         if (pos != 0) {
             val after = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos].date)
             val before = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos - 1].date)
@@ -68,6 +68,10 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
                 name.typeface = Typeface.defaultFromStyle(Typeface.BOLD_ITALIC)
             }
         }
+
+    }
+
+    fun itemInfo() {
 
     }
 }

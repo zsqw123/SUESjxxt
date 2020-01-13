@@ -18,7 +18,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.jxxt.sues.Item
 import com.jxxt.sues.widget.Utils
 import net.fortuna.ical4j.data.CalendarBuilder
 import net.fortuna.ical4j.model.Component
@@ -67,13 +66,7 @@ class IcsInput : AppCompatActivity() {
             toMyClassTableButton = button("导入到此软件课程表") {
                 visibility = View.INVISIBLE
                 onClick {
-                    myEventList.forEach {
-                        val item = mutableListOf<Item>()
-                        val date = Date()
-                        date.time = it.start
-                        item += Item(date, it.discri + it.theme)
-                        toast("导入完成")
-                    }
+                    toast("导入完成 请返回上一级")
                 }
             }
             toSystemCalendarButton = button("导入到系统日历") {
@@ -116,7 +109,7 @@ class IcsInput : AppCompatActivity() {
             uiThread {
                 toSystemCalendarButton.visibility = View.VISIBLE
                 toMyClassTableButton.visibility = View.VISIBLE
-                textV.text = "点击按钮导入ics文件"
+                textV.text = "已导入ics文件，请继续操作"
             }
         }
     }
@@ -131,7 +124,7 @@ class IcsInput : AppCompatActivity() {
     }
 
     //添加日历事件
-    private fun addEvent(context: Context, input: MyEvent) {
+    fun addEvent(context: Context, input: MyEvent) {
         val checkSelfPermission = ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.WRITE_CALENDAR

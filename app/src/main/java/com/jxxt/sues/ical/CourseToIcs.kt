@@ -25,6 +25,7 @@ class ExIcs {
             val event = VEvent(DateTime(i.date.time - extraTime), DateTime(i.date.time + 5400000L - extraTime), summary)
             // 生成唯一标示
             event.properties.add(Uid("iCal4j"))
+            event.properties.add(Location(i.room))
             // 添加事件
             calendar.components.add(event)
         }
