@@ -55,7 +55,7 @@ class ToCalendar : AppCompatActivity() {
             } catch (e: Exception) {
                 toast("未输入正确数字格式 不进行提前提醒")
             }
-            if (!file.exists()) startActivity<NewAct>() else {
+            if (!file.exists()) startActivity<GetPage>() else {
                 doAsync {
                     val a = ExIcs()
                     a.ex(content, extraTime)

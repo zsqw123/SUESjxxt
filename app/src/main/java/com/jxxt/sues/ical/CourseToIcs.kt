@@ -29,7 +29,8 @@ class ExIcs {
             // 添加事件
             calendar.components.add(event)
         }
-        expath = File(Utils.getContext().getExternalFilesDir(null), "/suesjxxt/1.ics")
+        val mContext = Utils.getContext()
+        expath = File(mContext.getExternalFilesDir(null), "/suesjxxt/1.ics")
         if (!expath.exists()) expath.parentFile!!.mkdirs()
         expath.createNewFile()
         val fout = FileOutputStream(expath)

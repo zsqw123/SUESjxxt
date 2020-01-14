@@ -100,7 +100,6 @@ class ClassTableFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val myContext = Utils.getContext()
         val file = File(myContext.filesDir, "/classJs")
         val colorString = File(myContext.filesDir, "/color")

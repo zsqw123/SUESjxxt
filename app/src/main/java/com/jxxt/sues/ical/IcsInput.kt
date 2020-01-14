@@ -12,6 +12,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
+import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -257,7 +258,7 @@ object CalendarProviderManager {
      * @return 存在：日历账户ID  不存在：-1
      */
     @SuppressLint("MissingPermission")
-    private fun checkCalendarAccount(context: Context): Long {
+    fun checkCalendarAccount(context: Context): Long {
         context.contentResolver.query(
             CalendarContract.Calendars.CONTENT_URI,
             null, null, null, null
@@ -305,7 +306,7 @@ object CalendarProviderManager {
         // 设置此日历可见
         account.put(CalendarContract.Calendars.VISIBLE, 1)
         // 日历时区
-        account.put(CalendarContract.Calendars.CALENDAR_TIME_ZONE, java.util.TimeZone.getDefault().id)
+        account.put(CalendarContract.Calendars.CALENDAR_TIME_ZONE, TimeZone.getDefault().id)
         // 可以修改日历时区
         account.put(CalendarContract.Calendars.CAN_MODIFY_TIME_ZONE, 1)
         // 同步此日历到设备上
@@ -817,7 +818,7 @@ object CalendarProviderManager {
         // 事件地点
         event.put(CalendarContract.Events.EVENT_LOCATION, calendarEvent.eventLocation)
         // 事件时区
-        event.put(CalendarContract.Events.EVENT_TIMEZONE, java.util.TimeZone.getDefault().id)
+        event.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
         // 定义事件的显示，默认即可
         event.put(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_DEFAULT)
         // 事件的状态
@@ -853,6 +854,37 @@ object CalendarProviderManager {
             RRuleConstant.REPEAT_CYCLE_MONTHLY -> builder.append(rRule).append(Util.getDayOfMonth(beginTime))
                 .append("; UNTIL = ").append(Util.getFinalRRuleMode(endTime)).toString()
             else -> rRule
+        }
+    }
+
+    /**
+     * 删除日历事件
+     */
+    fun deleteCalendarEvent(context: Context?, title: String) {
+        val eventUrl = "content://com.android.calendar/events"
+        if (context == null) {
+            return
+        }
+        val eventCursor: Cursor? = context.contentResolver.query(Uri.parse(eventUrl), null, null, null, null)
+        eventCursor.use { eventCursor1 ->
+            if (eventCursor1 == null) { //查询返回空值
+                return
+            }
+            if (eventCursor1.count > 0) { //遍历所有事件，找到title跟需要查询的title一样的项
+                eventCursor1.moveToFirst()
+                while (!eventCursor1.isAfterLast) {
+                    val eventTitle: String = eventCursor1.getString(eventCursor1.getColumnIndex("title"))
+                    if (!TextUtils.isEmpty(title) && title == eventTitle) {
+                        val id = eventCursor1.getLong(eventCursor1.getColumnIndex(CalendarContract.Calendars._ID)) //取得id
+                        val deleteUri: Uri = ContentUris.withAppendedId(Uri.parse(eventUrl), id)
+                        val rows: Int = context.contentResolver.delete(deleteUri, null, null)
+                        if (rows == -1) { //事件删除失败
+                            return
+                        }
+                    }
+                    eventCursor1.moveToNext()
+                }
+            }
         }
     }
 }

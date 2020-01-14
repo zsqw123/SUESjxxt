@@ -10,15 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.jxxt.sues.HomePage
-import com.jxxt.sues.R
-import com.jxxt.sues.ToCalendar
+import com.jxxt.sues.*
 import com.jxxt.sues.getpage.GetPage
-import com.jxxt.sues.ical.CalendarEvent
-import com.jxxt.sues.ical.CalendarProviderManager
-import com.jxxt.sues.ical.IcsInput
-import com.jxxt.sues.ical.IcsToDateMap
-import com.jxxt.sues.widget.Utils
+import com.jxxt.sues.ical.*
 import kotlinx.android.synthetic.main.settings.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -46,8 +40,8 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val myContext = Utils.getContext()
         //定义Flies目录
+        val myContext = context!!
         file = File(myContext.filesDir, "/a")
 
         //导入课程
@@ -214,49 +208,110 @@ class SettingsFragment : Fragment() {
             }.show()
             true
         }
+
+        fun icsToCalendarView() {
+            val myEventList = IcsToDateMap().b()
+            alert {
+                customView {
+                    textView("确定导出到系统日历吗 有可能操作无法撤销(课程名一旦更改将无法撤销)")
+                    positiveButton("导出") {
+                        toast("正在导出")
+                        doAsync {
+                            val checkSelfPermission = ContextCompat.checkSelfPermission(
+                                context!!,
+                                Manifest.permission.WRITE_CALENDAR
+                            )
+                            if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
+                                toast("请授予访问日历权限!")
+                            } else {
+                                for (event in myEventList) {
+                                    if (CalendarProviderManager.isEventAlreadyExist(context!!, event.start, event.end, event.theme)) {
+                                        continue
+                                    }
+                                    CalendarProviderManager.addCalendarEvent(
+                                        context!!,
+                                        CalendarEvent(event.theme, event.discri, event.location, event.start, event.end, event.remindersMinutes, null)
+                                    )
+                                }
+                            }
+                            uiThread {
+                                toast("导出成功")
+                            }
+                        }
+                    }
+                    negativeButton("恢复(撤销)") {
+                        if (CalendarProviderManager.checkCalendarAccount(context!!) == (-1).toLong()) {
+                            toast("无本地账户或未导出过 无法继续操作")
+                        }
+                        alert {
+                            customView {
+                                textView("此操作会删除该设备上与课程名同名的日程\n云同步账户(Google、小米等云同步账户)中的日程不会被删除\n请谨慎操作")
+                            }
+                            positiveButton("无所谓 我都是云同步账户") {
+                                CalendarProviderManager.deleteCalendarAccountByName(context!!)
+                                val checkSelfPermission = ContextCompat.checkSelfPermission(
+                                    context!!,
+                                    Manifest.permission.WRITE_CALENDAR
+                                )
+                                if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
+                                    toast("请授予访问日历权限!")
+                                } else {
+                                    doAsync {
+                                        for ((count, event) in myEventList.withIndex()) {
+                                            if (count%5==0){
+                                                uiThread {
+                                                    toast("正在删除第${count}个事件")
+                                                }
+                                            }
+                                            CalendarProviderManager.deleteCalendarEvent(context!!, event.theme)
+                                        }
+                                        uiThread {
+                                            toast("已删除")
+                                        }
+                                    }
+                                }
+                            }
+                        }.show()
+                    }
+                }
+            }.show()
+        }
+
         //导出ICS
         text_ex.setOnClickListener {
             selector("选择导出的方式", listOf("导出为ics文件", "导出到系统日历")) { _, i ->
                 if (i == 0) startActivity<ToCalendar>()
                 if (i == 1) {
-                    doAsync {
-                        val icsFile = File(myContext.filesDir, "/icsSelf")
-                        if (icsFile.exists()) {
-                            val myEventList = IcsToDateMap().b()
-                            uiThread {
-                                alert {
-                                    customView {
-                                        textView("确定导出到系统日历吗 有可能操作无法撤销")
-                                        positiveButton("导出") {
-                                            toast("正在导出")
-                                            doAsync {
-                                                val checkSelfPermission = ContextCompat.checkSelfPermission(
-                                                    context!!,
-                                                    Manifest.permission.WRITE_CALENDAR
-                                                )
-                                                if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
-                                                    toast("请授予访问日历权限!")
-                                                } else {
-                                                    for (event in myEventList) {
-                                                        if (CalendarProviderManager.isEventAlreadyExist(context!!, event.start, event.end, event.theme)) {
-                                                            continue
-                                                        }
-                                                        CalendarProviderManager.addCalendarEvent(
-                                                            context!!,
-                                                            CalendarEvent(event.theme, event.discri, event.location, event.start, event.end, event.remindersMinutes, null)
-                                                        )
-                                                    }
-                                                }
-                                                uiThread {
-                                                    toast("导出成功")
-                                                }
-                                            }
-                                        }
-                                    }
-                                }.show()
+                    val icsFile = File(myContext.filesDir, "/icsSelf")
+                    val suesFile = File(myContext.filesDir, "/classJs")
+                    if (!icsFile.exists()) {
+                        if (suesFile.exists()) {
+                            toast("正在转化课程表为ics格式...3s左右")
+                            doAsync {
+                                val text: String = suesFile.readText()
+                                val listItem: List<Item> = Show().textShow(text)
+                                val a = ExIcs()
+                                a.ex(listItem)
+                                val icsInput: String = a.expath.readText()
+                                icsFile.writeText(icsInput)
+                                uiThread {
+                                    toast("正在导入...可能10s左右")
+                                }
+                                uiThread {
+                                    icsToCalendarView()
+                                }
                             }
                         } else {
-                            toast("您还未导入课程表!")
+                            toast("请先导入")
+                        }
+                    } else {
+                        doAsync {
+                            uiThread {
+                                toast("正在导入...可能10s左右")
+                            }
+                            uiThread {
+                                icsToCalendarView()
+                            }
                         }
                     }
                 }
