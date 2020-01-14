@@ -224,7 +224,12 @@ class SettingsFragment : Fragment() {
                             if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
                                 toast("请授予访问日历权限!")
                             } else {
-                                for (event in myEventList) {
+                                for ((count, event) in myEventList.withIndex()) {
+                                    if (count % 5 == 0) {
+                                        uiThread {
+                                            toast("正在添加第${count}个事件")
+                                        }
+                                    }
                                     if (CalendarProviderManager.isEventAlreadyExist(context!!, event.start, event.end, event.theme)) {
                                         continue
                                     }
@@ -258,7 +263,7 @@ class SettingsFragment : Fragment() {
                                 } else {
                                     doAsync {
                                         for ((count, event) in myEventList.withIndex()) {
-                                            if (count%5==0){
+                                            if (count % 5 == 0) {
                                                 uiThread {
                                                     toast("正在删除第${count}个事件")
                                                 }
