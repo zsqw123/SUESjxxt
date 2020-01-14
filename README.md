@@ -50,3 +50,5 @@ release下载地址[蓝奏网盘](https://www.lanzous.com/b0d6v7eb) 密码:sues
 
 
 作者Q:3206279058
+
+隐私政策：[隐私政策](http://htmlpreview.github.io/?https://github.com/zsqw123/SUESjxxt/blob/master/Privacy.html)
