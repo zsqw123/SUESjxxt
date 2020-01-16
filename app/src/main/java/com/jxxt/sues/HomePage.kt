@@ -17,7 +17,6 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import java.io.File
-import java.util.*
 
 class HomePage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,60 +29,53 @@ class HomePage : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         nav_view.setupWithNavController(navController)
 
-        val colorList = listOf("#F4F4F4", "#FA7298", "#2D2D2D", "#F44236", "#FEC107", "#8BC24A", "#2196F3", "#9C28B1")
-        val stausColorList = listOf("#E6E6E6", "#FB628D", "#1D1D1D", "#F23022", "#EEB507", "#7FB83C", "#148EEE", "#9121A6")
-
         doAsync {
             //ColorSettings
             val colorString = File(filesDir, "/color")
             if (colorString.exists()) {
                 val primeColor: Int = colorString.readText().toInt()
-                for (i in colorList.indices) {
-                    if (Color.parseColor(colorList[i]) == primeColor) {
-                        //判断是否dark色系对任务栏图标显示颜色作出更改
-                        val dark = ColorUtils.calculateLuminance(Color.parseColor(stausColorList[i])) <= 0.4
-                        uiThread {
-                            window.statusBarColor = Color.parseColor(stausColorList[i])
-                            window.decorView.systemUiVisibility = if (dark) View.SYSTEM_UI_FLAG_VISIBLE
-                            else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                            val states = arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked))
-                            val colorsWhite = intArrayOf(Color.parseColor(colorList[i]), Color.parseColor(reverse(colorList[i])))
-                            val csl = ColorStateList(states, colorsWhite)
-                            nav_view.itemIconTintList = csl
-                            nav_view.itemTextColor = csl
-                            if (dark) {
-                                nav_view.backgroundColor = Color.parseColor("#000000")
-                            } else {
-                                nav_view.backgroundColor = Color.parseColor("#FFFFFF")
-                            }
-                        }
+                //判断是否dark色系对任务栏图标显示颜色作出更改
+                val dark = ColorUtils.calculateLuminance(primeColor) <= 0.17
+                uiThread {
+                    //状态栏沉浸
+                    window.decorView.systemUiVisibility = if (dark) View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                    val states = arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked))
+                    val colorsNav = intArrayOf(primeColor, reverse(primeColor))
+                    val csl = ColorStateList(states, colorsNav)
+                    nav_view.itemIconTintList = csl
+                    nav_view.itemTextColor = csl
+                    if (dark) {
+                        nav_view.backgroundColor = Color.parseColor("#000000")
+                    } else {
+                        nav_view.backgroundColor = Color.parseColor("#FFFFFF")
                     }
                 }
             }
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,       grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         //super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED
-                && permissions[0] == Manifest.permission.WRITE_CALENDAR) {
-                toast("permission       granted")
-            } else{
+                && permissions[0] == Manifest.permission.WRITE_CALENDAR
+            ) {
+                toast("permission granted")
+            } else {
                 toast("permission denied")
             }
         }
     }
 
     //取反色
-    private fun reverse(str: String): String {
-        val sb: StringBuilder = StringBuilder().append("#")
-        val input = str.replace("#", "")
-        for (element in input) {
-            val st: String = element.toString()
-            val temp = Integer.parseInt(st, 16)
-            sb.append(Integer.toHexString(15 - temp).toUpperCase(Locale.ROOT))
-        }
-        return sb.toString()
+    private fun reverse(color: Int): Int {
+        val red = color and 0xff0000 shr 16
+        val green = color and 0x00ff00 shr 8
+        val blue = color and 0x0000ff
+        val rR = 255 - red
+        val rG = 255 - green
+        val rB = 255 - blue
+        return Color.rgb(rR, rG, rB)
     }
 }

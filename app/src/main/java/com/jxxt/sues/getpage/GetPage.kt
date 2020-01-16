@@ -41,7 +41,7 @@ class GetPage : Activity() {
                 capText = editText {
                     hint = "请输入验证码"
                 }
-                val refresh=button("刷新验证码"){
+                button("刷新验证码"){
                     onClick {
                         getCaptha()
                     }
@@ -52,7 +52,7 @@ class GetPage : Activity() {
                     onClick { getCaptha() }
                 }.lparams(height = matchParent, width = matchParent)
             }
-            val button = button("登录") {
+            button("登录") {
                 onClick {
                     username = account.text.toString()
                     passwd = password.text.toString()
