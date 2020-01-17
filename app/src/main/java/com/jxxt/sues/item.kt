@@ -8,24 +8,28 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.core.graphics.ColorUtils
-import kotlinx.android.synthetic.main.list_item.view.*
 import org.jetbrains.anko.*
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
 data class Item(var date: Date, var name: String, var room: String? = null)
 
 class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(context, attrs) {
+    //layout定义
+    lateinit var layout: RelativeLayout
+    private lateinit var day: TextView
+    lateinit var date: TextView
+    lateinit var name: TextView
+    private lateinit var classroom: TextView
+
     init {
         itemAnko()
-        //旧的view flate方式 性能较差
-//        View.inflate(context, R.layout.list_item, this)
-        val colorString = File(context.filesDir, "/color")
-        if (colorString.exists()) {
-            val primeColor: Int = colorString.readText().toInt()
-        }
+        /*
+        旧的view flate方式 性能较差
+        View.inflate(context, R.layout.list_item, this)
+         */
     }
 
     fun setData(pos: Int, list: List<Item>, week: Int, primeColor: Int?) {
@@ -84,26 +88,25 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
     }
 
     private fun itemAnko(): RelativeLayout {
-        return relativeLayout {
-            id = R.id.layout
-            textView {
+        layout = relativeLayout {
+            day = textView {
                 id = R.id.day
                 gravity = Gravity.CENTER
                 text = "today"
-                textSize = 25f //sp
+                textSize = 25f
                 setTypeface(typeface, Typeface.BOLD)
             }.lparams(width = matchParent) {
                 margin = dip(15)
             }
             relativeLayout {
-                textView {
+                date = textView {
                     id = R.id.date
                     backgroundResource = R.drawable.shape
                     elevation = dip(1.41f).toFloat()
                     minimumHeight = dip(45)
                     text = "date"
                     textColor = Color.WHITE
-                    textSize = 30f //sp
+                    textSize = 30f
                     setTypeface(typeface, Typeface.BOLD)
                     gravity = Gravity.CENTER
                 }.lparams {
@@ -113,23 +116,17 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
                     bottomMargin = dip(4)
                 }
                 verticalLayout {
-                    textView {
-                        id = R.id.name
-                        //android:layout_alignParentEnd = true //not support attribute
-                        //android:layout_toEndOf = @+id/date //not support attribute
+                    name = textView {
                         text = "className"
-                        textSize = 18f //sp
+                        textSize = 18f
                         maxLines = 1
                     }.lparams {
                         marginStart = dip(14)
                         marginEnd = dip(14)
                     }
-                    textView {
-                        //android:layout_alignStart = @+id/name //not support attribute
-                        //android:layout_alignParentEnd = true //not support attribute
+                    classroom = textView {
                         text = "classroom"
-                        textSize = 18f //sp
-                        id = R.id.classroom
+                        textSize = 18f
                         maxLines = 1
                     }.lparams {
                         marginStart = dip(14)
@@ -138,14 +135,13 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
                 }.lparams {
                     height = matchParent
                     width = matchParent
-                    rightOf(R.id.date)
+                    rightOf(date)
                 }
             }.lparams {
-                below(R.id.day)
+                below(day)
             }
-
-
         }
+        return layout
     }
 
 }

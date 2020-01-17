@@ -121,6 +121,8 @@ class ClassTableFragment : Fragment() {
                         //黑
                         mainView.backgroundColor = if (dark) Color.parseColor("#000000")
                         else Color.parseColor("#FFFFFF")
+                        main_class_tables.backgroundColor = if (dark) Color.parseColor("#000000")
+                        else Color.parseColor("#FFFFFF")
                         //很黑的情况下...
                         if (ultraDark) {
                             nowbar.backgroundColor = Color.parseColor("#4D4D4D")
