@@ -22,42 +22,34 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
     private lateinit var day: TextView
     lateinit var date: TextView
     lateinit var name: TextView
+    private lateinit var itemPadding: TextView
     private lateinit var classroom: TextView
-
-    init {
-        itemAnko()
-        /*
-        旧的view flate方式 性能较差
-        View.inflate(context, R.layout.list_item, this)
-         */
-    }
 
     fun setData(pos: Int, list: List<Item>, week: Int, primeColor: Int?) {
         //Color
         if (primeColor != null) {
-            val tView = date.background as GradientDrawable
-            tView.setColor(primeColor)
             val dark = ColorUtils.calculateLuminance(primeColor) <= 0.2
             val lightDark = ColorUtils.calculateLuminance(primeColor) <= 0.4
             if (dark) {
                 //黑色
-                date.setTextColor(Color.WHITE)
-                day.setTextColor(Color.WHITE)
-                name.setTextColor(Color.WHITE)
-                classroom.setTextColor(Color.WHITE)
+                itemAnko(Color.WHITE)
                 layout.setBackgroundColor(Color.BLACK)
+                if (pos == 0) {
+                    itemPadding.visibility = View.VISIBLE
+                    itemPadding.backgroundColor = Color.BLACK
+                }
             } else {
                 //白色
-                if (lightDark) {
-                    date.setTextColor(Color.WHITE)
-                } else {
-                    date.setTextColor(Color.BLACK)
-                }
-                day.setTextColor(Color.BLACK)
-                name.setTextColor(Color.BLACK)
-                classroom.setTextColor(Color.BLACK)
+                itemAnko(Color.BLACK)
+                if (lightDark) date.setTextColor(Color.WHITE)
                 layout.setBackgroundColor(Color.WHITE)
+                if (pos == 0) {
+                    itemPadding.visibility = View.VISIBLE
+                    itemPadding.backgroundColor = Color.WHITE
+                }
             }
+            val tView = date.background as GradientDrawable
+            tView.setColor(primeColor)
         }
         //Data
         date.text = SimpleDateFormat("HH:mm", Locale.CHINA).format(list[pos].date)
@@ -84,19 +76,25 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
                 name.typeface = Typeface.defaultFromStyle(Typeface.BOLD_ITALIC)
             }
         }
-
     }
 
-    private fun itemAnko(): RelativeLayout {
+    private fun itemAnko(colorTheme: Int): RelativeLayout {
         layout = relativeLayout {
+            itemPadding = textView {
+                id = R.id.itemPadding
+                visibility = View.GONE
+                backgroundColor = Color.WHITE
+            }.lparams(matchParent, dip(120))
             day = textView {
                 id = R.id.day
                 gravity = Gravity.CENTER
                 text = "today"
                 textSize = 25f
+                textColor = colorTheme
                 setTypeface(typeface, Typeface.BOLD)
             }.lparams(width = matchParent) {
                 margin = dip(15)
+                bottomOf(itemPadding)
             }
             relativeLayout {
                 date = textView {
@@ -105,7 +103,7 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
                     elevation = dip(1.41f).toFloat()
                     minimumHeight = dip(45)
                     text = "date"
-                    textColor = Color.WHITE
+                    textColor = colorTheme
                     textSize = 30f
                     setTypeface(typeface, Typeface.BOLD)
                     gravity = Gravity.CENTER
@@ -119,6 +117,7 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
                     name = textView {
                         text = "className"
                         textSize = 18f
+                        textColor = colorTheme
                         maxLines = 1
                     }.lparams {
                         marginStart = dip(14)
@@ -127,6 +126,7 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
                     classroom = textView {
                         text = "classroom"
                         textSize = 18f
+                        textColor = colorTheme
                         maxLines = 1
                     }.lparams {
                         marginStart = dip(14)

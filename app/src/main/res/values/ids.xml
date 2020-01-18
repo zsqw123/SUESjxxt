@@ -2,4 +2,5 @@
 <resources>
     <item name="date" type="id" />
     <item name="day" type="id" />
+    <item name="itemPadding" type="id" />
 </resources>

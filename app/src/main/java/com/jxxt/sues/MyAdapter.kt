@@ -13,7 +13,7 @@ class MainAdapter(private val context: Context, private val dataList: List<Item>
         return Holder(ListItem(context))
     }
 
-    private var primeColor: Int? = null
+    private var primeColor: Int = R.color.colorPrimary
     private val weekFile = File(context.filesDir, "weekNow")
     private val week0 = if (weekFile.exists()) SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(weekFile.readText()) ?: Date() else Date()
     private val posDate: Calendar = Calendar.getInstance()
