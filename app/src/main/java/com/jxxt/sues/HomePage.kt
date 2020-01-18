@@ -20,6 +20,7 @@ import java.io.File
 
 class HomePage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
@@ -51,19 +52,6 @@ class HomePage : AppCompatActivity() {
                         nav_view.backgroundColor = Color.parseColor("#FFFFFF")
                     }
                 }
-            }
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        //super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 0) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED
-                && permissions[0] == Manifest.permission.WRITE_CALENDAR
-            ) {
-                toast("permission granted")
-            } else {
-                toast("permission denied")
             }
         }
     }

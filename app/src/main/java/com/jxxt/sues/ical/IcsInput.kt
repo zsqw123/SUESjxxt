@@ -17,8 +17,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.jxxt.sues.widget.Utils
 import net.fortuna.ical4j.data.CalendarBuilder
 import net.fortuna.ical4j.model.Component
@@ -29,6 +27,8 @@ import net.fortuna.ical4j.model.component.VEvent
 import net.fortuna.ical4j.util.MapTimeZoneCache
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import permissions.dispatcher.NeedsPermission
+import permissions.dispatcher.RuntimePermissions
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -40,6 +40,7 @@ import java.util.regex.Pattern
 
 data class MyEvent(var start: Long, var end: Long, var theme: String, var discri: String, var remindersMinutes: Int = 15, var location: String = "null")
 
+@RuntimePermissions
 class IcsInput : AppCompatActivity() {
     private lateinit var toSystemCalendarButton: Button
     private lateinit var toMyClassTableButton: Button
@@ -80,7 +81,7 @@ class IcsInput : AppCompatActivity() {
                                 toast("正在导入")
                                 doAsync {
                                     myEventList.forEach {
-                                        addEvent(Utils.getContext(), it)
+                                        addEventWithPermissionCheck(Utils.getContext(), it)
                                     }
                                 }
                             }
@@ -125,18 +126,8 @@ class IcsInput : AppCompatActivity() {
     }
 
     //添加日历事件
+    @NeedsPermission(Manifest.permission.READ_CALENDAR)
     fun addEvent(context: Context, input: MyEvent) {
-        val checkSelfPermission = ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.WRITE_CALENDAR
-        )
-        if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
-            //requset permission
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR), 0
-            )
-        }
         if (CalendarProviderManager.isEventAlreadyExist(context, input.start, input.end, input.theme)) {
             return
         }

@@ -86,4 +86,11 @@ dependencies {
 
     //requests
     implementation "net.dongliu:requests:5.0.7"
+
+    //splitties
+    def splitties_version = "3.0.0-alpha06"
+
+    //permissions request
+    implementation "org.permissionsdispatcher:permissionsdispatcher:4.6.0"
+    kapt "org.permissionsdispatcher:permissionsdispatcher-processor:4.6.0"
 }
