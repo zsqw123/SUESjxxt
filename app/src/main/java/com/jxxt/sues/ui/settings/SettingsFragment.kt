@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import com.jxxt.sues.*
 import com.jxxt.sues.getpage.GetPage
@@ -38,6 +39,9 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val myContext = context!!
+        file = File(myContext.filesDir, "/a")
+        colorString = File(myContext.filesDir, "/color")
         return inflater.inflate(R.layout.settings, container, false)
     }
 
@@ -45,7 +49,23 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //定义Flies目录
         val myContext = context!!
-        file = File(myContext.filesDir, "/a")
+        if (colorString.exists()) {
+            val primeColor: Int = colorString.readText().toInt()
+            val dark = ColorUtils.calculateLuminance(primeColor) <= 0.2
+            val settingsTextList = listOf(text_import, text_week, text_about, text_theme, text_ex)
+            if (dark) {
+                settings_frag.backgroundColor = Color.BLACK
+                settingsTextList.forEach {
+                    it.textColor = Color.WHITE
+                }
+            } else {
+                settings_frag.backgroundColor = Color.WHITE
+                settingsTextList.forEach {
+                    it.textColor = Color.BLACK
+                }
+            }
+        }
+
 
         //导入课程
         text_import.setOnClickListener {
@@ -166,7 +186,6 @@ class SettingsFragment : Fragment() {
                 text_theme.text = " ${colorNameList[i]} "
                 val primeColor: Int = Color.parseColor(colorList[i])
                 fab_theme.background.setTint(primeColor)
-                colorString = File(myContext.filesDir, "/color")
                 colorString.writeText(primeColor.toString())
                 toast("建议在颜色设置更改之后重启APP")
                 startActivity(intentFor<HomePage>().newTask().clearTask())
@@ -212,7 +231,7 @@ class SettingsFragment : Fragment() {
             true
         }
         //导出ICS
-        text_ex.onClick {
+        text_ex.setOnClickListener {
             selector("选择导出的方式", listOf("导出为ics文件", "导出到系统日历")) { _, i ->
                 if (i == 0) startActivity<ToCalendar>()
                 if (i == 1) {
@@ -253,7 +272,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    @NeedsPermission(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR)
+    @NeedsPermission(Manifest.permission.READ_CALENDAR)
     fun icsToCalendarView() {
         val myEventList = IcsToDateMap().b()
         alert {

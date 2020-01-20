@@ -5,7 +5,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:fadingEdge="vertical"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:id="@+id/settings_frag">
 
     <LinearLayout
             android:layout_width="match_parent"

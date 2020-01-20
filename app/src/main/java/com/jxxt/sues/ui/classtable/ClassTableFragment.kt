@@ -111,24 +111,23 @@ class ClassTableFragment : Fragment() {
                 //ColorSettings
                 if (colorString.exists()) {
                     val primeColor: Int = colorString.readText().toInt()
-                    val dark = ColorUtils.calculateLuminance(primeColor) <= 0.4
-                    val ultraDark = ColorUtils.calculateLuminance(primeColor) <= 0.1
+                    val dark = ColorUtils.calculateLuminance(primeColor) <= 0.2
                     uiThread {
                         nowbar.backgroundColor = Color.parseColor("#EDE1E1")
-                        nowbar_class.setTextColor(Color.parseColor("#000000"))
-                        nowbar_time.setTextColor(Color.parseColor("#000000"))
-                        nowbar_remain.setTextColor(Color.parseColor("#000000"))
+                        nowbar_class.setTextColor(Color.BLACK)
+                        nowbar_time.setTextColor(Color.BLACK)
+                        nowbar_remain.setTextColor(Color.BLACK)
                         //黑
-                        mainView.backgroundColor = if (dark) Color.parseColor("#000000")
-                        else Color.parseColor("#FFFFFF")
-                        main_class_tables.backgroundColor = if (dark) Color.parseColor("#000000")
-                        else Color.parseColor("#FFFFFF")
-                        //很黑的情况下...
-                        if (ultraDark) {
+                        if (dark){
+                            mainView.backgroundColor = Color.BLACK
+                            main_class_tables.backgroundColor = Color.BLACK
                             nowbar.backgroundColor = Color.parseColor("#4D4D4D")
-                            nowbar_class.setTextColor(Color.parseColor("#FFFFFF"))
-                            nowbar_time.setTextColor(Color.parseColor("#FFFFFF"))
-                            nowbar_remain.setTextColor(Color.parseColor("#FFFFFF"))
+                            nowbar_class.setTextColor(Color.WHITE)
+                            nowbar_time.setTextColor(Color.WHITE)
+                            nowbar_remain.setTextColor(Color.WHITE)
+                        } else {
+                            mainView.backgroundColor =  Color.WHITE
+                            main_class_tables.backgroundColor =Color.WHITE
                         }
                     }
                 }
