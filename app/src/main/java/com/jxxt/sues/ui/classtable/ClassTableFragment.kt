@@ -15,6 +15,7 @@ import com.jxxt.sues.Show
 import com.jxxt.sues.ical.IcsToDateMap
 import com.jxxt.sues.widget.Utils
 import kotlinx.android.synthetic.main.activity_main.*
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.support.v4.toast
@@ -118,7 +119,7 @@ class ClassTableFragment : Fragment() {
                         nowbar_time.setTextColor(Color.BLACK)
                         nowbar_remain.setTextColor(Color.BLACK)
                         //黑
-                        if (dark){
+                        if (dark) {
                             mainView.backgroundColor = Color.BLACK
                             main_class_tables.backgroundColor = Color.BLACK
                             nowbar.backgroundColor = Color.parseColor("#4D4D4D")
@@ -126,8 +127,8 @@ class ClassTableFragment : Fragment() {
                             nowbar_time.setTextColor(Color.WHITE)
                             nowbar_remain.setTextColor(Color.WHITE)
                         } else {
-                            mainView.backgroundColor =  Color.WHITE
-                            main_class_tables.backgroundColor =Color.WHITE
+                            mainView.backgroundColor = Color.WHITE
+                            main_class_tables.backgroundColor = Color.WHITE
                         }
                     }
                 }
@@ -170,6 +171,8 @@ class ClassTableFragment : Fragment() {
                 adapter = MainAdapter(context, content)
 //                setItemViewCacheSize(25)
             }
+            //回弹效果
+            OverScrollDecoratorHelper.setUpOverScroll(mainView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
             setColor()
             //loaded
             progressBar.visibility = View.INVISIBLE

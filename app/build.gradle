@@ -96,4 +96,7 @@ dependencies {
 
     //BottomNavigation
     implementation('com.aurelhubert:ahbottomnavigation:2.3.4')
+
+    //OverScroll
+    implementation 'me.everything:overscroll-decor-android:1.0.4'
 }

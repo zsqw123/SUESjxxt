@@ -8,132 +8,133 @@
         android:scrollbars="none"
         android:id="@+id/settings_frag">
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:isScrollContainer="true"
-            android:layout_marginTop="20dp">
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/impo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:src="@drawable/import_button"
-                    app:backgroundTint="#9B11DC"
-                    app:fabSize="mini" />
-
-            <TextView
+                android:orientation="vertical"
+                android:isScrollContainer="true"
+                android:layout_marginTop="20dp">
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="导入课程表"
-                    android:id="@+id/text_import"
-                    android:textColor="#000000"
-                    android:textSize="22sp" />
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-            <!--fab color-->
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab_theme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:orientation="horizontal">
 
-                    android:src="@drawable/fab_color"
-                    app:backgroundTint="@color/colorPrimary"
-                    app:fabSize="mini"
-                    app:borderWidth="0dp"/>
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/impo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:src="@drawable/import_button"
+                        app:backgroundTint="#9B11DC"
+                        app:fabSize="mini" />
 
-            <TextView
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="导入课程表"
+                        android:id="@+id/text_import"
+                        android:textColor="#000000"
+                        android:textSize="22sp" />
+            </LinearLayout>
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="主题色"
-                    android:id="@+id/text_theme"
-                    android:textColor="#000000"
-                    android:textSize="22sp" />
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-            <!--fab now_week-->
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/now_week"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:orientation="horizontal">
+                <!--fab color-->
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_theme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
 
-                    android:src="@drawable/fab_now_week"
-                    app:backgroundTint="#1DD8C4"
-                    app:fabSize="mini" />
+                        android:src="@drawable/fab_color"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:fabSize="mini"
+                        app:borderWidth="0dp"/>
 
-            <TextView
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="主题色"
+                        android:id="@+id/text_theme"
+                        android:textColor="#000000"
+                        android:textSize="22sp" />
+            </LinearLayout>
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/text_week"
-                    android:text="当前周"
-                    android:textColor="#000000"
-                    android:textSize="22sp" />
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-            <!--fab toIcs-->
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/ics"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:src="@drawable/fab_toics"
+                    android:orientation="horizontal">
+                <!--fab now_week-->
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/now_week"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
 
-                    app:backgroundTint="#475478"
-                    app:fabSize="mini"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                        android:src="@drawable/fab_now_week"
+                        app:backgroundTint="#1DD8C4"
+                        app:fabSize="mini" />
 
-            <TextView
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/text_week"
+                        android:text="当前周"
+                        android:textColor="#000000"
+                        android:textSize="22sp" />
+            </LinearLayout>
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="导出(ICS/iCalendar)"
-                    android:id="@+id/text_ex"
-                    android:textColor="#000000"
-                    android:textSize="22sp" />
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-            <!--fab about-->
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/about"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:orientation="horizontal">
+                <!--fab toIcs-->
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/ics"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:src="@drawable/fab_toics"
 
-                    android:src="@drawable/fab_about"
-                    app:backgroundTint="#0083F6"
-                    app:fabSize="mini" />
+                        app:backgroundTint="#475478"
+                        app:fabSize="mini"
+                        app:layout_constraintEnd_toEndOf="parent" />
 
-            <TextView
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="导出(ICS/iCalendar)"
+                        android:id="@+id/text_ex"
+                        android:textColor="#000000"
+                        android:textSize="22sp" />
+            </LinearLayout>
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="关于/帮助"
-                    android:id="@+id/text_about"
-                    android:textColor="#000000"
-                    android:textSize="22sp" />
+                    android:orientation="horizontal">
+                <!--fab about-->
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/about"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+
+                        android:src="@drawable/fab_about"
+                        app:backgroundTint="#0083F6"
+                        app:fabSize="mini" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="关于/帮助"
+                        android:id="@+id/text_about"
+                        android:textColor="#000000"
+                        android:textSize="22sp" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
 </ScrollView>

@@ -9,7 +9,7 @@ import com.jxxt.sues.ui.settings.SettingsFragment
 
 class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    val fragments = mutableListOf<Fragment>()
+    private val fragments = mutableListOf<Fragment>()
 
     init {
         fragments += ClassTableFragment()

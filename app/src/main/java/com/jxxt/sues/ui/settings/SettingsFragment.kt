@@ -14,7 +14,9 @@ import androidx.fragment.app.Fragment
 import com.jxxt.sues.*
 import com.jxxt.sues.getpage.GetPage
 import com.jxxt.sues.ical.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.settings.*
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.*
@@ -65,8 +67,8 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
-
-
+        //回弹效果
+        OverScrollDecoratorHelper.setUpOverScroll(settings_frag)
         //导入课程
         text_import.setOnClickListener {
             selector("选择导入方式", listOf("从ics文件导入", "从SUES(上海工程技术大学)课程表导入")) { _, i ->

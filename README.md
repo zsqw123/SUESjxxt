@@ -52,6 +52,8 @@ release下载地址[蓝奏网盘](https://www.lanzous.com/b0d6v7eb) 密码:sues
 - [junit](https://github.com/junit-team/junit4)
 - [requests](https://github.com/hsiafan/requests)
 - [PermissionsDispatcher](https://github.com/permissions-dispatcher/PermissionsDispatcher)
+- [AHBottomNavigation](https://github.com/aurelhubert/ahbottomnavigation)
+- [Over-Scroll Support](https://github.com/EverythingMe/overscroll-decor)
 
 作者Q:3206279058
 

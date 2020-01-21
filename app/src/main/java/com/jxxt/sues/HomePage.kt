@@ -11,6 +11,8 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.jxxt.sues.ui.ViewPagerAdapter
 import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.home_page.*
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
+import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.io.File
@@ -29,9 +31,21 @@ class HomePage : AppCompatActivity() {
 
         val bottomNavi: AHBottomNavigation = bottom_navigation
         val bottomNaviAdapter = AHBottomNavigationAdapter(this, R.menu.bottom_nav_menu)
-        bottomNaviAdapter.setupWithBottomNavigation(bottomNavi, intArrayOf(R.color.white, R.color.black))
+        bottomNaviAdapter.setupWithBottomNavigation(bottomNavi, null)
+
         adapter = ViewPagerAdapter(supportFragmentManager)
         view_pager.adapter = adapter
+        OverScrollDecoratorHelper.setUpOverScroll(view_pager)
+        view_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+            override fun onPageSelected(position: Int) {
+                bottom_navigation.currentItem = position
+            }
+
+        })
         bottom_navigation.setOnTabSelectedListener { position, _ ->
             view_pager.currentItem = position
             return@setOnTabSelectedListener true
@@ -51,8 +65,10 @@ class HomePage : AppCompatActivity() {
                     bottomNavi.accentColor = primeColor
                     if (dark) {
                         bottomNavi.defaultBackgroundColor = Color.parseColor("#000000")
+                        home_page.backgroundColor = Color.parseColor("#000000")
                     } else {
                         bottomNavi.defaultBackgroundColor = Color.parseColor("#FFFFFF")
+                        home_page.backgroundColor = Color.parseColor("#FFFFFF")
                     }
                 }
             }
