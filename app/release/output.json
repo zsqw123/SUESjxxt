@@ -10,8 +10,8 @@
       "apkData": {
         "type": "MAIN",
         "splits": [],
-        "versionCode": 16,
-        "versionName": "20.1.18-daily",
+        "versionCode": 17,
+        "versionName": "20.1.21-daily",
         "outputFile": "app-release.apk",
         "fullName": "release",
         "baseName": "release",

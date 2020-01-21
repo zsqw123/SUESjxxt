@@ -14,8 +14,8 @@ android {
         applicationId "com.jxxt.sues"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 16
-        versionName "20.1.18-daily"
+        versionCode 17
+        versionName "20.1.21-daily"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
