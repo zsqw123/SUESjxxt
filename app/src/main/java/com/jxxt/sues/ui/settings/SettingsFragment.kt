@@ -8,6 +8,9 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
@@ -89,7 +92,7 @@ class SettingsFragment : Fragment() {
                         val task = editText {
                             hint = "当前周"
                             inputType = InputType.TYPE_CLASS_NUMBER
-                            padding = getStatusBarHeight(context)
+                            padding = dip(20)
                         }
                         //button
                         negativeButton("OK(正周数)") {
@@ -270,6 +273,8 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
+        val lp = settings_layout.layoutParams as FrameLayout.LayoutParams
+        lp.setMargins(0, getStatusBarHeight(context!!), 0, 0)
     }
 
     @NeedsPermission(Manifest.permission.READ_CALENDAR)
