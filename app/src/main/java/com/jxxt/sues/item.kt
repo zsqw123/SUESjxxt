@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.graphics.ColorUtils
+import kotlinx.android.synthetic.main.activity_main.view.*
 import org.jetbrains.anko.*
 import java.text.SimpleDateFormat
 import java.util.*

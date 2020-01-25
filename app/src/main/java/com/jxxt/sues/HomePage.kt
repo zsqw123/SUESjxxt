@@ -1,5 +1,7 @@
 package com.jxxt.sues
 
+import android.content.Context
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -83,4 +85,10 @@ class HomePage : AppCompatActivity() {
         val rB = 255 - blue
         return Color.rgb(rR, rG, rB)
     }
+}
+
+fun getStatusBarHeight(context: Context): Int {
+    val resources: Resources = context.resources
+    val resourceId: Int = resources.getIdentifier("status_bar_height", "dimen", "android")
+    return resources.getDimensionPixelSize(resourceId)
 }

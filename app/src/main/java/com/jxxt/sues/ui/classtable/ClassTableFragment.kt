@@ -5,19 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.ColorUtils
+import androidx.core.view.marginTop
+import androidx.core.view.setMargins
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jxxt.sues.Item
-import com.jxxt.sues.MainAdapter
-import com.jxxt.sues.R
-import com.jxxt.sues.Show
+import com.jxxt.sues.*
 import com.jxxt.sues.ical.IcsToDateMap
 import com.jxxt.sues.widget.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.uiThread
 import java.io.File
@@ -169,7 +170,6 @@ class ClassTableFragment : Fragment() {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
                 adapter = MainAdapter(context, content)
-//                setItemViewCacheSize(25)
             }
             //回弹效果
             OverScrollDecoratorHelper.setUpOverScroll(mainView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
@@ -177,6 +177,10 @@ class ClassTableFragment : Fragment() {
             //loaded
             progressBar.visibility = View.INVISIBLE
         }
+        //padding
+        mainView.setPadding(0, getStatusBarHeight(context!!), 0, 0)
+        val lp = float_card.layoutParams as ConstraintLayout.LayoutParams
+        lp.setMargins(dip(20), getStatusBarHeight(context!!) + dip(20), dip(20), dip(20))
         nowbar_class.setOnClickListener {
             findToday()
             toast("已回到最近日程")

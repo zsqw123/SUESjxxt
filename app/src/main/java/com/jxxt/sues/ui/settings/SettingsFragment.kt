@@ -89,7 +89,7 @@ class SettingsFragment : Fragment() {
                         val task = editText {
                             hint = "当前周"
                             inputType = InputType.TYPE_CLASS_NUMBER
-                            padding = dip(20)
+                            padding = getStatusBarHeight(context)
                         }
                         //button
                         negativeButton("OK(正周数)") {
