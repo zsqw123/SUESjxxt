@@ -38,13 +38,10 @@ class HomePage : AppCompatActivity() {
         OverScrollDecoratorHelper.setUpOverScroll(view_pager)
         view_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
-
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-
             override fun onPageSelected(position: Int) {
                 bottom_navigation.currentItem = position
             }
-
         })
         bottom_navigation.setOnTabSelectedListener { position, _ ->
             view_pager.currentItem = position
@@ -62,13 +59,14 @@ class HomePage : AppCompatActivity() {
                     //状态栏沉浸
                     window.decorView.systemUiVisibility = if (dark) View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                    bottomNavi.accentColor = primeColor
+                    bottomNavi.accentColor = reverse(primeColor)
+                    bottomNavi.inactiveColor = primeColor
                     if (dark) {
-                        bottomNavi.defaultBackgroundColor = Color.parseColor("#000000")
-                        home_page.backgroundColor = Color.parseColor("#000000")
+                        bottomNavi.defaultBackgroundColor = Color.BLACK
+                        home_page.backgroundColor = Color.BLACK
                     } else {
-                        bottomNavi.defaultBackgroundColor = Color.parseColor("#FFFFFF")
-                        home_page.backgroundColor = Color.parseColor("#FFFFFF")
+                        bottomNavi.defaultBackgroundColor = Color.WHITE
+                        home_page.backgroundColor = Color.WHITE
                     }
                 }
             }

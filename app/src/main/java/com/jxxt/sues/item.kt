@@ -20,12 +20,13 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
     //layout定义
     lateinit var layout: RelativeLayout
     private lateinit var day: TextView
-    lateinit var date: TextView
+    private lateinit var date: TextView
     lateinit var name: TextView
     private lateinit var itemPadding: TextView
     private lateinit var classroom: TextView
 
-    fun setData(pos: Int, list: List<Item>, week: Int, primeColor: Int?) {
+
+    fun setData(pos: Int, list: List<Item>, primeColor: Int?, week0: Date, isSetAlpha: Boolean) {
         //Color
         if (primeColor != null) {
             val dark = ColorUtils.calculateLuminance(primeColor) <= 0.2
@@ -52,30 +53,41 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
             tView.setColor(primeColor)
         }
         //Data
-        date.text = SimpleDateFormat("HH:mm", Locale.CHINA).format(list[pos].date)
-        name.text = list[pos].name
+        val alphaView: List<TextView> = listOf(day, date, name, classroom)
+        val item: Item = list[pos]
+        val itemBefore: Item? = if (pos == 0) null else list[pos - 1]
+        val itemWeek: Int = ((item.date.time - week0.time) / (24 * 3600000)).toInt() / 7
+
+        date.text = SimpleDateFormat("HH:mm", Locale.CHINA).format(item.date)
+        name.text = item.name
         classroom.text = "-> 位置:" + list[pos].room
-        if (pos != 0) {
-            val after = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos].date)
-            val before = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos - 1].date)
-            if (before == after) {
-                day.visibility = View.GONE
-            } else {
-                day.text = after + " 第${week}周"
+
+        when (pos) {
+            0 -> {
+                day.text = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(item.date) + " 第${itemWeek}周"
+                val now = Date()
+                if (now <= item.date) {
+                    name.textColor = Color.parseColor("#CF6F06")
+                    name.typeface = Typeface.defaultFromStyle(Typeface.BOLD_ITALIC)
+                }
             }
-            //找到今日日程
-            val now = Date()
-            if (now <= list[pos].date && now >= list[pos - 1].date) {
-                name.textColor = Color.parseColor("#CF6F06")
-                name.typeface = Typeface.defaultFromStyle(Typeface.BOLD_ITALIC)
-            }
-        } else {
-            day.text = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(list[pos].date) + " 第${week}周"
-            val now = Date()
-            if (now <= list[pos].date) {
-                name.typeface = Typeface.defaultFromStyle(Typeface.BOLD_ITALIC)
+            else -> {
+                val after = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(item.date)
+                val before = SimpleDateFormat("MM/dd EE", Locale.CHINA).format(itemBefore!!.date)
+                if (before == after) {
+                    day.visibility = View.GONE
+                } else {
+                    day.text = after + " 第${itemWeek}周"
+                }
+                //找到今日日程
+                val now = Date()
+                if (now in item.date..itemBefore.date) {
+                    name.textColor = Color.parseColor("#CF6F06")
+                    name.typeface = Typeface.defaultFromStyle(Typeface.BOLD_ITALIC)
+                }
             }
         }
+        if (isSetAlpha) alphaView.forEach { it.alpha = 0.5f }
     }
 
     private fun itemAnko(colorTheme: Int): RelativeLayout {
@@ -143,5 +155,4 @@ class ListItem(context: Context, attrs: AttributeSet? = null) : RelativeLayout(c
         }
         return layout
     }
-
 }

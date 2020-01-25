@@ -99,4 +99,7 @@ dependencies {
 
     //OverScroll
     implementation 'me.everything:overscroll-decor-android:1.0.4'
+
+    //Timetable
+    implementation 'io.moyuru:timetablelayout:1.0.0-alpha02'
 }

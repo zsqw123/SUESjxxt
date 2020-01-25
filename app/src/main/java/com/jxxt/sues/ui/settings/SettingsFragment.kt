@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import com.jxxt.sues.*
 import com.jxxt.sues.getpage.GetPage
 import com.jxxt.sues.ical.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.settings.*
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import org.jetbrains.anko.*
@@ -174,7 +173,6 @@ class SettingsFragment : Fragment() {
                         }
                         button("debug") {
                             onClick {
-                                startActivity<GetPage>()
                             }
                         }
                     }

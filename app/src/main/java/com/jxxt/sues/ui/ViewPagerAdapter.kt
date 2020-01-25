@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.jxxt.sues.ui.classtable.ClassTableFragment
+import com.jxxt.sues.ui.gridclasstable.GridFragment
 import com.jxxt.sues.ui.settings.SettingsFragment
 
 class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -14,6 +15,7 @@ class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_
     init {
         fragments += ClassTableFragment()
         fragments += SettingsFragment()
+        fragments += GridFragment()
     }
 
     override fun getItem(position: Int) = fragments[position]
