@@ -42,7 +42,7 @@ release下载地址[蓝奏网盘](https://www.lanzous.com/b0d6v7eb) 密码:sues
 
 |主界面|主题色|自定义当前周|
 |:---:|:---:|:---:|
-|![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/2.jpg)|![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/color.jpg)|![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/3.png)|
+|![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/2.jpg)|![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/color.jpg)|![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/3.jpg)|
 
 ### 桌面窗口小部件
 
