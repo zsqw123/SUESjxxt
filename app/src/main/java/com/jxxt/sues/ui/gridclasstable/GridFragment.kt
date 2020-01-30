@@ -14,7 +14,6 @@ import java.io.File
 
 class GridFragment : Fragment() {
     //read and judge
-    private lateinit var file: File
     private lateinit var colorString: File
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,7 +21,6 @@ class GridFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val myContext = context!!
-        file = File(myContext.filesDir, "/a")
         colorString = File(myContext.filesDir, "/color")
         return inflater.inflate(R.layout.grid_class_table, container, false)
     }

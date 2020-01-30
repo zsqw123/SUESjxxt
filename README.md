@@ -7,10 +7,9 @@
 release下载地址[蓝奏网盘](https://www.lanzous.com/b0d6v7eb) 密码:sues
 
 --------
-目前处于测试阶段 部分机型可能闪退 建议使用bugly版本帮助测试 感谢!
 感谢GammaPi大佬的[S2C工具](https://github.com/GammaPi/SUES-S2C-Tool)帮助，我将其python代码重构为了kotlin代码并做了移动端界面优化
 
-![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/1.png)
+![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/1.jpg)
 
 ## 支持功能
 
@@ -22,12 +21,15 @@ release下载地址[蓝奏网盘](https://www.lanzous.com/b0d6v7eb) 密码:sues
 
     日程表根据每日日程排序 自动跳转到当日(准确的说是目前)日程
 
-### 桌面窗口小部件
+### 为什么不像其他课程表软件一样做周视图
 
-    可以在桌面添加小部件 显示效果和应用主界面一致
-    不可自定义颜色 且最多只显示接下来的15个课程
+- 做的人太多了，没必要再做了
+- 周试图未必实用,反而还要为看不见长课程名妥协,大多数人看周课程表只是为了给别人截一下图
+- 可以导入到系统日历,系统日历提供了丰富的日历事件接口,例如miui日历:
 
-![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/4.png)
+|周视图|月视图|
+|:---:|:---:|
+|![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/miuiW.jpg)|![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/miuiM.jpg)|
 
 ### 支持导出ics（iCalendar格式）
 
@@ -36,12 +38,16 @@ release下载地址[蓝奏网盘](https://www.lanzous.com/b0d6v7eb) 密码:sues
 
 ### 设置界面
 
-![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/2.png)
+|主界面|主题色|自定义当前周|
+|:---:|:---:|:---:|
+|![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/2.jpg)|![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/color.jpg)|![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/3.png)|
 
-### 个性化设置
+### 桌面窗口小部件
 
-    最新版本可以自定义主题颜色
-![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/3.png)
+    可以在桌面添加小部件 显示效果和应用主界面一致
+    不可自定义颜色 且最多只显示接下来的15个课程
+
+![image](https://github.com/zsqw123/SUESjxxt/blob/master/app/shot/4.png)
 
 ### Dependency
 

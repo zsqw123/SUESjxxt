@@ -1,7 +1,6 @@
 package com.jxxt.sues.ui.settings
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
@@ -9,9 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import com.jxxt.sues.*
@@ -32,7 +28,6 @@ import java.util.*
 class SettingsFragment : Fragment() {
 
     //read and judge
-    private lateinit var file: File
     private lateinit var colorString: File
 
     private val colorNameList = listOf("简洁白", "少女粉", "夜间模式", "姨妈红", "咸蛋黄", "早苗绿", "胖次蓝", "基佬紫")
@@ -44,7 +39,6 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val myContext = context!!
-        file = File(myContext.filesDir, "/a")
         colorString = File(myContext.filesDir, "/color")
         return inflater.inflate(R.layout.settings, container, false)
     }
@@ -308,32 +302,25 @@ class SettingsFragment : Fragment() {
                 negativeButton("恢复(撤销)") {
                     if (CalendarProviderManager.checkCalendarAccount(context!!) == (-1).toLong()) {
                         toast("无本地账户或未导出过 无法继续操作")
+                        return@negativeButton
                     }
                     alert {
                         customView {
-                            textView("此操作会删除该设备上与课程名同名的日程\n云同步账户(Google、小米等云同步账户)中的日程不会被删除\n请谨慎操作")
+                            textView("此操作会删除该设备上与课程名同名的日程\n云同步账户(Google、小米等云同步账户)中的日程不会被删除\n请谨慎操作 需要日历权限")
                         }
                         positiveButton("无所谓 我都是云同步账户") {
                             CalendarProviderManager.deleteCalendarAccountByName(context!!)
-                            val checkSelfPermission = ContextCompat.checkSelfPermission(
-                                context!!,
-                                Manifest.permission.WRITE_CALENDAR
-                            )
-                            if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
-                                toast("请授予访问日历权限!")
-                            } else {
-                                doAsync {
-                                    for ((count, event) in myEventList.withIndex()) {
-                                        if (count % 5 == 0) {
-                                            uiThread {
-                                                toast("正在删除第${count}个事件")
-                                            }
+                            doAsync {
+                                for ((count, event) in myEventList.withIndex()) {
+                                    if (count % 5 == 0) {
+                                        uiThread {
+                                            toast("正在删除第${count}个事件")
                                         }
-                                        CalendarProviderManager.deleteCalendarEvent(context!!, event.theme)
                                     }
-                                    uiThread {
-                                        toast("已删除")
-                                    }
+                                    CalendarProviderManager.deleteCalendarEvent(context!!, event.theme)
+                                }
+                                uiThread {
+                                    toast("已删除")
                                 }
                             }
                         }
