@@ -88,28 +88,32 @@ class SettingsFragment : Fragment() {
                             inputType = InputType.TYPE_CLASS_NUMBER
                             padding = dip(20)
                         }
+
+                        fun setWeek(weeknowWeek: Int) = run {
+                            val weeknowDate = Calendar.getInstance(Locale.CHINA)
+                            //获得当前年周一日期
+                            val cal = Calendar.getInstance()
+                            cal.set(cal.get(Calendar.YEAR), 0, 1, 0, 0, 0)
+                            cal.firstDayOfWeek = Calendar.MONDAY
+                            cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+                            //Week0's Week
+                            val w0: Calendar = weeknowDate
+                            w0.firstDayOfWeek = Calendar.MONDAY
+                            w0.add(Calendar.DATE, -7 * weeknowWeek)
+                            w0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+                            val w0w = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(w0.time)
+                            val w0wFile = File(myContext.filesDir, "/weekNow")
+                            w0wFile.writeText(w0w)
+                            toast("设置成功 当前第 $weeknowWeek 周")
+                            startActivity(intentFor<HomePage>().newTask().clearTask())
+                        }
                         //button
                         negativeButton("OK(正周数)") {
                             if (task.text.toString().isEmpty()) {
                                 toast("没当前周你玩个鸡儿??及你太美")
                             } else {
                                 val weeknowWeek = task.text.toString().toInt()
-                                val weeknowDate = Calendar.getInstance(Locale.CHINA)
-                                //获得当前年周一日期
-                                val cal = Calendar.getInstance()
-                                cal.set(cal.get(Calendar.YEAR), 0, 1, 0, 0, 0)
-                                cal.firstDayOfWeek = Calendar.MONDAY
-                                cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-                                //Week0's Week
-                                val w0: Calendar = weeknowDate
-                                w0.firstDayOfWeek = Calendar.MONDAY
-                                w0.add(Calendar.DATE, -7 * weeknowWeek)
-                                w0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-                                val w0w = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(w0.time)
-                                val w0wFile = File(myContext.filesDir, "/weekNow")
-                                w0wFile.writeText(w0w)
-                                toast("设置成功 当前第 ${task.text} 周")
-                                startActivity(intentFor<HomePage>().newTask().clearTask())
+                                setWeek(weeknowWeek)
                             }
                         }
                         positiveButton("OK(负周数)") {
@@ -117,22 +121,7 @@ class SettingsFragment : Fragment() {
                                 toast("没当前周你玩个鸡儿??及你太美")
                             } else {
                                 val weeknowWeek = -task.text.toString().toInt()
-                                val weeknowDate = Calendar.getInstance(Locale.CHINA)
-                                //获得当前年周一日期
-                                val cal = Calendar.getInstance()
-                                cal.set(cal.get(Calendar.YEAR), 0, 1, 0, 0, 0)
-                                cal.firstDayOfWeek = Calendar.MONDAY
-                                cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-                                //Week0's Week
-                                val w0: Calendar = weeknowDate
-                                w0.firstDayOfWeek = Calendar.MONDAY
-                                w0.add(Calendar.DATE, -7 * weeknowWeek)
-                                w0.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-                                val w0w = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(w0.time)
-                                val w0wFile = File(myContext.filesDir, "/weekNow")
-                                w0wFile.writeText(w0w)
-                                toast("设置成功 当前第 -${task.text} 周")
-                                startActivity(intentFor<HomePage>().newTask().clearTask())
+                                setWeek(weeknowWeek)
                             }
                         }
                     }

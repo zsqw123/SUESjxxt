@@ -14,16 +14,17 @@ android {
         applicationId "com.jxxt.sues"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 17
-        versionName "20.1.21-daily"
+        versionCode 18
+        versionName "20.2.4-daily"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
         }
         ndk {
-            abiFilters 'armeabi', 'arm64-v8a', 'x86_64'
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
         }
+        resConfigs('zh-rCN')
     }
     buildTypes {
         debug {
@@ -44,6 +45,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
