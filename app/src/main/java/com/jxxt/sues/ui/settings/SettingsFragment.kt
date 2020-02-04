@@ -233,32 +233,10 @@ class SettingsFragment : Fragment() {
                 if (i == 0) startActivity<ToCalendar>()
                 if (i == 1) {
                     val icsFile = File(myContext.filesDir, "/icsSelf")
-                    val suesFile = File(myContext.filesDir, "/classJs")
                     if (!icsFile.exists()) {
-                        if (suesFile.exists()) {
-                            toast("正在转化课程表为ics格式...3s左右")
-                            doAsync {
-                                val text: String = suesFile.readText()
-                                val listItem: List<Item> = Show().textShow(text)
-                                val a = ExIcs()
-                                a.ex(listItem)
-                                val icsInput: String = a.expath.readText()
-                                icsFile.writeText(icsInput)
-                                uiThread {
-                                    toast("正在导入...可能10s左右")
-                                }
-                                uiThread {
-                                    icsToCalendarViewWithPermissionCheck()
-                                }
-                            }
-                        } else {
-                            toast("请先导入")
-                        }
+                        toast("请先导入")
                     } else {
                         doAsync {
-                            uiThread {
-                                toast("正在导入...可能10s左右")
-                            }
                             uiThread {
                                 icsToCalendarViewWithPermissionCheck()
                             }
@@ -281,7 +259,7 @@ class SettingsFragment : Fragment() {
                     toast("正在导出")
                     doAsync {
                         for ((count, event) in myEventList.withIndex()) {
-                            if (count % 5 == 0) {
+                            if (count % 10 == 0) {
                                 uiThread {
                                     toast("正在添加第${count}个事件")
                                 }
@@ -312,7 +290,7 @@ class SettingsFragment : Fragment() {
                             CalendarProviderManager.deleteCalendarAccountByName(context!!)
                             doAsync {
                                 for ((count, event) in myEventList.withIndex()) {
-                                    if (count % 5 == 0) {
+                                    if (count % 10 == 0) {
                                         uiThread {
                                             toast("正在删除第${count}个事件")
                                         }

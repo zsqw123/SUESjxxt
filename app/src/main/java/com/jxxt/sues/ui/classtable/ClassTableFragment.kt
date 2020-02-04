@@ -101,7 +101,6 @@ class ClassTableFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val myContext = Utils.getContext()
-        val file = File(myContext.filesDir, "/classJs")
         val colorString = File(myContext.filesDir, "/color")
         val icsStorePath = File(myContext.filesDir, "/icsSelf")
         val item = mutableListOf<Item>()
@@ -138,43 +137,30 @@ class ClassTableFragment : Fragment() {
             }
         }
 
-        if (!file.exists()) {
-            if (icsStorePath.exists()) {
-                doAsync {
-                    val myEventList = IcsToDateMap().b()
-                    myEventList.forEach {
-                        val date = Date()
-                        date.time = it.start
-                        item += Item(date, it.discri + it.theme, it.location)
+        if (icsStorePath.exists()) {
+            doAsync {
+                val myEventList = IcsToDateMap().b()
+                myEventList.forEach {
+                    val date = Date()
+                    date.time = it.start
+                    item += Item(date, it.discri + it.theme, it.location)
+                }
+                content = item
+                uiThread {
+                    mainView.apply {
+                        setHasFixedSize(true)
+                        layoutManager = LinearLayoutManager(context)
+                        adapter = MainAdapter(context, item)
                     }
-                    content = item
-                    uiThread {
-                        mainView.apply {
-                            setHasFixedSize(true)
-                            layoutManager = LinearLayoutManager(context)
-                            adapter = MainAdapter(context, item)
-                        }
-                        setColor()
-                    }
+                    setColor()
+                    //回弹效果
+                    OverScrollDecoratorHelper.setUpOverScroll(mainView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
                 }
             }
-            //loaded
-            progressBar.visibility = View.INVISIBLE
-        } else {
-            val text = file.readText()
-            //主列表视图显示
-            content = Show().textShow(text)
-            mainView.apply {
-                setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(context)
-                adapter = MainAdapter(context, content)
-            }
-            //回弹效果
-            OverScrollDecoratorHelper.setUpOverScroll(mainView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
-            setColor()
-            //loaded
-            progressBar.visibility = View.INVISIBLE
         }
+        //loaded
+        progressBar.visibility = View.INVISIBLE
+
         //padding
         mainView.setPadding(0, getStatusBarHeight(context!!), 0, 0)
         val lp = float_card.layoutParams as ConstraintLayout.LayoutParams

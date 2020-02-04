@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import com.jxxt.sues.*
 import com.jxxt.sues.widget.Utils
+import kotlinx.android.synthetic.main.newclass.*
 import net.dongliu.requests.Requests
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -41,7 +42,7 @@ class GetPage : Activity() {
                 capText = editText {
                     hint = "请输入验证码"
                 }
-                button("刷新验证码"){
+                button("刷新验证码") {
                     onClick {
                         getCaptha()
                     }
@@ -76,7 +77,7 @@ class GetPage : Activity() {
                                         selector("选择要打开的学期", termList) { _, i0 ->
                                             toast("${xhrList[i]} 第${termList[i0]}学期")
                                             doAsync {
-                                                FindContext().resolveClasses(getCourseTable(xhrList[i], termList[i0]))
+                                                FindContent().resolveClasses(getCourseTable(xhrList[i], termList[i0]))
                                                 uiThread {
                                                     toast("课程导入成功")
                                                     getCaptha()
@@ -94,12 +95,14 @@ class GetPage : Activity() {
                     }
                 }
             }
-            textView("1.教学系统会在晚上23:13以后关闭(可能) 此时软件无法读取数据\n\n" +
-                    "2.读取数据时间取决于你的网速 且需要连接校园网(360connect 网康也行 后续可能考虑软件自带)\n" +
-                    "\n3.选择学期全程不可返回 返回可能导致逻辑数据错乱\n\n" +
-                    "4.若无法登录时需要重新获取验证码(点击图片)\n\n" +
-                    "导入完成后便会重启本应用")
-            button("不信任开发者 前往学校官网登录读取(不推荐)"){
+            textView(
+                "1.教学系统会在晚上23:13以后关闭(可能) 此时软件无法读取数据\n\n" +
+                        "2.读取数据时间取决于你的网速 且需要连接校园网(360connect 网康也行 后续可能考虑软件自带)\n" +
+                        "\n3.选择学期全程不可返回 返回可能导致逻辑数据错乱\n\n" +
+                        "4.若无法登录时需要重新获取验证码(点击图片)\n\n" +
+                        "导入完成后便会重启本应用"
+            )
+            button("不信任开发者 前往学校官网登录读取(不推荐)") {
                 onClick {
                     startActivity<NewAct>()
                 }
@@ -207,7 +210,10 @@ class GetPage : Activity() {
     private fun getCourseTable(yearStr: String, termStr: String): String {
         val r = session.get("http://jxxt.sues.edu.cn/eams/courseTableForStd.action?method=stdHome")
             .timeout(10000).send().readToText()
-        val url = FindContext().findText(r)
+        val url = FindContent.findText(r)
+        if (url == "no") {
+            textView2.text = "你网络太菜了(延迟大于5秒)\nor 没连接网康VPN\nor 没登陆"
+        }
         val payload = hashMapOf(
             "ignoreHead" to "1",
             "semester.id" to "semesterId",

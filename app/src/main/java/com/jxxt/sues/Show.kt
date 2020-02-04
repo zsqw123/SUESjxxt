@@ -6,8 +6,8 @@ import java.util.*
 
 class Show {
     fun textShow(input: String): List<Item> {
-        val mapInput = FindContext().jsToList(input)
-        val toyearInput = FindContext().getToyear(input)
+        val mapInput = FindContent().jsToList(input)
+        val toyearInput = FindContent().getToyear(input)
         val courseStrMap: List<Course>? = SwitchToCourse(mapInput).switch()
         val list: MutableList<Map<Date, Course>> = mutableListOf()
         if (courseStrMap != null) {

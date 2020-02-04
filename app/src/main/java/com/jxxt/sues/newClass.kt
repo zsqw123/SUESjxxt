@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.newclass.*
 import android.widget.TextView
 import androidx.core.view.isVisible
 import org.jetbrains.anko.*
-import java.io.File
 import java.lang.Exception
 
 var str = ""
@@ -65,7 +64,7 @@ class NewAct : AppCompatActivity() {
             doAsync {
                 Thread.sleep(5000)//超时3s
                 uiThread {
-                    if (FindContext().findText(str) == "no") {
+                    if (FindContent.findText(str) == "no") {
                         textView2.text = "你网络太菜了(延迟大于5秒)\nor 没连接网康VPN\nor 没登陆"
                     } else {
                         loadButton.isVisible = false
@@ -79,7 +78,7 @@ class NewAct : AppCompatActivity() {
         okButton.setOnClickListener {
             //resolve url0->html to get url1
             doAsync {
-                val url1 = FindContext().findText(str)
+                val url1 = FindContent.findText(str)
                 uiThread {
                     class InJavaScriptLocalObj1 {
                         @JavascriptInterface
@@ -125,7 +124,7 @@ class NewAct : AppCompatActivity() {
                 try {
                     Thread.sleep(5000)
                     textView2.text = str1
-                    FindContext().resolveClasses(str1)
+                    FindContent().resolveClasses(str1)
                     Thread.sleep(1000)
                     startActivity(intentFor<HomePage>().newTask().clearTask())
                 } catch (e: Exception) {
