@@ -1,24 +1,20 @@
 {
   "version": 1,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
   "applicationId": "com.jxxt.sues",
-  "variantType": "BASE_APK",
+  "variantName": "release",
   "elements": [
     {
-      "outputType": {
-        "type": "APK"
-      },
-      "apkData": {
-        "type": "MAIN",
-        "splits": [],
-        "versionCode": 17,
-        "versionName": "20.1.21-daily",
-        "outputFile": "app-release.apk",
-        "fullName": "release",
-        "baseName": "release",
-        "dirName": ""
-      },
-      "path": "app-release.apk",
-      "properties": {}
+      "type": "SINGLE",
+      "filters": [],
+      "properties": [],
+      "versionCode": 18,
+      "versionName": "18",
+      "enabled": true,
+      "outputFile": "app-release.apk"
     }
   ]
 }

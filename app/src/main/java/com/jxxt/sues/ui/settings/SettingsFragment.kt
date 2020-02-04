@@ -1,7 +1,9 @@
 package com.jxxt.sues.ui.settings
 
 import android.Manifest
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
@@ -139,10 +141,20 @@ class SettingsFragment : Fragment() {
                             title = "关于作者"
                         }
                         textView(R.string.about)
-                        button("捐赠!! 打赏!! 点我!!!\n打开浏览器以后选择使用支付宝打开!!") {
+                        button("捐赠!! 打赏!! 点我!!!\n选择使用支付宝打开!!") {
                             onClick {
-                                val alipay = "https://qr.alipay.com/fkx05866rmc3tvpisucbsef"
-                                browse(alipay)
+                                val payUrl = "https://qr.alipay.com/fkx05866rmc3tvpisucbsef"
+                                val uri = Uri.parse("alipays://platformapi/startApp")
+                                val intent0 = Intent(Intent.ACTION_VIEW, uri)
+                                val componentName = intent0.resolveActivity(context.packageManager)
+                                if (componentName!=null){
+                                    val intent1 = Intent()
+                                    intent1.action = "android.intent.action.VIEW"
+                                    intent1.data = Uri.parse("alipayqr://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=$payUrl")
+                                    startActivity(intent1)
+                                }else{
+                                    browse(payUrl)
+                                }
                             }
                         }
                         button("项目已在github开源 点我查看") {

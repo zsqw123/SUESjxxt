@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment
 import com.jxxt.sues.R
 import kotlinx.android.synthetic.main.grid_class_table.*
 import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.io.File
 
 class GridFragment : Fragment() {
     //read and judge
     private lateinit var colorString: File
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,6 +37,10 @@ class GridFragment : Fragment() {
             } else {
                 grid_frag.backgroundColor = Color.WHITE
             }
+        }
+        open_calendar.onClick {
+            val s = "com.android.calendar"
+            startActivity(context!!.packageManager.getLaunchIntentForPackage(s))
         }
     }
 }
