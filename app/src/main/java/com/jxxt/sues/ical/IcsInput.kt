@@ -2,6 +2,7 @@ package com.jxxt.sues.ical
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
@@ -16,7 +17,6 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import com.jxxt.sues.widget.Utils
 import net.fortuna.ical4j.data.CalendarBuilder
 import net.fortuna.ical4j.model.Component
@@ -41,7 +41,7 @@ import java.util.regex.Pattern
 data class MyEvent(var start: Long, var end: Long, var theme: String, var discri: String, var remindersMinutes: Int = 15, var location: String = "null")
 
 @RuntimePermissions
-class IcsInput : AppCompatActivity() {
+class IcsInput : Activity() {
     private lateinit var toSystemCalendarButton: Button
     private lateinit var toMyClassTableButton: Button
     private lateinit var myEventList: List<MyEvent>

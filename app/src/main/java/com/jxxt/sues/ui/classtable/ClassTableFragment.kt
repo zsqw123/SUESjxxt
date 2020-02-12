@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ClassTableFragment : Fragment() {
-    private lateinit var content: List<Item>
+    private var content: List<Item>? = null
     private var hadCycled = false
     private var a = 0
     //每秒更新事件
@@ -32,13 +32,13 @@ class ClassTableFragment : Fragment() {
         if (!hadCycled) {
             doAsync {
                 while (nowbar_time != null) {
-                    val nowClassDate = content[a].date.time
-                    val nowClassDateEnd = content[a].date.time + 5400000
+                    val nowClassDate = content!![a].date.time
+                    val nowClassDateEnd = content!![a].date.time + 5400000
                     if (Date().time in nowClassDate until nowClassDateEnd) {
                         uiThread {
                             try {
                                 nowbar_time.text = SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(Date())
-                                nowbar_class.text = "当前正在上课:\n" + content[a - 1].name
+                                nowbar_class.text = "当前正在上课:\n" + content!![a - 1].name
                                 val remain = (nowClassDateEnd - Date().time) / 1000
                                 val remainH = remain / 3600
                                 val remainM = (remain % 3600) / 60
@@ -51,7 +51,7 @@ class ClassTableFragment : Fragment() {
                         uiThread {
                             try {
                                 nowbar_time.text = SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(Date())
-                                val remain = (content[a].date.time - Date().time) / 1000
+                                val remain = (content!![a].date.time - Date().time) / 1000
                                 if (remain < 0) {
                                     nowbar_remain.text = "距离上课还剩我也不知道多长时间"
                                     nowbar_class.text = "暂无更多课程\n请调整当前周或下学期见"
@@ -59,7 +59,7 @@ class ClassTableFragment : Fragment() {
                                     val remainH = remain / 3600
                                     val remainM = (remain % 3600) / 60
                                     val remainS = (remain % 3600) % 60
-                                    nowbar_class.text = "下一节课:\n" + content[a].name
+                                    nowbar_class.text = "下一节课:\n" + content!![a].name
                                     nowbar_remain.text = "距离上课还剩 ${remainH.toInt()}小时${remainM.toInt()}分${remainS.toInt()}秒"
                                 }
                             } catch (e: Exception) {
@@ -76,8 +76,8 @@ class ClassTableFragment : Fragment() {
     //找到今日日程
     private fun findToday() {
         val now = Date()
-        for (i in content.indices) {
-            val nowClassDate = content[i].date
+        for (i in content!!.indices) {
+            val nowClassDate = content!![i].date
             //mainView移动到指定位置
             if (now <= nowClassDate) {
                 mainView.scrollToPosition(i)
@@ -132,7 +132,8 @@ class ClassTableFragment : Fragment() {
                 }
                 uiThread {
                     //找到今日日程
-                    findToday()
+                    if (content != null) findToday()
+
                 }
             }
         }
@@ -166,7 +167,7 @@ class ClassTableFragment : Fragment() {
         val lp = float_card.layoutParams as ConstraintLayout.LayoutParams
         lp.setMargins(dip(20), getStatusBarHeight(context!!) + dip(20), dip(20), dip(20))
         nowbar_class.setOnClickListener {
-            findToday()
+            if (content != null) findToday()
             toast("已回到最近日程")
         }
     }
