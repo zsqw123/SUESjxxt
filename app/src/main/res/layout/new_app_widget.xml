@@ -1,14 +1,14 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/ll_right"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="#000000"
-              android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ll_right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/widget_backgroud"
+        android:orientation="vertical">
+
     <ListView
             android:id="@+id/lv_widget"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-    />
+            android:gravity="center" />
 
 </LinearLayout>

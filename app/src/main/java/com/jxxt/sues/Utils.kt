@@ -1,12 +1,13 @@
 package com.jxxt.sues
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.chibatching.kotpref.KotprefModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -41,7 +42,22 @@ var View.backgroundColor: Int
     }
 
 /**
+ *  only can set
+ */
+var TextView.textColor: Int
+    get() = 0
+    set(value) {
+        setTextColor(value)
+    }
+
+/**
  *  convert dp to px
  */
 val Int.dp
     get() = this * suesApp.resources.displayMetrics.density.toInt()
+
+object SuesPref : KotprefModel() {
+    var isdark by booleanPref(false)
+    var currentWeek by intPref(0)
+    var mainColor by intPref(0)
+}

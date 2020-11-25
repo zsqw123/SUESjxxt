@@ -10,7 +10,7 @@ import java.util.*
 
 class MainAdapter(private val context: Context, private val dataList: List<Item>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return Holder(ListItem(context))
+        return Holder(ListItem(context).layout)
     }
 
     private var primeColor: Int = R.color.colorPrimary
