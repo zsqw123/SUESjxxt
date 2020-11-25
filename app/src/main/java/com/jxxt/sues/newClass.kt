@@ -126,7 +126,7 @@ class NewAct : AppCompatActivity() {
                     textView2.text = str1
                     FindContent().resolveClasses(str1)
                     Thread.sleep(1000)
-                    startActivity(intentFor<HomePage>().newTask().clearTask())
+                    startActivity(intentFor<MainActivity>().newTask().clearTask())
                 } catch (e: Exception) {
                     textView2.text = "你网络太菜了(或延迟大于5s) \nor 没连接网康VPN \nor 没登陆"
                 }

@@ -14,15 +14,11 @@ import com.jxxt.sues.ui.ViewPagerAdapter
 import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.home_page.*
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import java.io.File
 
 
-class HomePage : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var adapter: ViewPagerAdapter
-//    private lateinit var viewPager: AHBottomNavigationViewPager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +53,7 @@ class HomePage : AppCompatActivity() {
                 val primeColor: Int = colorString.readText().toInt()
                 //判断是否dark色系对任务栏图标显示颜色作出更改
                 val dark = ColorUtils.calculateLuminance(primeColor) <= 0.2
-                uiThread {
+                runOnUiThread {
                     //状态栏沉浸
                     window.decorView.systemUiVisibility = if (dark) View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -65,10 +61,10 @@ class HomePage : AppCompatActivity() {
                     bottomNavi.inactiveColor = primeColor
                     if (dark) {
                         bottomNavi.defaultBackgroundColor = Color.BLACK
-                        home_page.backgroundColor = Color.BLACK
+                        home_page.background.setTint(Color.BLACK)
                     } else {
                         bottomNavi.defaultBackgroundColor = Color.WHITE
-                        home_page.backgroundColor = Color.WHITE
+                        home_page.background.setTint(Color.WHITE)
                     }
                 }
             }

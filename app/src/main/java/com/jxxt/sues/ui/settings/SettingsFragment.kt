@@ -107,7 +107,7 @@ class SettingsFragment : Fragment() {
                             val w0wFile = File(myContext.filesDir, "/weekNow")
                             w0wFile.writeText(w0w)
                             toast("设置成功 当前第 $weeknowWeek 周")
-                            startActivity(intentFor<HomePage>().newTask().clearTask())
+                            startActivity(intentFor<MainActivity>().newTask().clearTask())
                         }
                         //button
                         negativeButton("OK(正周数)") {
@@ -186,7 +186,7 @@ class SettingsFragment : Fragment() {
                 fab_theme.background.setTint(primeColor)
                 colorString.writeText(primeColor.toString())
                 toast("建议在颜色设置更改之后重启APP")
-                startActivity(intentFor<HomePage>().newTask().clearTask())
+                startActivity(intentFor<MainActivity>().newTask().clearTask())
             }
         }
         text_theme.setOnLongClickListener {
@@ -220,7 +220,7 @@ class SettingsFragment : Fragment() {
                                 colorString = File(myContext.filesDir, "/color")
                                 colorString.writeText(primeColor.toString())
                                 toast("建议在颜色设置更改之后重启APP")
-                                startActivity(intentFor<HomePage>().newTask().clearTask())
+                                startActivity(intentFor<MainActivity>().newTask().clearTask())
                             }
                         }
                     }

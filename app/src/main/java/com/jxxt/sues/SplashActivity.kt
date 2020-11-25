@@ -7,7 +7,7 @@ import org.jetbrains.anko.startActivity
 class SplashActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startActivity<HomePage>()
+        startActivity<MainActivity>()
         finish()
     }
 }

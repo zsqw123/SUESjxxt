@@ -83,7 +83,7 @@ class GetPage : Activity() {
                                                     getCaptha()
                                                     doAsync {
                                                         Thread.sleep(1000)
-                                                        startActivity<HomePage>()
+                                                        startActivity<MainActivity>()
                                                     }
                                                 }
                                             }

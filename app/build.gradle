@@ -1,22 +1,17 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.jxxt.sues"
-        minSdkVersion 24
-        targetSdkVersion 29
-        versionCode 19
-        versionName "20.7.16"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 21
+        versionName "20.11.2"
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
@@ -57,22 +52,22 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.android.material:material:1.3.0-alpha01'
+    implementation 'com.google.android.material:material:1.2.1'
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 //    implementation 'androidx.preference:preference:1.1.1'
 //    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    def ktx_version = "2.3.0"
+    def ktx_version = "2.3.1"
     implementation "androidx.navigation:navigation-fragment-ktx:$ktx_version"
     implementation "androidx.navigation:navigation-ui-ktx:$ktx_version"
-    implementation "androidx.navigation:navigation-fragment:$ktx_version"
-    implementation "androidx.navigation:navigation-ui:$ktx_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$ktx_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$ktx_version"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
 
-    implementation "org.jetbrains.anko:anko:0.10.8"
+//    implementation "org.jetbrains.anko:anko:0.10.8"
     implementation 'org.jsoup:jsoup:1.12.1'
 
     //icalendar依赖
@@ -86,13 +81,7 @@ dependencies {
     //bugly
     implementation 'com.tencent.bugly:crashreport:3.1.0'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
-
-    //requests
     implementation "net.dongliu:requests:5.0.7"
-
-    //splitties
-    def splitties_version = "3.0.0-alpha06"
-
     //permissions request
     implementation "org.permissionsdispatcher:permissionsdispatcher:4.6.0"
     kapt "org.permissionsdispatcher:permissionsdispatcher-processor:4.6.0"
