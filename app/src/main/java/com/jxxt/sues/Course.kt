@@ -1,7 +1,5 @@
 package com.jxxt.sues
 
-import com.jxxt.sues.widget.Utils
-import org.jetbrains.anko.toast
 import java.util.*
 
 
@@ -30,7 +28,7 @@ class SwitchToCourse(private val input: MutableList<String>?) {
     //返回 课程类+课程名字的Map
     fun switch(): List<Course>? {
         if (input == null) {
-            Utils.getContext().toast("课表为空! 请导入")
+            toast("课表为空! 请导入")
             return null
         } else {
             val course = mutableListOf<Course>()
@@ -57,8 +55,8 @@ class SwitchToCourse(private val input: MutableList<String>?) {
                     classRegex += s.value
                 }
                 val teacher = classRegex[1]
-                val courseName = classRegex[3].replace("\"","")
-                val room = classRegex[5].replace("\"","")
+                val courseName = classRegex[3].replace("\"", "")
+                val room = classRegex[5].replace("\"", "")
                 val wk = mutableListOf<String>()
                 wklistRegexPattern.findAll(classRegex[6]).forEach { s ->
                     wk += s.value

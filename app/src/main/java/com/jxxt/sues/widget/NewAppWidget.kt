@@ -5,17 +5,17 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
 import android.widget.RemoteViews
 import android.widget.Toast
 import com.jxxt.sues.R
+import com.jxxt.sues.suesApp
+import com.jxxt.sues.toast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class NewAppWidget : AppWidgetProvider() {
-    private val runnable = Runnable {
-        hideLoading(Utils.getContext())
-        Toast.makeText(Utils.getContext(), "刷新成功", Toast.LENGTH_SHORT).show()
-    }
-
     //加载loading
     private fun showLoading(context: Context) {
         val remoteViews = RemoteViews(context.packageName, R.layout.new_app_widget)
@@ -55,7 +55,11 @@ class NewAppWidget : AppWidgetProvider() {
             val mgr = AppWidgetManager.getInstance(context)
             val cn = ComponentName(context, NewAppWidget::class.java)
             mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.lv_widget)
-            Handler().postDelayed(runnable, 1000)
+            GlobalScope.launch(Dispatchers.Main) {
+                delay((600..1000).random().toLong())
+                hideLoading(suesApp)
+                toast("刷新成功")
+            }
             showLoading(context)
         }
         super.onReceive(context, intent)
@@ -67,7 +71,7 @@ class NewAppWidget : AppWidgetProvider() {
             // 获取AppWidget对应的视图
             val views = RemoteViews(context.packageName, R.layout.new_app_widget)
             //adapter
-            val serviceIntent = Intent(context, Service::class.java)
+            val serviceIntent = Intent(context, WidgetService::class.java)
             views.setRemoteAdapter(R.id.lv_widget, serviceIntent)
             // Instruct the widget manager to update the widget
             appWidgetManager.updateAppWidget(appWidgetId, views)

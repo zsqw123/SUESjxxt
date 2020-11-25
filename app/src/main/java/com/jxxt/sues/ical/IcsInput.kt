@@ -17,7 +17,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import com.jxxt.sues.widget.Utils
+import com.jxxt.sues.suesApp
 import net.fortuna.ical4j.data.CalendarBuilder
 import net.fortuna.ical4j.model.Component
 import net.fortuna.ical4j.model.Property
@@ -81,7 +81,7 @@ class IcsInput : Activity() {
                                 toast("正在导入")
                                 doAsync {
                                     myEventList.forEach {
-                                        addEventWithPermissionCheck(Utils.getContext(), it)
+                                        addEventWithPermissionCheck(suesApp, it)
                                     }
                                 }
                             }
@@ -144,8 +144,7 @@ class IcsToDateMap {
 
         //ical4j配置TimeZoneCache
         System.setProperty("net.fortuna.ical4j.timezone.cache.impl", MapTimeZoneCache::class.java.name)
-        val mContext = Utils.getContext()//全局cotext
-        val icsFileInputStream = FileInputStream(File(mContext.filesDir, "/icsSelf"))
+        val icsFileInputStream = FileInputStream(File(suesApp.filesDir, "/icsSelf"))
         val icsCalendar = CalendarBuilder().build(icsFileInputStream)
         val i: Iterator<*> = icsCalendar.getComponents<CalendarComponent>(Component.VEVENT).iterator()
         while (i.hasNext()) {
@@ -165,7 +164,7 @@ class IcsToDateMap {
                 event.description.value
             } else ""
             // 重复规则
-            if (null != event.getProperty<Property?>("RRULE")) {
+            if (null != event.getProperty("RRULE")) {
                 println("RRULE:" + event.getProperty<Property>("RRULE").value)
             }
             // 提前多久提醒
@@ -212,13 +211,14 @@ private fun getDateTime(tmp: String): Long {
 
 
 fun checkCalendarPermission(): Boolean {
-    return PackageManager.PERMISSION_GRANTED == Utils.getContext().checkSelfPermission("android.permission.WRITE_CALENDAR")
+    return PackageManager.PERMISSION_GRANTED == suesApp.checkPermission("android.permission.WRITE_CALENDAR")
 }
 
 // 系统日历工具
 object CalendarProviderManager {
 
     private val builder = StringBuilder()
+
     // ----------------------------- 日历账户名相关设置 -----------------------------------
     /*
            TIP: 要向系统日历插入事件,前提系统中必须存在至少1个日历账户

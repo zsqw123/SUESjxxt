@@ -1,7 +1,5 @@
 package com.jxxt.sues
 
-import com.jxxt.sues.widget.Utils
-import org.jetbrains.anko.toast
 import java.util.*
 
 class Show {
@@ -21,7 +19,7 @@ class Show {
                 list.add(item)
             }
         } else {
-            Utils.getContext().toast("课表为空! 请导入")
+            toast("课表为空! 请导入")
             return emptyList()
         }
 

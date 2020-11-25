@@ -1,7 +1,7 @@
 package com.jxxt.sues.ical
 
 import com.jxxt.sues.Item
-import com.jxxt.sues.widget.Utils
+import com.jxxt.sues.suesApp
 import net.fortuna.ical4j.data.CalendarOutputter
 import net.fortuna.ical4j.model.*
 import net.fortuna.ical4j.model.Calendar
@@ -29,8 +29,7 @@ class ExIcs {
             // 添加事件
             calendar.components.add(event)
         }
-        val mContext = Utils.getContext()
-        expath = File(mContext.getExternalFilesDir(null), "/suesjxxt/1.ics")
+        expath = File(suesApp.getExternalFilesDir(null), "/suesjxxt/1.ics")
         if (!expath.exists()) expath.parentFile!!.mkdirs()
         expath.createNewFile()
         val fout = FileOutputStream(expath)

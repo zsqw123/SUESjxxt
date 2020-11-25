@@ -1,8 +1,6 @@
 package com.jxxt.sues
 
 import com.jxxt.sues.ical.ExIcs
-import com.jxxt.sues.widget.Utils
-import org.jetbrains.anko.doAsync
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.File
@@ -21,8 +19,7 @@ class FindContent {
     //HTML to Map                by Jsoup
     fun resolveClasses(html: String) {
         val doc: Document = Jsoup.parse(html)
-        val myContext = Utils.getContext()
-        val icsFile = File(myContext.filesDir, "/icsSelf")
+        val icsFile = File(suesApp.filesDir, "/icsSelf")
 
         //获取script Elements
         val docEles = doc.getElementsByTag("script")

@@ -5,24 +5,21 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import com.jxxt.sues.*
-import com.jxxt.sues.widget.Utils
 import kotlinx.android.synthetic.main.newclass.*
 import net.dongliu.requests.Requests
-import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.io.File
 
-class GetPage : Activity() {
+class GetPage : AppCompatActivity() {
     private lateinit var username: String
     private lateinit var passwd: String
     private lateinit var captcha: String
     private lateinit var cap: ImageView
     private lateinit var capText: EditText
 
-    val context = Utils.getContext()
-    private val userFile = File(context.filesDir, "/user0")
-    private val passwdFile = File(context.filesDir, "/passwd")
+    private val userFile = File(filesDir, "/user0")
+    private val passwdFile = File(filesDir, "/passwd")
 
     private val session = Requests.session()
     override fun onCreate(savedInstanceState: Bundle?) {

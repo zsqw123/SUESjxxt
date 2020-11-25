@@ -1,7 +1,6 @@
 package com.jxxt.sues.widget
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
@@ -12,7 +11,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Factory(private val mContext: Context, intent: Intent) : RemoteViewsService.RemoteViewsFactory {
+class WidgetFactory(private val mContext: Context) : RemoteViewsService.RemoteViewsFactory {
 
     private lateinit var data: MutableList<Item>
     //初始化ListView的数据

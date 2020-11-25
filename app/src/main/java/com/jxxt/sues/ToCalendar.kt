@@ -6,11 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.jxxt.sues.getpage.GetPage
 import com.jxxt.sues.ical.ExIcs
-import com.jxxt.sues.widget.Utils
 import kotlinx.android.synthetic.main.to_calendar.*
-import org.jetbrains.anko.*
 import java.io.File
-import java.lang.Exception
 
 class ToCalendar : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,16 +26,16 @@ class ToCalendar : AppCompatActivity() {
             } catch (e: Exception) {
                 toast("未输入正确数字格式 不进行提前提醒")
             }
-            if (!file.exists()) startActivity<GetPage>() else {
+            if (!file.exists()) startActivity(GetPage::class.java) else {
                 doAsync {
                     val a = ExIcs()
                     a.ex(content, extraTime)
                     uiThread {
-                        longToast("导出成功 请选择要分享的应用")
+                        toast("导出成功 请选择要分享的应用")
                     }
                     val share = Intent(Intent.ACTION_SEND)
                     share.type = "text/calendar"
-                    val uri = FileProvider.getUriForFile(Utils.getContext(), "com.jxxt.sues.provider", a.expath)
+                    val uri = FileProvider.getUriForFile(suesApp, "com.jxxt.sues.provider", a.expath)
                     share.putExtra(Intent.EXTRA_STREAM, uri)
                     share.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
@@ -55,12 +52,12 @@ class ToCalendar : AppCompatActivity() {
             } catch (e: Exception) {
                 toast("未输入正确数字格式 不进行提前提醒")
             }
-            if (!file.exists()) startActivity<GetPage>() else {
+            if (!file.exists()) startActivity(GetPage::class.java) else {
                 doAsync {
                     val a = ExIcs()
                     a.ex(content, extraTime)
                     uiThread {
-                        longToast("导出成功 请返回上一级")
+                        toast("导出成功 请返回上一级")
                     }
                 }
             }

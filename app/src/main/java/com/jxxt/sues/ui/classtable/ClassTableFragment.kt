@@ -11,14 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jxxt.sues.*
 import com.jxxt.sues.ical.IcsToDateMap
-import com.jxxt.sues.widget.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.support.v4.dip
-import org.jetbrains.anko.support.v4.toast
-import org.jetbrains.anko.uiThread
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,6 +21,7 @@ class ClassTableFragment : Fragment() {
     private var content: List<Item>? = null
     private var hadCycled = false
     private var a = 0
+
     //每秒更新事件
     private fun timeCycle() {
         if (!hadCycled) {
@@ -99,10 +94,8 @@ class ClassTableFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val myContext = Utils.getContext()
-        val colorString = File(myContext.filesDir, "/color")
-        val icsStorePath = File(myContext.filesDir, "/icsSelf")
+        val colorString = File(suesApp.filesDir, "/color")
+        val icsStorePath = File(suesApp.filesDir, "/icsSelf")
         val item = mutableListOf<Item>()
 
         fun setColor() {
@@ -161,11 +154,10 @@ class ClassTableFragment : Fragment() {
         }
         //loaded
         progressBar.visibility = View.INVISIBLE
-
         //padding
-        mainView.setPadding(0, getStatusBarHeight(context!!), 0, 0)
+        mainView.setPadding(0, getStatusBarHeight(requireContext()), 0, 0)
         val lp = float_card.layoutParams as ConstraintLayout.LayoutParams
-        lp.setMargins(dip(20), getStatusBarHeight(context!!) + dip(20), dip(20), dip(20))
+        lp.setMargins(20.dp, getStatusBarHeight(requireContext()) + 20.dp, 20.dp, 20.dp)
         nowbar_class.setOnClickListener {
             if (content != null) findToday()
             toast("已回到最近日程")

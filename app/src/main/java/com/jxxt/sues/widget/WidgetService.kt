@@ -3,8 +3,8 @@ package com.jxxt.sues.widget
 import android.content.Intent
 import android.widget.RemoteViewsService
 
-class Service : RemoteViewsService(){
+class WidgetService : RemoteViewsService(){
     override fun onGetViewFactory(p0: Intent):RemoteViewsFactory {
-        return Factory(this,p0)
+        return WidgetFactory(this)
     }
 }

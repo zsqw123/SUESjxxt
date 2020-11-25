@@ -1,11 +1,13 @@
 package com.jxxt.sues
 
 import android.app.Application
-import com.jxxt.sues.widget.Utils
+
+lateinit var suesApp: Application
 
 class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        Utils.init(this)
+        suesApp = this
+//        Utils.init(this)
     }
 }
