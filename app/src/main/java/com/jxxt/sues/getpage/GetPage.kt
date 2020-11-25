@@ -1,6 +1,5 @@
 package com.jxxt.sues.getpage
 
-import android.app.Activity
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.EditText
@@ -9,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.jxxt.sues.*
 import kotlinx.android.synthetic.main.newclass.*
 import net.dongliu.requests.Requests
+import org.jetbrains.anko.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.io.File
 
 class GetPage : AppCompatActivity() {
@@ -74,7 +75,7 @@ class GetPage : AppCompatActivity() {
                                         selector("选择要打开的学期", termList) { _, i0 ->
                                             toast("${xhrList[i]} 第${termList[i0]}学期")
                                             doAsync {
-                                                FindContent().resolveClasses(getCourseTable(xhrList[i], termList[i0]))
+                                                FindContent.resolveClasses(getCourseTable(xhrList[i], termList[i0]))
                                                 uiThread {
                                                     toast("课程导入成功")
                                                     getCaptha()

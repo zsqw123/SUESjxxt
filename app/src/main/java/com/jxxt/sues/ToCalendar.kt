@@ -15,6 +15,10 @@ class ToCalendar : AppCompatActivity() {
         setContentView(R.layout.to_calendar)
         //定义Flies目录
         val file = File(filesDir, "/classJs")
+        if (!file.exists()) {
+            toast("文件不存在！无法导出")
+            finish()
+        }
         val text = file.readText()
         val content = Show().textShow(text)
 

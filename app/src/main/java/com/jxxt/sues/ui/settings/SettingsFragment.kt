@@ -231,14 +231,21 @@ class SettingsFragment : Fragment() {
         //导出ICS
         text_ex.setOnClickListener {
             selector("选择导出的方式", listOf("导出为ics文件", "导出到系统日历")) { _, i ->
-                if (i == 0) startActivity<ToCalendar>()
+                if (i == 0) {
+                    val file = File(context!!.filesDir, "/classJs")
+                    if (!file.exists()) {
+                        com.jxxt.sues.toast("文件不存在！无法导出")
+                        return@selector
+                    }
+                    startActivity<ToCalendar>()
+                }
                 if (i == 1) {
                     val icsFile = File(myContext.filesDir, "/icsSelf")
                     if (!icsFile.exists()) {
                         toast("请先导入")
                     } else {
                         doAsync {
-                            uiThread {
+                            runOnUiThread {
                                 icsToCalendarViewWithPermissionCheck()
                             }
                         }

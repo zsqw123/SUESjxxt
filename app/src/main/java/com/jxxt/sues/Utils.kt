@@ -1,9 +1,10 @@
 package com.jxxt.sues
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.view.View
-import android.widget.TextView
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -35,20 +36,20 @@ fun Activity.startActivity(clazz: Class<*>) {
 /**
  *  only can set
  */
-var View.backgroundColor: Int
-    get() = 0
-    set(value) {
-        background.setTint(value)
-    }
+//var View.backgroundColor: Int
+//    get() = 0
+//    set(value) {
+//        background.setTint(value)
+//    }
 
 /**
  *  only can set
  */
-var TextView.textColor: Int
-    get() = 0
-    set(value) {
-        setTextColor(value)
-    }
+//var TextView.textColor: Int
+//    get() = 0
+//    set(value) {
+//        setTextColor(value)
+//    }
 
 /**
  *  convert dp to px
@@ -60,4 +61,19 @@ object SuesPref : KotprefModel() {
     var isdark by booleanPref(false)
     var currentWeek by intPref(0)
     var mainColor by intPref(0)
+}
+
+fun View.setMarginBottomPlusNavBarHeight() {
+    if (this.layoutParams is ViewGroup.MarginLayoutParams) {
+        val lp = this.layoutParams as ViewGroup.MarginLayoutParams
+        lp.bottomMargin = context.getNavigationBarHeight() + lp.bottomMargin
+    }
+}
+fun Context.getNavigationBarHeight(): Int {
+    val resourceId = this.resources.getIdentifier("navigation_bar_height", "dimen", "android")
+    return if (resourceId > 0) {
+        this.resources.getDimensionPixelSize(resourceId)
+    } else {
+        0
+    }
 }

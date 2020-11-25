@@ -124,7 +124,7 @@ class NewAct : AppCompatActivity() {
                 try {
                     Thread.sleep(5000)
                     textView2.text = str1
-                    FindContent().resolveClasses(str1)
+                    FindContent.resolveClasses(str1)
                     Thread.sleep(1000)
                     startActivity(intentFor<MainActivity>().newTask().clearTask())
                 } catch (e: Exception) {

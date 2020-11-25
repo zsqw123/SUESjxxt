@@ -3,12 +3,12 @@ package com.jxxt.sues
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.ColorUtils
 import androidx.viewpager.widget.ViewPager
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.jxxt.sues.ui.ViewPagerAdapter
 import com.tencent.bugly.crashreport.CrashReport
@@ -27,9 +27,9 @@ class MainActivity : AppCompatActivity() {
         //bugly
         CrashReport.initCrashReport(applicationContext, "85638bad59", false)
 
-        val bottomNavi: AHBottomNavigation = bottom_navigation
         val bottomNaviAdapter = AHBottomNavigationAdapter(this, R.menu.bottom_nav_menu)
-        bottomNaviAdapter.setupWithBottomNavigation(bottomNavi, null)
+        bottomNaviAdapter.setupWithBottomNavigation(bottom_navigation, null)
+        bottom_navigation.setMarginBottomPlusNavBarHeight()
 
         adapter = ViewPagerAdapter(supportFragmentManager)
         view_pager.adapter = adapter
@@ -55,15 +55,18 @@ class MainActivity : AppCompatActivity() {
                 val dark = ColorUtils.calculateLuminance(primeColor) <= 0.2
                 runOnUiThread {
                     //状态栏沉浸
-                    window.decorView.systemUiVisibility = if (dark) View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                    bottomNavi.accentColor = reverse(primeColor)
-                    bottomNavi.inactiveColor = primeColor
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        @Suppress("DEPRECATION")
+                        window.decorView.systemUiVisibility = if (dark) View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                    }
+                    bottom_navigation.accentColor = reverse(primeColor)
+                    bottom_navigation.inactiveColor = primeColor
                     if (dark) {
-                        bottomNavi.defaultBackgroundColor = Color.BLACK
+                        bottom_navigation.defaultBackgroundColor = Color.BLACK
                         home_page.background.setTint(Color.BLACK)
                     } else {
-                        bottomNavi.defaultBackgroundColor = Color.WHITE
+                        bottom_navigation.defaultBackgroundColor = Color.WHITE
                         home_page.background.setTint(Color.WHITE)
                     }
                 }

@@ -5,15 +5,12 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.File
 
-class FindContent {
-
+object FindContent {
     //html获取个人id URL              by Regex
-    companion object{
-        fun findText(a: String): String {
-            val regex = Regex("""<iframe src="(.*)ignoreHead=1""")
-            val result = regex.find(a) ?: return "no"
-            return "http://jxxt.sues.edu.cn/eams/" + result.groupValues[1].replace("&amp;", "&") + "ignoreHead=1"
-        }
+    fun findText(userId: String): String {
+        val regex = Regex("""<iframe src="(.*)ignoreHead=1""")
+        val result = regex.find(userId) ?: return "no"
+        return "http://jxxt.sues.edu.cn/eams/" + result.groupValues[1].replace("&amp;", "&") + "ignoreHead=1"
     }
 
     //HTML to Map                by Jsoup

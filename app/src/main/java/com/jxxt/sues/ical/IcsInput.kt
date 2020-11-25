@@ -2,7 +2,7 @@ package com.jxxt.sues.ical
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.app.AlertDialog
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
@@ -15,9 +15,9 @@ import android.os.Bundle
 import android.provider.CalendarContract
 import android.text.TextUtils
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
-import com.jxxt.sues.suesApp
+import androidx.appcompat.app.AppCompatActivity
+import com.jxxt.sues.*
+import kotlinx.android.synthetic.main.ics_import.*
 import net.fortuna.ical4j.data.CalendarBuilder
 import net.fortuna.ical4j.model.Component
 import net.fortuna.ical4j.model.Property
@@ -25,8 +25,6 @@ import net.fortuna.ical4j.model.component.CalendarComponent
 import net.fortuna.ical4j.model.component.VAlarm
 import net.fortuna.ical4j.model.component.VEvent
 import net.fortuna.ical4j.util.MapTimeZoneCache
-import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk27.coroutines.onClick
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import java.io.ByteArrayOutputStream
@@ -41,52 +39,28 @@ import java.util.regex.Pattern
 data class MyEvent(var start: Long, var end: Long, var theme: String, var discri: String, var remindersMinutes: Int = 15, var location: String = "null")
 
 @RuntimePermissions
-class IcsInput : Activity() {
-    private lateinit var toSystemCalendarButton: Button
-    private lateinit var toMyClassTableButton: Button
+class IcsInput : AppCompatActivity() {
     private lateinit var myEventList: List<MyEvent>
-    private lateinit var textV: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        verticalLayout {
-            linearLayout {
-                textV = textView("点击按钮导入ics文件")
-                button("导入") {
-                    onClick {
-                        textV.text = "正在导入..."
-                        doAsync {
-                            val intent = Intent(Intent.ACTION_GET_CONTENT)
-                            //筛选ics类型文件
-                            intent.type = "text/calendar"
-                            intent.addCategory(Intent.CATEGORY_OPENABLE)
-                            startActivityForResult(intent, 1)
-                        }
+        setContentView(R.layout.ics_import)
+        bt_import_ics.setOnClickListener {
+            toast("正在导入")
+            doAsync {
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
+                intent.type = "text/calendar" //筛选ics类型文件
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                startActivityForResult(intent, 1)
+            }
+        }
+        bt_import_calendar.setOnClickListener {
+            AlertDialog.Builder(this).setMessage("确定导入到系统日历吗 有可能操作无法撤销").setPositiveButton("导入") { _, _ ->
+                toast("正在导入")
+                doAsync {
+                    myEventList.forEach {
+                        addEventWithPermissionCheck(suesApp, it)
                     }
-                }
-            }
-            toMyClassTableButton = button("导入到此软件课程表") {
-                visibility = View.INVISIBLE
-                onClick {
-                    toast("导入完成 请返回上一级")
-                }
-            }
-            toSystemCalendarButton = button("导入到系统日历") {
-                visibility = View.INVISIBLE
-                onClick {
-                    alert {
-                        customView {
-                            textView("确定导入到系统日历吗 有可能操作无法撤销")
-                            positiveButton("导入") {
-                                toast("正在导入")
-                                doAsync {
-                                    myEventList.forEach {
-                                        addEventWithPermissionCheck(suesApp, it)
-                                    }
-                                }
-                            }
-                        }
-                    }.show()
                 }
             }
         }
@@ -109,9 +83,8 @@ class IcsInput : Activity() {
             println(icsStorePath.readText())
             myEventList = IcsToDateMap().b()
             uiThread {
-                toSystemCalendarButton.visibility = View.VISIBLE
-                toMyClassTableButton.visibility = View.VISIBLE
-                textV.text = "已导入ics文件，请继续操作"
+                bt_import_calendar.visibility = View.VISIBLE
+                tv_ics_import.text = "已导入ics文件，请继续操作"
             }
         }
     }
@@ -128,9 +101,7 @@ class IcsInput : Activity() {
     //添加日历事件
     @NeedsPermission(Manifest.permission.READ_CALENDAR)
     fun addEvent(context: Context, input: MyEvent) {
-        if (CalendarProviderManager.isEventAlreadyExist(context, input.start, input.end, input.theme)) {
-            return
-        }
+        if (CalendarProviderManager.isEventAlreadyExist(context, input.start, input.end, input.theme)) return
         CalendarProviderManager.addCalendarEvent(
             context,
             CalendarEvent(input.theme, input.discri, input.location, input.start, input.end, input.remindersMinutes, null)
@@ -211,7 +182,7 @@ private fun getDateTime(tmp: String): Long {
 
 
 fun checkCalendarPermission(): Boolean {
-    return PackageManager.PERMISSION_GRANTED == suesApp.checkPermission("android.permission.WRITE_CALENDAR")
+    return PackageManager.PERMISSION_GRANTED == suesApp.checkCallingOrSelfPermission("android.permission.WRITE_CALENDAR")
 }
 
 // 系统日历工具
@@ -327,10 +298,7 @@ object CalendarProviderManager {
             )
             .build()
         accountUri =  // 检查日历权限
-            if (PackageManager.PERMISSION_GRANTED == context.checkSelfPermission(
-                    "android.permission.WRITE_CALENDAR"
-                )
-            ) {
+            if (checkCalendarPermission()) {
                 context.contentResolver.insert(uri, account)
             } else {
                 return -2
@@ -351,10 +319,7 @@ object CalendarProviderManager {
                 + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?))")
         val selectionArgs = arrayOf(calendarAccountName, CalendarContract.ACCOUNT_TYPE_LOCAL)
         deleteCount =
-            if (PackageManager.PERMISSION_GRANTED == context.checkSelfPermission(
-                    "android.permission.WRITE_CALENDAR"
-                )
-            ) {
+            if (checkCalendarPermission()) {
                 context.contentResolver.delete(uri, selection, selectionArgs)
             } else {
                 return -2
@@ -394,9 +359,8 @@ object CalendarProviderManager {
         event.put(CalendarContract.Events.CALENDAR_ID, calID)
         setupEvent(calendarEvent, event)
         eventUri =  // 判断权限
-            if (PackageManager.PERMISSION_GRANTED == context.checkSelfPermission("android.permission.WRITE_CALENDAR")) {
-                context.contentResolver.insert(uri1, event)
-            } else return -2
+            if (checkCalendarPermission()) context.contentResolver.insert(uri1, event)
+            else return -2
         if (null == eventUri) {
             return -1
         }
@@ -417,117 +381,7 @@ object CalendarProviderManager {
         }
         return 0
     }
-    // ------------------------------- 更新日历事件 -----------------------------------
-    /**
-     * 更新指定ID的日历事件
-     *
-     * @param newCalendarEvent 更新的日历事件
-     * @return -2: permission deny  else success
-     */
-    fun updateCalendarEvent(context: Context, eventID: Long, newCalendarEvent: CalendarEvent): Int {
-        Util.checkContextNull(context)
-        val updatedCount1: Int
-        val uri1 = CalendarContract.Events.CONTENT_URI
-        val uri2 = CalendarContract.Reminders.CONTENT_URI
-        val event = ContentValues()
-        setupEvent(newCalendarEvent, event)
-        // 更新匹配条件
-        val selection1 = "(" + CalendarContract.Events._ID + " = ?)"
-        val selectionArgs1 = arrayOf(eventID.toString())
-        updatedCount1 =
-            if (PackageManager.PERMISSION_GRANTED == context.checkSelfPermission("android.permission.WRITE_CALENDAR")) {
-                context.contentResolver.update(uri1, event, selection1, selectionArgs1)
-            } else {
-                return -2
-            }
-        val reminders = ContentValues()
-        reminders.put(CalendarContract.Reminders.MINUTES, newCalendarEvent.advanceTime)
-        reminders.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
-        // 更新匹配条件
-        val selection2 = "(" + CalendarContract.Reminders.EVENT_ID + " = ?)"
-        val selectionArgs2 = arrayOf(eventID.toString())
-        val updatedCount2 = context.contentResolver.update(uri2, reminders, selection2, selectionArgs2)
-        return (updatedCount1 + updatedCount2) / 2
-    }
 
-    /**
-     * 更新指定ID事件的起始时间
-     *
-     * @return If successfully returns 1
-     */
-    fun updateCalendarEventTime(
-        context: Context, eventID: Long, newBeginTime: Long,
-        newEndTime: Long
-    ): Int {
-        Util.checkContextNull(context)
-        val uri = CalendarContract.Events.CONTENT_URI
-        // 新的数据
-        val event = ContentValues()
-        event.put(CalendarContract.Events.DTSTART, newBeginTime)
-        event.put(CalendarContract.Events.DTEND, newEndTime)
-        // 匹配条件
-        val selection = "(" + CalendarContract.Events._ID + " = ?)"
-        val selectionArgs = arrayOf(eventID.toString())
-        return if (checkCalendarPermission()) context.contentResolver.update(uri, event, selection, selectionArgs) else -1
-    }
-
-    /**
-     * 更新指定ID事件的常用信息(标题、描述、地点)
-     *
-     * @return If successfully returns 1
-     */
-    fun updateCalendarEventCommonInfo(
-        context: Context, eventID: Long, newEventTitle: String?,
-        newEventDes: String?, newEventLocation: String?
-    ): Int {
-        Util.checkContextNull(context)
-        val uri = CalendarContract.Events.CONTENT_URI
-        // 新的数据
-        val event = ContentValues()
-        event.put(CalendarContract.Events.TITLE, newEventTitle)
-        event.put(CalendarContract.Events.DESCRIPTION, newEventDes)
-        event.put(CalendarContract.Events.EVENT_LOCATION, newEventLocation)
-        // 匹配条件
-        val selection = "(" + CalendarContract.Events._ID + " = ?)"
-        val selectionArgs = arrayOf(eventID.toString())
-        return if (PackageManager.PERMISSION_GRANTED == context.checkSelfPermission("android.permission.WRITE_CALENDAR"))
-            context.contentResolver.update(uri, event, selection, selectionArgs) else -1
-    }
-
-    /**
-     * 更新指定ID事件的提醒方式
-     *
-     * @return If successfully returns 1
-     */
-    private fun updateCalendarEventReminder(context: Context, eventID: Long, newAdvanceTime: Long): Int {
-        Util.checkContextNull(context)
-        val uri = CalendarContract.Reminders.CONTENT_URI
-        val reminders = ContentValues()
-        reminders.put(CalendarContract.Reminders.MINUTES, newAdvanceTime)
-        // 更新匹配条件
-        val selection2 = "(" + CalendarContract.Reminders.EVENT_ID + " = ?)"
-        val selectionArgs2 = arrayOf(eventID.toString())
-        return if (PackageManager.PERMISSION_GRANTED == context.checkSelfPermission("android.permission.WRITE_CALENDAR"))
-            context.contentResolver.update(uri, reminders, selection2, selectionArgs2) else -1
-    }
-
-    /**
-     * 更新指定ID事件的提醒重复规则
-     *
-     * @return If successfully returns 1
-     */
-    private fun updateCalendarEventRRule(context: Context, eventID: Long, newRRule: String): Int {
-        Util.checkContextNull(context)
-        val uri = CalendarContract.Events.CONTENT_URI
-        // 新的数据
-        val event = ContentValues()
-        event.put(CalendarContract.Events.RRULE, newRRule)
-        // 匹配条件
-        val selection = "(" + CalendarContract.Events._ID + " = ?)"
-        val selectionArgs = arrayOf(eventID.toString())
-        return if (PackageManager.PERMISSION_GRANTED == context.checkSelfPermission("android.permission.WRITE_CALENDAR"))
-            context.contentResolver.update(uri, event, selection, selectionArgs) else -1
-    }
     // ------------------------------- 删除日历事件 -----------------------------------
     /**
      * 删除日历事件
@@ -545,14 +399,8 @@ object CalendarProviderManager {
         val selection = "(" + CalendarContract.Events._ID + " = ?)"
         val selectionArgs = arrayOf(eventID.toString())
         deletedCount1 =
-            if (PackageManager.PERMISSION_GRANTED == context.checkSelfPermission(
-                    "android.permission.WRITE_CALENDAR"
-                )
-            ) {
-                context.contentResolver.delete(uri1, selection, selectionArgs)
-            } else {
-                return -2
-            }
+            if (checkCalendarPermission()) context.contentResolver.delete(uri1, selection, selectionArgs)
+            else return -2
         // 删除匹配条件
         val selection2 = "(" + CalendarContract.Reminders.EVENT_ID + " = ?)"
         val selectionArgs2 = arrayOf(eventID.toString())
@@ -598,21 +446,8 @@ object CalendarProviderManager {
         val selection = "(" + CalendarContract.Events.CALENDAR_ID + " = ?)"
         val selectionArgs = arrayOf(calID.toString())
         val cursor: Cursor?
-        cursor =
-            if (PackageManager.PERMISSION_GRANTED == context.checkSelfPermission(
-                    "android.permission.READ_CALENDAR"
-                )
-            ) {
-                context.contentResolver.query(
-                    uri, projection, selection,
-                    selectionArgs, null
-                )
-            } else {
-                return null
-            }
-        if (null == cursor) {
-            return null
-        }
+        cursor = if (checkCalendarPermission()) context.contentResolver.query(uri, projection, selection, selectionArgs, null) ?: return null
+        else return null
         // 查询结果
         val result: MutableList<CalendarEvent> = ArrayList()
         // 开始查询数据

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_ics_import"
+            android:gravity="center"
+            android:text="点击按钮导入ics文件" />
+
+    <Button
+            android:id="@+id/bt_import_ics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="导入ics" />
+
+    <Button
+            android:id="@+id/bt_import_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="导入到系统日历"
+            android:visibility="gone" />
+
+</LinearLayout>
