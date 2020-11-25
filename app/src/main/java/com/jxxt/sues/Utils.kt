@@ -12,6 +12,7 @@ import com.chibatching.kotpref.KotprefModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
 
 fun LifecycleOwner.doAsync(event: () -> Unit) {
     lifecycleScope.launch(Dispatchers.IO) { event() }
@@ -69,6 +70,7 @@ fun View.setMarginBottomPlusNavBarHeight() {
         lp.bottomMargin = context.getNavigationBarHeight() + lp.bottomMargin
     }
 }
+
 fun Context.getNavigationBarHeight(): Int {
     val resourceId = this.resources.getIdentifier("navigation_bar_height", "dimen", "android")
     return if (resourceId > 0) {
@@ -77,3 +79,12 @@ fun Context.getNavigationBarHeight(): Int {
         0
     }
 }
+
+val Int.yearLastDay: Calendar
+    get() = Calendar.getInstance().apply {
+        set(this@yearLastDay + 1, 1, 1, 1, 1)
+        add(Calendar.DAY_OF_YEAR, -1)
+    }
+
+val Calendar.isSat: Boolean
+    get() = this.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY

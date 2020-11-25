@@ -25,7 +25,7 @@ course数据类 可转换为Date Calendar <List>
 //True 转化为Course形式(All Course by Map<String,Calendar>)
 class SwitchToCourse(private val input: MutableList<String>?) {
     //返回 课程类+课程名字的Map
-    fun switch(): List<Course>? {
+    fun switch(toyear: Int): List<Course>? {
         if (input == null) {
             toast("课表为空! 请导入")
             return null
@@ -50,14 +50,23 @@ class SwitchToCourse(private val input: MutableList<String>?) {
                 //课程相关信息
                 val classRegexPattern = Regex("""".*?"""")
                 val classRegex = mutableListOf<String>()
-                classRegexPattern.findAll(it).forEach { s ->
-                    classRegex += s.value
-                }
+                classRegexPattern.findAll(it).forEach { s -> classRegex += s.value }
                 val teacher = classRegex[1]
                 val courseName = classRegex[3].replace("\"", "")
                 val room = classRegex[5].replace("\"", "")
                 val wk = mutableListOf<String>()
-                wklistRegexPattern.findAll(classRegex[6]).forEach { s -> wk += s.value }
+
+                wklistRegexPattern.findAll(classRegex[6]).apply {
+                    forEach { s -> wk += s.value }
+                    // 2020年的特殊处理 最后一天是周六 wdnmd
+                    kotlin.run {
+                        forEachIndexed { i, r ->
+                            if (i == 0 && toyear.yearLastDay.isSat) return@forEachIndexed
+                            if (i > 20) return@run
+                            wk += r.value
+                        }
+                    }
+                }
                 val courseKey = courseName + teacher + room + whichAndWeekxRegex
                 val course = Course(weekX, which, wk, room, teacher, courseName)
                 if (hashCourseMap.containsKey(courseKey)) {

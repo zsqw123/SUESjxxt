@@ -6,7 +6,7 @@ class Show {
     fun textShow(input: String): List<Item> {
         val mapInput = FindContent.jsToList(input)
         val toyearInput = FindContent.getToyear(input)
-        val courseStrMap: List<Course>? = SwitchToCourse(mapInput).switch()
+        val courseStrMap: List<Course>? = SwitchToCourse(mapInput).switch(toyearInput)
         val list: MutableList<Map<Date, Course>> = mutableListOf()
         if (courseStrMap != null) {
             for (i in courseStrMap) {

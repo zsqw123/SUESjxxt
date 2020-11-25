@@ -14,6 +14,7 @@ import com.jxxt.sues.ui.ViewPagerAdapter
 import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.home_page.*
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
+import org.jetbrains.anko.backgroundColor
 import java.io.File
 
 
@@ -64,10 +65,10 @@ class MainActivity : AppCompatActivity() {
                     bottom_navigation.inactiveColor = primeColor
                     if (dark) {
                         bottom_navigation.defaultBackgroundColor = Color.BLACK
-                        home_page.background.setTint(Color.BLACK)
+                        home_page.backgroundColor = Color.BLACK
                     } else {
                         bottom_navigation.defaultBackgroundColor = Color.WHITE
-                        home_page.background.setTint(Color.WHITE)
+                        home_page.backgroundColor = Color.WHITE
                     }
                 }
             }

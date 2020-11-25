@@ -19,8 +19,8 @@ class GetPage : AppCompatActivity() {
     private lateinit var cap: ImageView
     private lateinit var capText: EditText
 
-    private val userFile = File(filesDir, "/user0")
-    private val passwdFile = File(filesDir, "/passwd")
+    private val userFile = File(suesApp.filesDir, "/user0")
+    private val passwdFile = File(suesApp.filesDir, "/passwd")
 
     private val session = Requests.session()
     override fun onCreate(savedInstanceState: Bundle?) {
